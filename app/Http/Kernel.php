@@ -68,4 +68,11 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
+
+    protected $middlewarePriority = [
+        \Illuminate\Auth\Middleware\Authenticate::class,
+        \App\Http\Middleware\SetDynamicDatabaseConnection::class,
+        \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    ];
+
 }

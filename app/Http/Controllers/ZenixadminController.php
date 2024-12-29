@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class ZenixadminController extends Controller
 {
     // Dashboard
@@ -17,7 +15,7 @@ class ZenixadminController extends Controller
         return view('zenix.dashboard.index', compact('page_title', 'page_description', 'action'));
 
     }
-    
+
     // Dashboard 2
     public function dashboard_2()
     {
@@ -28,18 +26,17 @@ class ZenixadminController extends Controller
         return view('zenix.dashboard.index_2', compact('page_title', 'page_description', 'action'));
 
     }
-    
+
     // coin_details
     public function coin_details()
     {
-      
-     
+
         $page_title = 'Coin Details';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.dashboard.coin_details', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // portofolio
     public function portofolio()
     {
@@ -87,79 +84,78 @@ class ZenixadminController extends Controller
     // profile
     public function app_profile()
     {
-        
+
         $page_title = 'Profile';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.app.profile', compact('page_title', 'page_description', 'action'));
-        
+
     }
 
     // Post Details
     public function post_details()
     {
-        
+
         $page_title = 'Post Details';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.app.post_details', compact('page_title', 'page_description', 'action'));
-        
+
     }
 
     // Chat
     public function page_chat()
     {
-        
+
         $page_title = 'Chat';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.message.chat', compact('page_title', 'page_description', 'action'));
-        
+
     }
 
     // project_list
     public function project_list()
     {
-        
+
         $page_title = 'Project List';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.project.project_list', compact('page_title', 'page_description', 'action'));
-        
-    }
 
+    }
 
     // Project Card
     public function project_card()
     {
-        
+
         $page_title = 'Project Card';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.project.project_card', compact('page_title', 'page_description', 'action'));
-        
+
     }
 
     // contact List
     public function contact_list()
     {
-        
+
         $page_title = 'Contact List';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.contact.contact_list', compact('page_title', 'page_description', 'action'));
-        
-    }  
+
+    }
 
     // contact card
     public function contact_card()
     {
-        
+
         $page_title = 'Contact Card';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.contact.contact_card', compact('page_title', 'page_description', 'action'));
-        
+
     }
 
     // Email Compose
@@ -170,7 +166,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.message.compose', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Email Inbox
     public function email_inbox()
     {
@@ -179,7 +175,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.message.inbox', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Email Read
     public function email_read()
     {
@@ -215,7 +211,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ecommerce.customers', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ecommerce Invoice
     public function ecom_invoice()
     {
@@ -224,7 +220,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ecommerce.invoice', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ecommerce Product Detail
     public function ecom_product_detail()
     {
@@ -233,7 +229,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ecommerce.product_detail', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ecommerce Product Grid
     public function ecom_product_grid()
     {
@@ -242,7 +238,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ecommerce.product_grid', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ecommerce Product List
     public function ecom_product_list()
     {
@@ -251,7 +247,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ecommerce.product_list', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ecommerce Product Order
     public function ecom_product_order()
     {
@@ -269,57 +265,57 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.chart.chartist', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Chart Chartjs
     public function chart_chartjs()
     {
         $page_title = 'Chart Chartjs';
         $page_description = 'Some description for the page';
-        
+
         $action = __FUNCTION__;
         return view('zenix.chart.chartjs', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Chart Flot
     public function chart_flot()
     {
         $page_title = 'Chart Flot';
         $page_description = 'Some description for the page';
-        
+
         $action = __FUNCTION__;
         return view('zenix.chart.flot', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Chart Morris
     public function chart_morris()
     {
         $page_title = 'Chart Morris';
         $page_description = 'Some description for the page';
-        
+
         $action = __FUNCTION__;
         return view('zenix.chart.morris', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Chart Peity
     public function chart_peity()
     {
         $page_title = 'Chart Peity';
         $page_description = 'Some description for the page';
-        
+
         $action = __FUNCTION__;
         return view('zenix.chart.peity', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Chart Sparkline
     public function chart_sparkline()
     {
         $page_title = 'Chart Sparkline';
         $page_description = 'Some description for the page';
-        
+
         $action = __FUNCTION__;
         return view('zenix.chart.sparkline', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Accordion
     public function ui_accordion()
     {
@@ -328,7 +324,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.accordion', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Alert
     public function ui_alert()
     {
@@ -337,7 +333,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.alert', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Badge
     public function ui_badge()
     {
@@ -346,7 +342,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.badge', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Button
     public function ui_button()
     {
@@ -355,7 +351,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.button', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Button Group
     public function ui_button_group()
     {
@@ -364,7 +360,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.button_group', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Card
     public function ui_card()
     {
@@ -373,7 +369,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.card', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Carousel
     public function ui_carousel()
     {
@@ -382,7 +378,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.carousel', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Dropdown
     public function ui_dropdown()
     {
@@ -391,7 +387,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.dropdown', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Grid
     public function ui_grid()
     {
@@ -400,7 +396,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.grid', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui List Group
     public function ui_list_group()
     {
@@ -409,7 +405,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.list_group', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Media Object
     public function ui_media_object()
     {
@@ -418,7 +414,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.media_object', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Modal
     public function ui_modal()
     {
@@ -427,7 +423,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.modal', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Pagination
     public function ui_pagination()
     {
@@ -436,7 +432,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.pagination', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Popover
     public function ui_popover()
     {
@@ -445,7 +441,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.popover', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Progressbar
     public function ui_progressbar()
     {
@@ -454,7 +450,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.progressbar', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Ui Tab
     public function ui_tab()
     {
@@ -463,7 +459,6 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.tab', compact('page_title', 'page_description', 'action'));
     }
-    
 
     // Ui Typography
     public function ui_typography()
@@ -473,7 +468,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.ui.typography', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // UC Nestable.
     public function uc_nestable()
     {
@@ -490,7 +485,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.uc.lightgallery', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // UC NoUi Slider
     public function uc_noui_slider()
     {
@@ -499,7 +494,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.uc.noui_slider', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // UC Select2
     public function uc_select2()
     {
@@ -508,7 +503,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.uc.select2', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // UC Sweetalert
     public function uc_sweetalert()
     {
@@ -517,7 +512,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.uc.sweetalert', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // UC Toastr
     public function uc_toastr()
     {
@@ -553,7 +548,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.form.editor_summernote', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Form Element
     public function form_element()
     {
@@ -562,7 +557,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.form.element', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Form Pickers
     public function form_pickers()
     {
@@ -571,7 +566,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.form.pickers', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Form Validation Jquery
     public function form_validation_jquery()
     {
@@ -580,7 +575,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.form.validation_jquery', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Form Wizard
     public function form_wizard()
     {
@@ -598,7 +593,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.table.bootstrap_basic', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Table Datatable Basic
     public function table_datatable_basic()
     {
@@ -616,7 +611,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.error_400', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Error 403
     public function page_error_403()
     {
@@ -625,7 +620,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.error_403', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Error 404
     public function page_error_404()
     {
@@ -634,7 +629,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.error_404', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Error 500
     public function page_error_500()
     {
@@ -643,7 +638,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.error_500', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Error 503
     public function page_error_503()
     {
@@ -652,7 +647,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.error_503', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Forgot Password
     public function page_forgot_password()
     {
@@ -661,7 +656,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.forgot_password', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Lock Screen
     public function page_lock_screen()
     {
@@ -670,7 +665,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.lock_screen', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Login
     public function page_login()
     {
@@ -679,7 +674,7 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.login', compact('page_title', 'page_description', 'action'));
     }
-    
+
     // Page Register
     public function page_register()
     {
@@ -688,23 +683,5 @@ class ZenixadminController extends Controller
         $action = __FUNCTION__;
         return view('zenix.page.register', compact('page_title', 'page_description', 'action'));
     }
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 }

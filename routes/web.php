@@ -108,7 +108,8 @@ Route::middleware('auth')->group(function () {
     // Protected routes (Only accessible by authenticated users)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
-    Route::post('/search-nopol', [PembayaranController::class, 'searchNopol'])->name('search-nopol');
+    Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
+    Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
 
     // Resource routes for roles and users
     // Route::resources([

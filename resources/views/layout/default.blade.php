@@ -19,19 +19,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
 
     @php
-    $action = isset($action) ? 'ZenixadminController_' . $action : 'dashboard_1';
+        $action = isset($action) ? 'ZenixadminController_' . $action : 'dashboard_1';
     @endphp
     @if (!empty(config('dz.public.pagelevel.css.' . $action)))
-    @foreach (config('dz.public.pagelevel.css.' . $action) as $style)
-    <link href="{{ asset($style) }}" rel="stylesheet" type="text/css" />
-    @endforeach
+        @foreach (config('dz.public.pagelevel.css.' . $action) as $style)
+            <link href="{{ asset($style) }}" rel="stylesheet" type="text/css" />
+        @endforeach
     @endif
 
     {{-- Global Theme Styles (used by all pages) --}}
     @if (!empty(config('dz.public.global.css')))
-    @foreach (config('dz.public.global.css') as $style)
-    <link href="{{ asset($style) }}" rel="stylesheet" type="text/css" />
-    @endforeach
+        @foreach (config('dz.public.global.css') as $style)
+            <link href="{{ asset($style) }}" rel="stylesheet" type="text/css" />
+        @endforeach
     @endif
 
     @livewireStyles
@@ -103,11 +103,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        @if (Request::is('docs*'))
-        @include('elements.doc-sidebar')
-        @else
         @include('elements.sidebar')
-        @endif
 
         <!--**********************************
             Sidebar end
@@ -119,6 +115,7 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+            @include('components.alerts')
             <!-- row -->
             @yield('content')
         </div>

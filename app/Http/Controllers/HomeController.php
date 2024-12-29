@@ -12,6 +12,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('page.home.index', ["page_title" => 'Menu Utama']);
+        return view('page.home.index', [
+            "page_title" => 'Menu Utama',
+            "page_description" => "",
+        ]
+        );
     }
 }

@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Bbm;
+use App\Models\FungsiKb;
+use App\Models\JenisMilik;
+use App\Models\Lokasi;
 use App\Models\Opsen;
+use App\Models\Plat;
+use App\Models\Wilayah;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,4 +30,34 @@ class Trnkb extends Model
     {
         return $this->hasOne(Opsen::class, 'no_trn', 'no_trn'); // Use 'no_trn' for relation
     }
+
+    public function wilayah()
+    {
+        return $this->belongsTo(Wilayah::class, 'kd_wilayah', 'kd_wilayah');
+    }
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'kd_wilayah', 'kd_wilayah');
+    }
+
+    public function plat()
+    {
+        return $this->belongsTo(Plat::class, 'kd_plat', 'kd_plat');
+    }
+    public function bbm()
+    {
+        return $this->belongsTo(Bbm::class, 'kd_bbm', 'kd_bbm');
+    }
+
+    public function fungsikb()
+    {
+        return $this->belongsTo(FungsiKb::class, 'kd_fungsi', 'kd_fungsi');
+    }
+
+    public function jenismilik()
+    {
+        return $this->belongsTo(JenisMilik::class, 'kd_jen_milik', 'kd_jen_milik');
+    }
+
 }

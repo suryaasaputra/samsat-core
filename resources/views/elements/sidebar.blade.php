@@ -42,8 +42,8 @@
                     <span class="nav-text">Laporan</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{!! url('/page-register') !!}">Penerimaan Harian</a></li>
-                    <li><a href="{!! url('/page-login') !!}">Rekapitulasi Penerimaan Harian</a></li>
+                    <li><a href="{{ route('penerimaan-harian.form') }}">Penerimaan Harian</a></li>
+                    <li><a href="{{ '' }}">Rekapitulasi Penerimaan Harian</a></li>
                 </ul>
             </li>
 

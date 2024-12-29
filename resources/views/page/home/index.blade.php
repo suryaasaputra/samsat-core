@@ -5,12 +5,11 @@
 
 {{-- Content --}}
 @section('content')
-
 <div class="container-fluid">
 
     <div class="row">
         <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-            <a href="{{route('pembayaran')}}">
+            <a href="{{ route('pembayaran') }}">
                 <div class=" ">
                     <div class="d-flex align-items-center">
                         <div class="">
@@ -24,7 +23,7 @@
 
 
         <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-            <a href="">
+            <a href="{{ route('penerimaan-harian.form') }}">
                 <div class=" ">
                     <div class="d-flex align-items-center">
                         <div class="">

@@ -153,7 +153,6 @@
     ***********************************-->
     @include('elements.footer-scripts')
     @yield('scripts')
-    @livewireScripts
 </body>
 </body>
 

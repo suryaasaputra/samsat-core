@@ -16,8 +16,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        $page_title = 'Login';
+        $page_description = '';
+        $action = __FUNCTION__;
         // return view('auth.login');
-        return view('zenix.page.login');
+        return view('page.login', compact('page_title', 'page_description', 'action'));
     }
 
     /**
@@ -36,6 +39,7 @@ class AuthenticatedSessionController extends Controller
             'username' => $request->username,
             'password' => $request->password,
         ];
+        // dd(DB::connection()->getDatabaseName());
 
         // Attempt login using username and password
         if (Auth::attempt($credentials, $request->filled('remember'))) {

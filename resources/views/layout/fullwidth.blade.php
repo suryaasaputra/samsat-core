@@ -14,23 +14,23 @@
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png" />
     <meta name="format-detection" content="telephone=no">
     <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title>
-    <meta name="description" content="@yield('page_description', $page_description ?? '')"/>
+    <meta name="description" content="@yield('page_description', $page_description ?? '')" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logo_samsat_ok.png') }}">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-    
+
 </head>
 
 <body class="vh-100">
     <div class="authincation h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100 align-items-center">
-			@yield('content')
+                @yield('content')
             </div>
         </div>
     </div>
-@include('elements.footer-scripts')
+    @include('elements.footer-scripts')
 </body>
 
 </html>

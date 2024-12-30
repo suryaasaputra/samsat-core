@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PenerimaanHarianController;
+use App\Http\Controllers\RekapitulasiPenerimaanController;
 use App\Http\Controllers\ZenixadminController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login'); // Redirect to the login page
 });
 
 // Route::get('/', [ZenixadminController::class, 'dashboard_1']);
@@ -113,6 +118,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
+    Route::get('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'showForm'])->name('rekapitulasi-penerimaan.form');
+    Route::post('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan.submit');
+    Route::post('/laporan/rekapitulasi-penerimaan/pdf', [RekapitulasiPenerimaanController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan.pdf');
 
     // Resource routes for roles and users
     // Route::resources([

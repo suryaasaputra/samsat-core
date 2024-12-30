@@ -222,7 +222,7 @@ return [
                 'ZenixadminController_demo_modules_add' => [
                 ],
 
-                'ZenixadminController_showForm' => [
+                'ZenixadminController_form_laporan' => [
                     'vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
                     'https://fonts.googleapis.com/icon?family=Material+Icons',
                 ],
@@ -512,7 +512,7 @@ return [
                 'ZenixadminController_demo_modules_add' => [
                 ],
 
-                'ZenixadminController_showForm' => [
+                'ZenixadminController_form_laporan' => [
                     'vendor/moment/moment.min.js',
                     'vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
                     'js/plugins-init/material-date-picker-init.js',

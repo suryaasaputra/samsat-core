@@ -38,7 +38,7 @@ class PenerimaanHarianController extends Controller
 
         // Fetch all wilayah for the dropdown
         $wilayah = Wilayah::orderBy('kd_wilayah', 'asc')->get();
-        $action = __FUNCTION__;
+        $action = 'form_laporan';
 
         return view('page.laporan.penerimaan-harian.index', compact('page_title', 'action', 'wilayah', 'lokasi'));
     }
@@ -52,6 +52,8 @@ class PenerimaanHarianController extends Controller
             'jenis' => 'required|string',
         ]);
 
+        $page_title = 'Daftar Penerimaan Harian PKB dan BBNKB';
+
         // You can now use the validated data for further processing, e.g., saving to the database
         $tanggal = Carbon::parse($validated['tanggal'])->format('Y-m-d');
         $kd_lokasi = $validated['kd_lokasi'];
@@ -60,9 +62,32 @@ class PenerimaanHarianController extends Controller
 
         $dataTransaksi = $this->trnkbService->getLaporanTransaksiHarian($tanggal, $kd_lokasi, $kd_wilayah, $jenis);
 
-        // Example: Save the data or perform other operations
+        $sumJumlah = [
+            "bbn_pokok" => 0,
+            "bbn_denda" => 0,
+            "pkb_pokok" => 0,
+            "pkb_denda" => 0,
+            "swd_pokok" => 0,
+            "swd_denda" => 0,
+            "opsen_bbn_pokok" => 0,
+            "opsen_bbn_denda" => 0,
+            "opsen_pkb_pokok" => 0,
+            "opsen_pkb_denda" => 0,
+        ];
+        foreach ($dataTransaksi as $item) {
+            $sumJumlah["bbn_pokok"] += $item->bbn_pokok;
+            $sumJumlah["bbn_denda"] += $item->bbn_denda;
+            $sumJumlah["pkb_pokok"] += $item->pkb_pokok;
+            $sumJumlah["pkb_denda"] += $item->pkb_denda;
+            $sumJumlah["swd_pokok"] += $item->swd_pokok;
+            $sumJumlah["swd_denda"] += $item->swd_denda;
+            $sumJumlah["opsen_pkb_pokok"] += $item->opsen_pkb_pokok;
+            $sumJumlah["opsen_pkb_denda"] += $item->opsen_pkb_denda;
+            $sumJumlah["opsen_bbn_pokok"] += $item->opsen_bbn_pokok;
+            $sumJumlah["opsen_bbn_denda"] += $item->opsen_bbn_denda;
+        }
 
-        return view('page.laporan.penerimaan-harian.data', compact('dataTransaksi', 'tanggal', 'kd_wilayah', 'kd_lokasi', 'jenis'));
+        return view('page.laporan.penerimaan-harian.data', compact('page_title', 'dataTransaksi', 'tanggal', 'kd_wilayah', 'kd_lokasi', 'jenis', 'sumJumlah'));
     }
 
 }

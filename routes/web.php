@@ -118,6 +118,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
+    Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanHarianController::class, 'exportToPdf'])->name('penerimaan-harian.pdf');
+
     Route::get('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'showForm'])->name('rekapitulasi-penerimaan.form');
     Route::post('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan.submit');
     Route::post('/laporan/rekapitulasi-penerimaan/pdf', [RekapitulasiPenerimaanController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan.pdf');

@@ -36,12 +36,18 @@ class PembayaranController extends Controller
         ]);
 
         // Assemble the full no_polisi value by combining no_polisi and seri
-        // $noPolisi = 'BH ' . strtoupper($request->no_polisi) . " " . strtoupper($request->seri);
-        $noPolisi = 'BH 4050 TQ';
+        $noPolisi = 'BH ' . strtoupper($request->no_polisi) . " " . strtoupper($request->seri);
+        // $noPolisi = 'BH 4050 TQ';
 
+        $page_title = 'Rincian Pembayaran';
         $kodeStatus = '3 ';
         $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus);
         // dd($trnkbData);
+        if (!$trnkbData) {
+            return redirect()
+                ->back()
+                ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
 
         // Get the current date
         $tahun = Carbon::now()->year;
@@ -81,6 +87,7 @@ class PembayaranController extends Controller
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
 
         $data = [
+            'page_title' => $page_title,
             'data_kendaraan' => $trnkbData,
             'bea' => $bea,
             'tg_akhir_pkb_yl' => $tg_akhir_pkb_yl,

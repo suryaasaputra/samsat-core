@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lokasi;
 use App\Services\TrnkbService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,7 @@ class RekapitulasiPenerimaanController extends Controller
      */
     public function __construct(TrnkbService $trnkbService)
     {
-
         $this->trnkbService = $trnkbService;
-
     }
 
     public function showForm()
@@ -52,86 +51,94 @@ class RekapitulasiPenerimaanController extends Controller
         $page_title = 'Rekapitulasi Penerimaan';
         $lokasi = Lokasi::find($kd_lokasi);
         if (!$lokasi) {
-            switch (substr($kd_lokasi, 0, 2)) {
+            switch ($kd_lokasi) {
                 case '01':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KOTA JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KOTA JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KOTA JAMBI',
                     ];
+                    break;
                 case '02':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. BATANGHAR',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. BATANGHARI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. BATANGHARI',
                     ];
+                    break;
                 case '03':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TANJAB BARAT',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TANJAB BARAT",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TANJAB BARAT',
                     ];
+                    break;
                 case '04':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. MERANGIN',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. MERANGIN",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. MERANGIN',
                     ];
+                    break;
                 case '05':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. BUNGO',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. BUNGO",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. BUNGO',
                     ];
+                    break;
                 case '06':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. KERINCI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. KERINCI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. KERINCI',
                     ];
+                    break;
                 case '07':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TANJAB TIMUR',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TANJAB TIMUR",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TANJAB TIMUR',
                     ];
+                    break;
                 case '08':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. MUARO JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. MUARO JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. MUARO JAMBI',
                     ];
+                    break;
                 case '09':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. SAROLANGUN',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. SAROLANGUN",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. SAROLANGUN',
                     ];
+                    break;
                 case '10':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TEBO',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TEBO",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TEBO',
                     ];
                     break;
                 default:
                     $lokasi = (object) [
                         'kd_lokasi' => '00',
                         'nm_lokasi' => 'SAMSAT PROVINSI JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT PROVINSI JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT PROVINSI JAMBI',
                     ];
-
             }
         }
 
@@ -150,13 +157,13 @@ class RekapitulasiPenerimaanController extends Controller
         $total_seluruh = $total_bbn + $total_opsen_bbnkb + $total_pkb + $total_opsen_pkb + $total_swd + $total_pnbp;
 
         $dataTotal = [
-            "total_bbn" => $total_bbn,
-            "total_pkb" => $total_pkb,
-            "total_swd" => $total_swd,
-            "total_pnbp" => $total_pnbp,
-            "total_opsen_pkb" => $total_opsen_pkb,
-            "total_opsen_bbnkb" => $total_opsen_bbnkb,
-            "total_seluruh" => $total_seluruh,
+            'total_bbn' => $total_bbn,
+            'total_pkb' => $total_pkb,
+            'total_swd' => $total_swd,
+            'total_pnbp' => $total_pnbp,
+            'total_opsen_pkb' => $total_opsen_pkb,
+            'total_opsen_bbnkb' => $total_opsen_bbnkb,
+            'total_seluruh' => $total_seluruh,
         ];
 
         return view('page.laporan.rekapitulasi-penerimaan.data', compact('page_title', 'data_rekap', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi'));
@@ -172,93 +179,100 @@ class RekapitulasiPenerimaanController extends Controller
         // You can now use the validated data for further processing, e.g., saving to the database
         $tanggal = Carbon::parse($validated['tanggal'])->format('Y-m-d');
         $kd_lokasi = $validated['kd_lokasi'];
+
         $page_title = 'Rekapitulasi Penerimaan';
         $lokasi = Lokasi::find($kd_lokasi);
         if (!$lokasi) {
-            switch (substr($kd_lokasi, 0, 2)) {
+            switch ($kd_lokasi) {
                 case '01':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KOTA JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KOTA JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KOTA JAMBI',
                     ];
+                    break;
                 case '02':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. BATANGHAR',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. BATANGHARI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. BATANGHARI',
                     ];
+                    break;
                 case '03':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TANJAB BARAT',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TANJAB BARAT",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TANJAB BARAT',
                     ];
+                    break;
                 case '04':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. MERANGIN',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. MERANGIN",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. MERANGIN',
                     ];
+                    break;
                 case '05':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. BUNGO',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. BUNGO",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. BUNGO',
                     ];
+                    break;
                 case '06':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. KERINCI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. KERINCI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. KERINCI',
                     ];
+                    break;
                 case '07':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TANJAB TIMUR',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TANJAB TIMUR",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TANJAB TIMUR',
                     ];
+                    break;
                 case '08':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. MUARO JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. MUARO JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. MUARO JAMBI',
                     ];
+                    break;
                 case '09':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. SAROLANGUN',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. SAROLANGUN",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. SAROLANGUN',
                     ];
+                    break;
                 case '10':
                     $lokasi = (object) [
                         'kd_lokasi' => $kd_lokasi,
                         'nm_lokasi' => 'SAMSAT KAB. TEBO',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT KAB. TEBO",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT KAB. TEBO',
                     ];
                     break;
                 default:
                     $lokasi = (object) [
                         'kd_lokasi' => '00',
                         'nm_lokasi' => 'SAMSAT PROVINSI JAMBI',
-                        "rpthdr1" => "BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH",
-                        "rpthdr2" => "SAMSAT PROVINSI JAMBI",
+                        'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                        'rpthdr2' => 'SAMSAT PROVINSI JAMBI',
                     ];
-
             }
         }
-
-        dd($lokasi);
 
         $data_rekap = $this->trnkbService->getRekapharian($tanggal, $kd_lokasi);
 
@@ -275,16 +289,17 @@ class RekapitulasiPenerimaanController extends Controller
         $total_seluruh = $total_bbn + $total_opsen_bbnkb + $total_pkb + $total_opsen_pkb + $total_swd + $total_pnbp;
 
         $dataTotal = [
-            "total_bbn" => $total_bbn,
-            "total_pkb" => $total_pkb,
-            "total_swd" => $total_swd,
-            "total_pnbp" => $total_pnbp,
-            "total_opsen_pkb" => $total_opsen_pkb,
-            "total_opsen_bbnkb" => $total_opsen_bbnkb,
-            "total_seluruh" => $total_seluruh,
+            'total_bbn' => $total_bbn,
+            'total_pkb' => $total_pkb,
+            'total_swd' => $total_swd,
+            'total_pnbp' => $total_pnbp,
+            'total_opsen_pkb' => $total_opsen_pkb,
+            'total_opsen_bbnkb' => $total_opsen_bbnkb,
+            'total_seluruh' => $total_seluruh,
         ];
-        $pdf = Pdf::loadView('rekapitulasi-penerimaan.export-pdf', compact('page_title', 'data_rekap', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi'));
-        return $pdf->download($page_title . '.pdf');
-
+        $file_name = 'Rekapitulasi Penerimaan Tanggal ' . $tanggal . ' di ' . $lokasi->nm_lokasi;
+        $pdf = Pdf::loadView('page.laporan.rekapitulasi-penerimaan.export-pdf', compact('page_title', 'data_rekap', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi'));
+        return $pdf->stream($file_name . '.pdf');
     }
+
 }

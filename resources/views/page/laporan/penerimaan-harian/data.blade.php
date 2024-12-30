@@ -9,13 +9,35 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Daftar Penerimaan Harian PKB dan BBNKB Tanggal {{ $tanggal }}</h4>
-            {{-- <form action="{{ route('LaporanPenerimaanHarian.cetakLaporan') }}" method="post" target="_blank">
-            @csrf
-            <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
-            <input type="hidden" id="jenis" name="jenis" value="{{ $jenis }}">
-            <input type="hidden" id="kd_wilayah" name="kd_wilayah" value="{{ $kd_wilayah }}">
-            <button type="submit" class="btn btn-sm btn-primary">CETAK</button>
-            </form> --}}
+            <div class="basic-dropdown">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
+                        EXPORT
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <form action="{{ route('penerimaan-harian.pdf') }}" method="post" target="_blank">
+                                @csrf
+                                <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
+                                <input type="hidden" id="kd_lokasi" name="kd_lokasi" value="{{ $lokasi->kd_lokasi }}">
+                                <input type="hidden" id="kd_wilayah" name="kd_wilayah" value="{{ $kd_wilayah }}">
+                                <input type="hidden" id="jenis" name="jenis" value="{{ $jenis }}">
+                                <button type="submit" class="btn btn-sm btn-primary">PDF</button>
+                            </form>
+                        </div>
+                        <!-- <div class="dropdown-item">
+                                <form action="{{ route('penerimaan-harian.pdf') }}" method="post" target="_blank">
+                                    @csrf
+                                    <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
+                                    <input type="hidden" id="kd_lokasi" name="kd_lokasi" value="{{ $lokasi->kd_lokasi }}">
+                                    <input type="hidden" id="kd_wilayah" name="kd_wilayah" value="{{ $kd_wilayah }}">
+                                    <input type="hidden" id="jenis" name="jenis" value="{{ $jenis }}">
+                                    <button type="submit" class="btn btn-sm btn-info">EXCEL</button>
+                                </form>
+                            </div> -->
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

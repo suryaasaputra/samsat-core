@@ -4,7 +4,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PenerimaanHarianController;
-use App\Http\Controllers\RekapitulasiPenerimaanController;
+use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
+use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\ZenixadminController;
 use Illuminate\Support\Facades\Route;
 
@@ -116,13 +117,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
     Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
+
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
     Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanHarianController::class, 'exportToPdf'])->name('penerimaan-harian.pdf');
 
-    Route::get('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'showForm'])->name('rekapitulasi-penerimaan.form');
-    Route::post('/laporan/rekapitulasi-penerimaan', [RekapitulasiPenerimaanController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan.submit');
-    Route::post('/laporan/rekapitulasi-penerimaan/pdf', [RekapitulasiPenerimaanController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan.pdf');
+    Route::get('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'showForm'])->name('rekapitulasi-penerimaan-ringkas.form');
+    Route::post('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-ringkas.submit');
+    Route::post('/laporan/rekapitulasi-penerimaan-ringkas/pdf', [RekapitulasiPenerimaanRingkasController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-ringkas.pdf');
+
+    Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'showForm'])->name('rekapitulasi-penerimaan-detail.form');
+    Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-detail.submit');
+    Route::post('/laporan/rekapitulasi-penerimaan-detail/pdf', [RekapitulasiPenerimaanDetailController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-detail.pdf');
 
     // Resource routes for roles and users
     // Route::resources([

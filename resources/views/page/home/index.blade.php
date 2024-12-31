@@ -35,11 +35,23 @@
                 </a>
             </div>
             <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-                <a href="{{ route('rekapitulasi-penerimaan.form') }}">
+                <a href="{{ route('rekapitulasi-penerimaan-ringkas.form') }}">
                     <div class=" ">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">C. Rekapitulasi Penerimaan Harian
+                                <h4 class=" font-w600 mb-0 text-white">C. Rekapitulasi Penerimaan Harian (Ringkas)
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
+                <a href="{{ route('rekapitulasi-penerimaan-detail.form') }}">
+                    <div class=" ">
+                        <div class="d-flex align-items-center">
+                            <div class="">
+                                <h4 class=" font-w600 mb-0 text-white">D. Rekapitulasi Penerimaan Harian (Detail)
                                 </h4>
                             </div>
                         </div>

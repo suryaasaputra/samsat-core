@@ -30,7 +30,7 @@ class TrnkbService
             ->first();
     }
 
-    public function getLaporanTransaksiHarian($tanggal, $kd_lokasi, $kd_wilayah, $jenis)
+    public function getLaporanTransaksiHarian($tanggal, $kd_lokasi)
     {
         $query = DB::table(DB::raw('t_trnkb AS T'))
             ->select(
@@ -60,15 +60,7 @@ class TrnkbService
             })
             ->where(DB::raw('T.tg_bayar'), $tanggal)
             ->where(DB::raw('T.kd_lokasi'), 'like', "%$kd_lokasi%")
-            ->where(DB::raw('T.kd_wilayah'), 'like', "%$kd_wilayah%");
-
-        if ($jenis === 'nontunai') {
-            $query->whereNotNull(DB::raw('t_post_qris.nama'));
-        } elseif ($jenis === 'tunai') {
-            $query->whereNull(DB::raw('t_post_qris.nama'));
-        }
-
-        $query->orderByRaw("CAST(split_part(T.no_noticepp, ' ', 2) AS INTEGER) ASC");
+            ->orderByRaw("CAST(split_part(T.no_noticepp, ' ', 2) AS INTEGER) ASC");
 
         return $query->get();
 

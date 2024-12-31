@@ -8,11 +8,11 @@
     <div class="col mt-2 px-3">
         <div class="card">
             {{-- <div class="card-header">
-                <h4 class="card-title">Laporan Penerimaan Harian </h4>
+                <h4 class="card-title">Rekapitulasi Penerimaan Harian </h4>
             </div> --}}
             <div class="card-body">
                 <div class="basic-form">
-                    <form action="{{ route('penerimaan-harian.submit') }}" method="post">
+                    <form action="{{ route('rekapitulasi-penerimaan-detail.submit') }}" method="post">
                         @csrf
                         <div class="row d-flex justify-content-center align-items-center">
 
@@ -39,7 +39,6 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
-
                             </div>
                         </div>
                         <div class="text-center mt-4">

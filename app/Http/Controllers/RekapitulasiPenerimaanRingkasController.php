@@ -9,23 +9,20 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PenerimaanHarianController extends Controller
+class RekapitulasiPenerimaanRingkasController extends Controller
 {
-
     protected $trnkbService;
     /**
      * PembayaranController constructor.
      */
     public function __construct(TrnkbService $trnkbService)
     {
-
         $this->trnkbService = $trnkbService;
-
     }
 
     public function showForm()
     {
-        $page_title = 'Penerimaan Harian';
+        $page_title = 'Rekapitulasi Penerimaan Harian (Mendetail)';
 
         $kdLokasi = Auth::user()->kd_lokasi;
 
@@ -36,23 +33,22 @@ class PenerimaanHarianController extends Controller
             ->orderBy('kd_lokasi', 'asc')
             ->get();
 
-        // Fetch all wilayah for the dropdown
-
         $action = 'form_laporan';
 
-        return view('page.laporan.penerimaan-harian.index', compact('page_title', 'action', 'lokasi'));
+        return view('page.laporan.rekapitulasi-penerimaan-ringkas.index', compact('page_title', 'action', 'lokasi'));
     }
     public function handleFormSubmission(Request $request)
     {
         $data = $this->prepareData($request);
 
-        return view('page.laporan.penerimaan-harian.data', [
+        return view('page.laporan.rekapitulasi-penerimaan-ringkas.data', [
             'page_title' => $data['page_title'],
-            'dataTransaksi' => $data['dataTransaksi'],
+            'data_rekap' => $data['data_rekap'],
             'tanggal' => $data['tanggal'],
             'lokasi' => $data['lokasi'],
             'kd_lokasi' => $data['kd_lokasi'],
-            'sumJumlah' => $data['sumJumlah'],
+            'dataPenerimaanOpsen' => $data['dataPenerimaanOpsen'],
+            'dataTotal' => $data['dataTotal'],
         ]);
     }
 
@@ -60,16 +56,16 @@ class PenerimaanHarianController extends Controller
     {
         $data = $this->prepareData($request);
 
-        $file_name = 'Laporan Penerimaan Tanggal ' . $data['tanggal'] . ' di ' . $data['lokasi']->nm_lokasi;
-        $pdf = Pdf::loadView('page.laporan.penerimaan-harian.export-pdf', [
+        $file_name = 'Rekapitulasi Penerimaan (Ringkas) Tanggal ' . $data['tanggal'] . ' di ' . $data['lokasi']->nm_lokasi;
+        $pdf = Pdf::loadView('page.laporan.rekapitulasi-penerimaan-ringkas.export-pdf', [
             'page_title' => $data['page_title'],
-            'dataTransaksi' => $data['dataTransaksi'],
+            'data_rekap' => $data['data_rekap'],
             'tanggal' => $data['tanggal'],
             'lokasi' => $data['lokasi'],
             'kd_lokasi' => $data['kd_lokasi'],
-            'sumJumlah' => $data['sumJumlah'],
-        ])->setPaper('A4', 'landscape');
-
+            'dataPenerimaanOpsen' => $data['dataPenerimaanOpsen'],
+            'dataTotal' => $data['dataTotal'],
+        ]);
         return $pdf->stream($file_name . '.pdf');
     }
 
@@ -81,10 +77,13 @@ class PenerimaanHarianController extends Controller
         $tanggal = Carbon::parse($validated['tanggal'])->format('Y-m-d');
         $kd_lokasi = $validated['kd_lokasi'];
         $lokasi = $this->getLokasi($kd_lokasi);
-        $dataTransaksi = $this->trnkbService->getLaporanTransaksiHarian($tanggal, $kd_lokasi);
-        $sumJumlah = $this->calculateSumJumlah($dataTransaksi);
 
-        return compact('page_title', 'tanggal', 'kd_lokasi', 'lokasi', 'dataTransaksi', 'sumJumlah');
+        $data_rekap = $this->trnkbService->getRekapharian($tanggal, $kd_lokasi);
+        $dataPenerimaanOpsen = $this->trnkbService->getDataPenerimaanOpsen($tanggal, $kd_lokasi);
+
+        $dataTotal = $this->calculateTotals($data_rekap);
+
+        return compact('page_title', 'data_rekap', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi');
     }
 
     private function validateFormRequest(Request $request)
@@ -122,32 +121,28 @@ class PenerimaanHarianController extends Controller
                 'rpthdr3' => $nm_lokasi,
             ];
         }
-
         return $lokasi;
     }
 
-    private function calculateSumJumlah($dataTransaksi)
+    private function calculateTotals($data_rekap)
     {
-        $sumJumlah = [
-            "bbn_pokok" => 0,
-            "bbn_denda" => 0,
-            "pkb_pokok" => 0,
-            "pkb_denda" => 0,
-            "swd_pokok" => 0,
-            "swd_denda" => 0,
-            "opsen_bbn_pokok" => 0,
-            "opsen_bbn_denda" => 0,
-            "opsen_pkb_pokok" => 0,
-            "opsen_pkb_denda" => 0,
+        $total_bbn = $data_rekap->bbn1_pok + $data_rekap->bbn2_pok + $data_rekap->bbn1_den + $data_rekap->tgk_bbn1_pok + $data_rekap->tgk_bbn1_den + $data_rekap->tgk_bbn2_pok + $data_rekap->tgk_bbn2_den;
+        $total_pkb = $data_rekap->pkb_pok + $data_rekap->pkb_den + $data_rekap->tgk_pkb_pok + $data_rekap->tgk_pkb_den;
+        $total_swd = $data_rekap->swd_pok + $data_rekap->swd_den + $data_rekap->tgk_swd_pok + $data_rekap->tgk_swd_den;
+        $total_opsen_bbnkb = $data_rekap->opsen_bbn_pok + $data_rekap->opsen_bbn_den + $data_rekap->tgk_opsen_bbn_pok + $data_rekap->tgk_opsen_bbn_den;
+        $total_opsen_pkb = $data_rekap->opsen_pkb_pok + $data_rekap->opsen_pkb_den + $data_rekap->tgk_opsen_pkb_pok + $data_rekap->tgk_opsen_pkb_den;
+        $total_pnbp = $data_rekap->adm_stnk + $data_rekap->plat_nomor;
+        $total_seluruh = $total_bbn + $total_opsen_bbnkb + $total_pkb + $total_opsen_pkb + $total_swd;
+
+        return [
+            'total_bbn' => $total_bbn,
+            'total_pkb' => $total_pkb,
+            'total_swd' => $total_swd,
+            'total_pnbp' => $total_pnbp,
+            'total_opsen_pkb' => $total_opsen_pkb,
+            'total_opsen_bbnkb' => $total_opsen_bbnkb,
+            'total_seluruh' => $total_seluruh,
         ];
-
-        foreach ($dataTransaksi as $item) {
-            foreach ($sumJumlah as $key => &$value) {
-                $value += $item->$key;
-            }
-        }
-
-        return $sumJumlah;
     }
 
 }

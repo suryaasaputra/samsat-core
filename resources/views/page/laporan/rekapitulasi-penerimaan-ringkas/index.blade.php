@@ -12,7 +12,7 @@
             </div> --}}
             <div class="card-body">
                 <div class="basic-form">
-                    <form action="{{ route('rekapitulasi-penerimaan.submit') }}" method="post">
+                    <form action="{{ route('rekapitulasi-penerimaan-ringkas.submit') }}" method="post">
                         @csrf
                         <div class="row d-flex justify-content-center align-items-center">
 

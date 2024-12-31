@@ -32,7 +32,7 @@
                                 <input type="password" id="password" name="password" class="form-control"
                                     placeholder="Password">
                             </div>
-                            <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                            {{-- <div class="form-row d-flex justify-content-between mt-4 mb-2">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox ms-1">
                                         <input type="checkbox" class="form-check-input" id="remember" name="remember">
@@ -40,7 +40,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block">Login</button>
                             </div>

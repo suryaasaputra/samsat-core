@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         // dd(DB::connection()->getDatabaseName());
 
         // Attempt login using username and password
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
+        if (Auth::attempt($credentials)) {
             // Regenerate the session to prevent session fixation
             $request->session()->regenerate();
 

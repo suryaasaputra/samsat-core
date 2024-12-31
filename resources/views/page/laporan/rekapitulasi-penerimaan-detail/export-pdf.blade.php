@@ -391,53 +391,6 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="6">
-                    <strong>F. PNBP</strong>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td width="20px">1.</td>
-                <td>ADM. STNK</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->adm_stnk, 0) }}
-                </td>
-                <td width="50px">
-                    ( {{ number_format($data_rekap->wp_adm_stnk, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>2.</td>
-                <td>ADM. TNKB</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->plat_nomor, 0) }}
-                </td>
-                <td>
-                    ( {{ number_format($data_rekap->wp_plat_nomor, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>*** TOTAL PNBP ***</strong></td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($dataTotal['total_pnbp'], 0) }}</strong>
-                </td>
-            </tr>
-
-            <tr height="15px">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
                 <td></td>
                 <td></td>
                 <td><strong>TOTAL SELURUH</strong></td>

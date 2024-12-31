@@ -17,24 +17,24 @@
             </li>
 
             @if (Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
-            <li>
-                <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">User Management</span>
-                </a>
-            </li>
-            <li>
-                <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">Role Management</span>
-                </a>
-            </li>
-            <li>
-                <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">Permission Management</span>
-                </a>
-            </li>
+                <li>
+                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">User Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Role Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Permission Management</span>
+                    </a>
+                </li>
             @endif
 
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -43,7 +43,10 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{ route('penerimaan-harian.form') }}">Penerimaan Harian</a></li>
-                    <li><a href="{{ route('rekapitulasi-penerimaan.form') }}">Rekapitulasi Penerimaan Harian</a></li>
+                    <li><a href="{{ route('rekapitulasi-penerimaan-ringkas.form') }}">Rekapitulasi Penerimaan Harian
+                            (Ringkas)</a></li>
+                    <li><a href="{{ route('rekapitulasi-penerimaan-detail.form') }}">Rekapitulasi Penerimaan Harian
+                            (Mendetail)</a></li>
                 </ul>
             </li>
 

@@ -14,7 +14,6 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware('permission:create-role|edit-role|delete-role', ['only' => ['index', 'show']]);
         $this->middleware('permission:create-role', ['only' => ['create', 'store']]);
         $this->middleware('permission:edit-role', ['only' => ['edit', 'update']]);
@@ -25,8 +24,9 @@ class RoleController extends Controller
      */
     public function index(): View
     {
-        return view('roles.index', [
-            'roles' => Role::orderBy('id', 'DESC')->paginate(3),
+        return view('page.roles.index', [
+            'roles' => Role::orderBy('id', 'DESC')->paginate(10),
+            'page_title' => 'Roles',
         ]);
     }
 
@@ -35,8 +35,9 @@ class RoleController extends Controller
      */
     public function create(): View
     {
-        return view('roles.create', [
+        return view('page.roles.create', [
             'permissions' => Permission::get(),
+            'page_title' => 'Create Role',
         ]);
     }
 
@@ -64,7 +65,7 @@ class RoleController extends Controller
             ->where("role_id", $role->id)
             ->select('name')
             ->get();
-        return view('roles.show', [
+        return view('page.roles.show', [
             'role' => $role,
             'rolePermissions' => $rolePermissions,
         ]);
@@ -83,10 +84,11 @@ class RoleController extends Controller
             ->pluck('permission_id')
             ->all();
 
-        return view('roles.edit', [
+        return view('page.roles.edit', [
             'role' => $role,
             'permissions' => Permission::get(),
             'rolePermissions' => $rolePermissions,
+            'page_title' => 'Edit Role ' . $role->name,
         ]);
     }
 

@@ -20,7 +20,6 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware('permission:create-user|edit-user|delete-user', ['only' => ['index', 'show']]);
         $this->middleware('permission:create-user', ['only' => ['create', 'store']]);
         $this->middleware('permission:edit-user', ['only' => ['edit', 'update']]);
@@ -33,7 +32,7 @@ class UserController extends Controller
     public function index(): View
     {
         return view('page.users.index', [
-            'users' => User::latest('id')->paginate(3),
+            'users' => User::latest('id')->paginate(10),
             'page_title' => 'Users',
         ]);
     }
@@ -75,8 +74,10 @@ class UserController extends Controller
      */
     public function show(User $user): View
     {
+
         return view('page.users.show', [
             'user' => $user,
+            'page_title' => 'Detail User ' . $user->username,
         ]);
     }
 

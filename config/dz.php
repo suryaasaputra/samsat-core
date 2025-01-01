@@ -28,17 +28,19 @@ return [
             'css' => [
                 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
                 'css/style.css',
+                'vendor/sweetalert2/dist/sweetalert2.min.css',
 
             ],
             'js' => [
                 'top' => [
                     'vendor/global/global.min.js',
                     'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
-
                 ],
                 'bottom' => [
                     'js/custom.js',
                     'js/deznav-init.js',
+                    'vendor/sweetalert2/dist/sweetalert2.min.js',
+                    'js/plugins-init/sweetalert.init.js',
                 ],
             ],
         ],

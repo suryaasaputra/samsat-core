@@ -117,7 +117,7 @@ return [
 
         '002' => [
             'driver' => env('DB_BATANGHARI_CONNECTION', 'pgsql'),
-            'host' => env('DB_BATANGHARI_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_BATANGHARI_HOST', '127.0.0.1'),
             'port' => env('DB_BATANGHARI_PORT', '5432'),
             'database' => env('DB_BATANGHARI_DATABASE', 'forge'),
             'username' => env('DB_BATANGHARI_USERNAME', 'forge'),
@@ -128,7 +128,7 @@ return [
         ],
         '003' => [
             'driver' => env('DB_TANJABBARAT_CONNECTION', 'pgsql'),
-            'host' => env('DB_TANJABBARAT_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_TANJABBARAT_HOST', '127.0.0.1'),
             'port' => env('DB_TANJABBARAT_PORT', '5432'),
             'database' => env('DB_TANJABBARAT_DATABASE', 'forge'),
             'username' => env('DB_TANJABBARAT_USERNAME', 'forge'),
@@ -139,7 +139,7 @@ return [
         ],
         '004' => [
             'driver' => env('DB_MERANGIN_CONNECTION', 'pgsql'),
-            'host' => env('DB_MERANGIN_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_MERANGIN_HOST', '127.0.0.1'),
             'port' => env('DB_MERANGIN_PORT', '5432'),
             'database' => env('DB_MERANGIN_DATABASE', 'forge'),
             'username' => env('DB_MERANGIN_USERNAME', 'forge'),
@@ -151,7 +151,7 @@ return [
 
         '005' => [
             'driver' => env('DB_BUNGO_CONNECTION', 'pgsql'),
-            'host' => env('DB_BUNGO_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_BUNGO_HOST', '127.0.0.1'),
             'port' => env('DB_BUNGO_PORT', '5432'),
             'database' => env('DB_BUNGO_DATABASE', 'forge'),
             'username' => env('DB_BUNGO_USERNAME', 'forge'),
@@ -163,7 +163,7 @@ return [
 
         '006' => [
             'driver' => env('DB_KERINCI_CONNECTION', 'pgsql'),
-            'host' => env('DB_KERINCI_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_KERINCI_HOST', '127.0.0.1'),
             'port' => env('DB_KERINCI_PORT', '5432'),
             'database' => env('DB_KERINCI_DATABASE', 'forge'),
             'username' => env('DB_KERINCI_USERNAME', 'forge'),
@@ -175,7 +175,7 @@ return [
 
         '007' => [
             'driver' => env('DB_TANJABTIMUR_CONNECTION', 'pgsql'),
-            'host' => env('DB_TANJABTIMUR_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_TANJABTIMUR_HOST', '127.0.0.1'),
             'port' => env('DB_TANJABTIMUR_PORT', '5432'),
             'database' => env('DB_TANJABTIMUR_DATABASE', 'forge'),
             'username' => env('DB_TANJABTIMUR_USERNAME', 'forge'),
@@ -187,7 +187,7 @@ return [
 
         '008' => [
             'driver' => env('DB_MUAROJAMBI_CONNECTION', 'pgsql'),
-            'host' => env('DB_MUAROJAMBI_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_MUAROJAMBI_HOST', '127.0.0.1'),
             'port' => env('DB_MUAROJAMBI_PORT', '5432'),
             'database' => env('DB_MUAROJAMBI_DATABASE', 'forge'),
             'username' => env('DB_MUAROJAMBI_USERNAME', 'forge'),
@@ -198,7 +198,7 @@ return [
         ],
         '009' => [
             'driver' => env('DB_SAROLANGUN_CONNECTION', 'pgsql'),
-            'host' => env('DB_SAROLANGUN_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_SAROLANGUN_HOST', '127.0.0.1'),
             'port' => env('DB_SAROLANGUN_PORT', '5432'),
             'database' => env('DB_SAROLANGUN_DATABASE', 'forge'),
             'username' => env('DB_SAROLANGUN_USERNAME', 'forge'),
@@ -209,7 +209,7 @@ return [
         ],
         '010' => [
             'driver' => env('DB_TEBO_CONNECTION', 'pgsql'),
-            'host' => env('DB_TEBO_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_TEBO_HOST', '127.0.0.1'),
             'port' => env('DB_TEBO_PORT', '5432'),
             'database' => env('DB_TEBO_DATABASE', 'forge'),
             'username' => env('DB_TEBO_USERNAME', 'forge'),
@@ -220,7 +220,7 @@ return [
         ],
         '011' => [
             'driver' => env('DB_SUNGAIPENUH_CONNECTION', 'pgsql'),
-            'host' => env('DB_SUNGAIPENUH_CONNECTION', '127.0.0.1'),
+            'host' => env('DB_SUNGAIPENUH_HOST', '127.0.0.1'),
             'port' => env('DB_SUNGAIPENUH_PORT', '5432'),
             'database' => env('DB_SUNGAIPENUH_DATABASE', 'forge'),
             'username' => env('DB_SUNGAIPENUH_USERNAME', 'forge'),

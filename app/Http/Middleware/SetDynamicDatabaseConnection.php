@@ -39,6 +39,7 @@ class SetDynamicDatabaseConnection
 
             // Set the connection dynamically
             Config::set('database.default', $connectionName);
+
             DB::purge(); // Clear current connection to apply changes
         }
 

@@ -12,6 +12,7 @@ class Lokasi extends Model
      * @var string
      */
     protected $table = 't_lokasi';
+    protected $connection;
 
     /**
      * The primary key associated with the table.
@@ -44,9 +45,18 @@ class Lokasi extends Model
         'nm_lokasi',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Dynamically set the connection based on the user's kd_wilayah
+        $this->connection = \Auth::user()->kd_wilayah;
+    }
+
     /**
      * Relationship to Users.
      */
+
     public function users()
     {
         return $this->hasMany(User::class, 'kd_lokasi', 'kd_lokasi');

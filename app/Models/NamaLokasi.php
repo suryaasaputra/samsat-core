@@ -4,21 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wilayah extends Model
+class NamaLokasi extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 't_wilayah';
+    protected $table = 't_nm_lokasi';
     protected $connection = 'induk';
+
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'kd_wilayah';
+    protected $primaryKey = 'kd_lokasi';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -40,8 +41,8 @@ class Wilayah extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'kd_wilayah',
-        'nm_wilayah',
+        'kd_lokasi',
+        'nm_lokasi',
     ];
 
     /**
@@ -49,6 +50,6 @@ class Wilayah extends Model
      */
     public function users()
     {
-        return $this->hasMany(User::class, 'kd_wilayah', 'kd_wilayah');
+        return $this->hasMany(User::class, 'kd_lokasi', 'kd_lokasi');
     }
 }

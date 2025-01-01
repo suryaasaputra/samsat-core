@@ -6,7 +6,11 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PenerimaanHarianController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZenixadminController;
+use App\Models\NamaLokasi;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -112,6 +116,10 @@ Route::middleware(['guest'])->group(function () {
 
 // Authentication routes (Auth middleware will protect these)
 Route::middleware('auth')->group(function () {
+    Route::resources([
+        'roles' => RoleController::class,
+        'users' => UserController::class,
+    ]);
     // Protected routes (Only accessible by authenticated users)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
@@ -130,11 +138,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-detail.submit');
     Route::post('/laporan/rekapitulasi-penerimaan-detail/pdf', [RekapitulasiPenerimaanDetailController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-detail.pdf');
 
-    // Resource routes for roles and users
-    // Route::resources([
-    //     'roles' => RoleController::class,
-    //     'users' => UserController::class,
-    // ]);
+    Route::get('/fetch-lokasi', function (Request $request) {
+        $kd_wilayah = $request->get('kd_wilayah');
+
+        // Fetch Lokasi based on the selected Wilayah
+        $lokasi = NamaLokasi::where('kd_upt', substr($kd_wilayah, -2))->get(['kd_lokasi', 'nm_lokasi']);
+
+        return response()->json($lokasi);
+    })->name('fetch.lokasi');
 
     // Logout route (default for Breeze)
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

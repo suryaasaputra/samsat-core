@@ -17,6 +17,7 @@ class Trnkb extends Model
     use HasFactory;
 
     protected $table = 't_trnkb';
+
     protected $primaryKey = 'no_trn'; // Define the string primary key
     public $incrementing = false; // Disable auto-increment (for string primary key)
     protected $keyType = 'string'; // Specify that the primary key is a string
@@ -25,6 +26,13 @@ class Trnkb extends Model
 
     // Make all fields fillable
     protected $fillable = ['*']; // Allow mass assignment for all fields
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        // Dynamically set the connection based on the user's kd_wilayah
+
+    }
 
     public function opsen()
     {

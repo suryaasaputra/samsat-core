@@ -12,7 +12,7 @@ class Opsen extends Model
 
     // Set the table name if it's not the plural form of the model name
     protected $table = 'cweb_t_opsen';
-
+    protected $connection;
     // Set the primary key if it's not 'id'
     protected $primaryKey = 'no_trn';
 
@@ -28,6 +28,14 @@ class Opsen extends Model
     // Fillable properties for mass assignment
     // Make all fields fillable
     protected $fillable = ['*']; // Allow mass assignment for all fields
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        // Dynamically set the connection based on the user's kd_wilayah
+        $this->connection = Auth::user()->kd_wilayah;
+    }
 
     public function trnkb()
     {

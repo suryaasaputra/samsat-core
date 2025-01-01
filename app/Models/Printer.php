@@ -4,21 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Wilayah extends Model
+class Printer extends Model
 {
+
+    protected $connection = 'induk';
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 't_wilayah';
-    protected $connection = 'induk';
+    protected $table = 'cweb_t_printer';
+
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'kd_wilayah';
+    protected $primaryKey = 'term_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -40,15 +42,10 @@ class Wilayah extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'kd_wilayah',
-        'nm_wilayah',
+        'term_id',
+        'printer_terminal',
+        'act',
+        'pdf_path',
     ];
 
-    /**
-     * Relationship to Users.
-     */
-    public function users()
-    {
-        return $this->hasMany(User::class, 'kd_wilayah', 'kd_wilayah');
-    }
 }

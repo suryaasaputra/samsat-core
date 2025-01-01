@@ -18,13 +18,13 @@
 
             @if (Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
                 <li>
-                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                    <a href="{{ route('users.index') }}" class="ai-icon" aria-expanded="false">
                         <i class="flaticon-144-layout"></i>
                         <span class="nav-text">User Management</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                    <a href="{{ route('roles.index') }}" class="ai-icon" aria-expanded="false">
                         <i class="flaticon-144-layout"></i>
                         <span class="nav-text">Role Management</span>
                     </a>

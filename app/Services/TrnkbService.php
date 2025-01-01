@@ -32,7 +32,7 @@ class TrnkbService
 
     public function getLaporanTransaksiHarian($tanggal, $kd_lokasi)
     {
-        $query = DB::table(DB::raw('t_trnkb AS T'))
+        $query = DB::connection(\Auth::user()->kd_wilayah)->table(DB::raw('t_trnkb AS T'))
             ->select(
                 DB::raw('T.no_polisi'),
                 DB::raw('T.no_noticepp'),
@@ -176,7 +176,7 @@ class TrnkbService
 						AND T.kd_status >= '4 '
 						AND T.kd_kasir != 'X'
 					";
-        return DB::selectOne($q);
+        return DB::connection(\Auth::user()->kd_wilayah)->selectOne($q);
     }
 
     public function getDataPenerimaanOpsen($tanggal, $kd_lokasi)
@@ -205,7 +205,7 @@ class TrnkbService
 			GROUP BY
 			t_wilayah.kd_wilayah, t_wilayah.nm_wilayah
             ORDER BY t_wilayah.kd_wilayah ASC;";
-        return DB::select($q);
+        return DB::connection(\Auth::user()->kd_wilayah)->select($q);
     }
 
     public function sumPokokDanDenda($t_trnkb)

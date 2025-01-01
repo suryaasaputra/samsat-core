@@ -37,7 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\SetDynamicDatabaseConnection::class,
+            // \App\Http\Middleware\SetDynamicDatabaseConnection::class,
         ],
 
         'api' => [
@@ -69,10 +69,10 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
     ];
 
-    protected $middlewarePriority = [
-        \Illuminate\Auth\Middleware\Authenticate::class,
-        \App\Http\Middleware\SetDynamicDatabaseConnection::class,
-        \Spatie\Permission\Middlewares\PermissionMiddleware::class,
-    ];
+    // protected $middlewarePriority = [
+    //     \Illuminate\Auth\Middleware\Authenticate::class,
+    //     \App\Http\Middleware\SetDynamicDatabaseConnection::class,
+    //     \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    // ];
 
 }

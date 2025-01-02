@@ -45,12 +45,12 @@ class Lokasi extends Model
         'nm_lokasi',
     ];
 
-    public function __construct(array $attributes = [])
+    public function __construct(?string $connection = 'induk', array $attributes = [])
     {
         parent::__construct($attributes);
 
         // Dynamically set the connection based on the user's kd_wilayah
-        $this->connection = \Auth::user()->kd_wilayah;
+        $this->connection = $connection;
     }
 
     /**

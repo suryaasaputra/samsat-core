@@ -29,6 +29,7 @@ return [
                 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
                 'css/style.css',
                 'vendor/sweetalert2/dist/sweetalert2.min.css',
+                'vendor/toastr/css/toastr.min.css',
 
             ],
             'js' => [
@@ -41,6 +42,8 @@ return [
                     'js/deznav-init.js',
                     'vendor/sweetalert2/dist/sweetalert2.min.js',
                     'js/plugins-init/sweetalert.init.js',
+                    'vendor/toastr/js/toastr.min.js',
+                    'js/plugins-init/toastr-init.js',
                 ],
             ],
         ],
@@ -455,7 +458,8 @@ return [
                 ],
                 'ZenixadminController_ui_card' => [
                 ],
-                'ZenixadminController_ui_carousel' => [
+                'ZenixadminController_ui_
+                sel' => [
                 ],
                 'ZenixadminController_ui_dropdown' => [
                 ],

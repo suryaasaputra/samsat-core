@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PenerimaanHarianController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
@@ -119,12 +120,14 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'roles' => RoleController::class,
         'users' => UserController::class,
+        'permissions' => PermissionController::class,
     ]);
     // Protected routes (Only accessible by authenticated users)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
     Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
+    Route::post('/pembayaran/generateQris', [PembayaranController::class, 'generateQris'])->name('generate-qris');
 
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');

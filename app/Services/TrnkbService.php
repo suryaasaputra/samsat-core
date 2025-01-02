@@ -11,23 +11,50 @@ class TrnkbService
 
     public function __construct(Trnkb $trnkb)
     {
+
         $this->trnkb = $trnkb;
+
     }
 
-    public function getDataTransaksi($noPolisi, $kodeStatus)
+    public function getDataTransaksi($noPolisi, $kodeStatus, $kd_wilayah)
     {
-        return $this->trnkb
-            ->with('opsen')
-            ->with('wilayah')
-            ->with('lokasi')
-            ->with('bbm')
-            ->with('plat')
-            ->with('fungsikb')
-            ->with('jenismilik')
+
+        $query = $this->trnkb
+            ->setConnection($kd_wilayah)
             ->where('no_polisi', $noPolisi)
             ->where('kd_status', $kodeStatus)
-            ->orderBy('tg_daftar', 'desc')
-            ->first();
+            ->orderBy('tg_daftar', 'desc');
+        return $query->first();
+    }
+    public function getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, $kd_wilayah)
+    {
+
+        $query = $this->trnkb
+            ->setConnection($kd_wilayah)
+            ->where('no_trn', $noTrn)
+            ->where('no_polisi', $noPolisi)
+            ->orderBy('tg_daftar', 'desc');
+        return $query->first();
+    }
+
+    public function updateByNoTrnAndNoPolisi($dataUpdateTrnkb, $noTrn, $noPolisi, $kd_wilayah)
+    {
+        return $this->trnkb
+            ->setConnection($kd_wilayah)
+            ->where('no_trn', $noTrn)
+            ->where('no_polisi', $noPolisi)
+            ->update($dataUpdateTrnkb);
+    }
+
+    public function getNoTera($tgl, $kd_wilayah)
+    {
+        $maxNoTera = $this->trnkb
+            ->setConnection($kd_wilayah)
+            ->where('tg_bayar', $tgl)
+            ->max('no_tera');
+
+        // If null, return 1; otherwise, return no_tera + 1
+        return $maxNoTera ? $maxNoTera + 1 : 1;
     }
 
     public function getLaporanTransaksiHarian($tanggal, $kd_lokasi)
@@ -213,6 +240,12 @@ class TrnkbService
         $bbnPokKeys = ['bea_bbn1_pok', 'bea_bbn2_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
         $bbnDenKeys = ['bea_bbn1_den', 'bea_bbn2_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
+        $bbn1PokKeys = ['bea_bbn1_pok', 'bea_bbn_tgk1'];
+        $bbn1DenKeys = ['bea_bbn1_den', 'bea_bbn_den1'];
+
+        $bbn2PokKeys = ['bea_bbn2_pok', 'bea_bbn_tgk2'];
+        $bbn2DenKeys = ['bea_bbn2_den', 'bea_bbn_den2'];
+
         $opsenBbnPokKeys = ['opsen_bbn1_pok', 'opsen_bbn2_pok', 'opsen_bbn_tgk1', 'opsen_bbn_tgk2'];
         $opsenBbnDenKeys = ['opsen_bbn1_den', 'opsen_bbn2_den', 'opsen_bbn_den1', 'opsen_bbn_den2'];
 
@@ -226,6 +259,15 @@ class TrnkbService
         $swdklljDenKeys = ['bea_swdkllj_den', 'bea_swdkllj_den1', 'bea_swdkllj_den2', 'bea_swdkllj_den3', 'bea_swdkllj_den4'];
 
         // Calculate totals
+
+        $bea_bbn1_pok = $this->calculateTotal($t_trnkb, $bbn1PokKeys);
+        $bea_bbn1_den = $this->calculateTotal($t_trnkb, $bbn1DenKeys);
+        $bea_bbn1 = $bea_bbn1_pok + $bea_bbn1_den;
+
+        $bea_bbn2_pok = $this->calculateTotal($t_trnkb, $bbn2PokKeys);
+        $bea_bbn2_den = $this->calculateTotal($t_trnkb, $bbn2DenKeys);
+        $bea_bbn2 = $bea_bbn2_pok + $bea_bbn2_den;
+
         $bea_bbn_pok = $this->calculateTotal($t_trnkb, $bbnPokKeys);
         $bea_bbn_den = $this->calculateTotal($t_trnkb, $bbnDenKeys);
         $bea_bbn = $bea_bbn_pok + $bea_bbn_den;
@@ -261,6 +303,14 @@ class TrnkbService
             'pokok_bbnkb' => $bea_bbn_pok,
             'denda_bbnkb' => $bea_bbn_den,
             'total_bbnkb' => $bea_bbn,
+
+            'pokok_bbn1' => $bea_bbn1_pok,
+            'denda_bbn1' => $bea_bbn1_den,
+            'total_bbn1' => $bea_bbn1,
+
+            'pokok_bbn2' => $bea_bbn2_pok,
+            'denda_bbn2' => $bea_bbn2_den,
+            'total_bbn2' => $bea_bbn2,
 
             'pokok_pkb' => $bea_pkb_pok,
             'denda_pkb' => $bea_pkb_den,

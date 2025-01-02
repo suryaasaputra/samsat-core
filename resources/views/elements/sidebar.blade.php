@@ -10,11 +10,13 @@
                     <span class="nav-text">Home</span>
                 </a>
             </li>
-            <li><a href="{{ route('pembayaran') }}" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">Pembayaran</span>
-                </a>
-            </li>
+            @can('bayar')
+                <li><a href="{{ route('pembayaran') }}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Pembayaran</span>
+                    </a>
+                </li>
+            @endcan
 
             @if (Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
                 <li>
@@ -30,7 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{!! url('/widget-basic') !!}" class="ai-icon" aria-expanded="false">
+                    <a href="{{ route('permissions.index') }}" class="ai-icon" aria-expanded="false">
                         <i class="flaticon-144-layout"></i>
                         <span class="nav-text">Permission Management</span>
                     </a>

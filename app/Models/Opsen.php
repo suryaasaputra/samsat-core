@@ -12,7 +12,6 @@ class Opsen extends Model
 
     // Set the table name if it's not the plural form of the model name
     protected $table = 'cweb_t_opsen';
-    protected $connection;
     // Set the primary key if it's not 'id'
     protected $primaryKey = 'no_trn';
 
@@ -34,7 +33,7 @@ class Opsen extends Model
         parent::__construct($attributes);
 
         // Dynamically set the connection based on the user's kd_wilayah
-        $this->connection = Auth::user()->kd_wilayah;
+
     }
 
     public function trnkb()

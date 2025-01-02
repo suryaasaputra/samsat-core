@@ -20,3 +20,23 @@
         <script src="{{ asset($script) }}" type="text/javascript"></script>
     @endforeach
 @endif
+
+@if (session('berhasil'))
+    <script type="text/javascript">
+        $(function() {
+            toastr.success("{{ session('info') }}");
+            toastr.options.progressBar = true;
+            toastr.options.closeButton = true;
+        });
+    </script>
+@endif
+
+@if (session('gagal'))
+    <script type="text/javascript">
+        $(function() {
+            toastr.error("{{ session('gagal') }}");
+            toastr.options.progressBar = true;
+            toastr.options.closeButton = true;
+        });
+    </script>
+@endif

@@ -36,21 +36,19 @@ class PembayaranController extends Controller
     {
 
         // Validate the incoming form data
-        $request->validate([
+        $validated = $request->validate([
             'no_polisi' => 'required|string|max:4',
             'seri' => 'nullable|string|max:3|regex:/^[A-Z]+$/', // optional but must be uppercase letters if provided
         ]);
 
         // Assemble the full no_polisi value by combining no_polisi and seri
-        $noPolisi = 'BH ' . strtoupper($request->no_polisi) . " " . strtoupper($request->seri);
-        // $noPolisi = 'BH 4050 TQ';
+        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']) . " " . strtoupper($validated['seri']);
 
         $page_title = 'Rincian Pembayaran';
         $kodeStatus = '3 ';
 
         $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, \Auth::user()->kd_wilayah);
 
-        // dd($trnkbData);
         if (!$trnkbData) {
             return redirect()
                 ->back()

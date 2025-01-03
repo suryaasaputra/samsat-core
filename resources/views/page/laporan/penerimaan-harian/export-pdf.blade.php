@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Penerimaan Harian PKB dan BBNKB Pada Tanggal {{ $tanggal }} di
-        {{ $lokasi->rpthdr3 ?? $lokasi->rpthdr2 }} </title>
+        {{ !empty($lokasi->rpthdr3) ? $lokasi->rpthdr3 : $lokasi->rpthdr2 }}
+    </title>
     <style>
         body {
             margin: 0;

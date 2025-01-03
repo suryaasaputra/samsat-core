@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Models\Bbm;
 use App\Models\FungsiKb;
+use App\Models\IzinAng;
 use App\Models\JenisMilik;
 use App\Models\Lokasi;
+use App\Models\NoHp;
 use App\Models\Opsen;
 use App\Models\Plat;
+use App\Models\Tera;
 use App\Models\Wilayah;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +49,7 @@ class Trnkb extends Model
 
     public function lokasi()
     {
-        return $this->belongsTo(Lokasi::class, 'kd_wilayah', 'kd_wilayah');
+        return $this->belongsTo(Lokasi::class, 'kd_lokasi', 'kd_lokasi');
     }
 
     public function plat()
@@ -66,6 +69,19 @@ class Trnkb extends Model
     public function jenismilik()
     {
         return $this->belongsTo(JenisMilik::class, 'kd_jen_milik', 'kd_jen_milik');
+    }
+    public function izinang()
+    {
+        return $this->belongsTo(IzinAng::class, 'no_polisi', 'no_polisi');
+    }
+
+    public function nohp()
+    {
+        return $this->belongsTo(NoHp::class, 'no_polisi', 'no_polisi');
+    }
+    public function tera()
+    {
+        return $this->belongsTo(Tera::class, 'no_trn', 'no_trn');
     }
 
 }

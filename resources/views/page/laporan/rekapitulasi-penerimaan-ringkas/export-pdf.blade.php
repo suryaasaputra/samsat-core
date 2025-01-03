@@ -36,7 +36,8 @@
 
     <h3>
         REKAPITULASI PENERIMAAN TGL: {{ $tanggal }} <br>
-        PADA {{ $lokasi->rpthdr3 ?? $lokasi->rpthdr2 }}
+        PADA {{ !empty($lokasi->rpthdr3) ? $lokasi->rpthdr3 : $lokasi->rpthdr2 }}
+
         <hr width="100%" size="2">
     </h3>
 

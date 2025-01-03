@@ -29,7 +29,7 @@ class RekapitulasiPenerimaanRingkasController extends Controller
         $prefix = substr($kdLokasi, 0, 2);
 
         // Fetch all lokasi starting with the prefix
-        $lokasi = Lokasi::where('kd_lokasi', 'like', $prefix . '%')
+        $lokasi = Lokasi::on(\Auth::user()->kd_wilayah)->where('kd_lokasi', 'like', $prefix . '%')
             ->orderBy('kd_lokasi', 'asc')
             ->get();
 
@@ -96,20 +96,20 @@ class RekapitulasiPenerimaanRingkasController extends Controller
 
     private function getLokasi($kd_lokasi)
     {
-        $lokasi = Lokasi::find($kd_lokasi);
+        $lokasi = Lokasi::on(\Auth::user()->kd_wilayah)->find($kd_lokasi);
 
         if (!$lokasi) {
             $lokasiDefaults = [
-                '01' => 'SAMSAT KOTA JAMBI',
-                '02' => 'SAMSAT KAB. BATANGHAR',
-                '03' => 'SAMSAT KAB. TANJAB BARAT',
-                '04' => 'SAMSAT KAB. MERANGIN',
-                '05' => 'SAMSAT KAB. BUNGO',
-                '06' => 'SAMSAT KAB. KERINCI',
-                '07' => 'SAMSAT KAB. TANJAB TIMUR',
-                '08' => 'SAMSAT KAB. MUARO JAMBI',
-                '09' => 'SAMSAT KAB. SAROLANGUN',
-                '10' => 'SAMSAT KAB. TEBO',
+                '01' => 'UPTD PPD SAMSAT KOTA JAMBI',
+                '02' => 'UPTD PPD SAMSAT KAB. BATANGHAR',
+                '03' => 'UPTD PPD SAMSAT KAB. TANJAB BARAT',
+                '04' => 'UPTD PPD SAMSAT KAB. MERANGIN',
+                '05' => 'UPTD PPD SAMSAT KAB. BUNGO',
+                '06' => 'UPTD PPD SAMSAT KAB. KERINCI',
+                '07' => 'UPTD PPD SAMSAT KAB. TANJAB TIMUR',
+                '08' => 'UPTD PPD SAMSAT KAB. MUARO JAMBI',
+                '09' => 'UPTD PPD SAMSAT KAB. SAROLANGUN',
+                '10' => 'UPTD PPD SAMSAT KAB. TEBO',
             ];
 
             $nm_lokasi = $lokasiDefaults[$kd_lokasi] ?? 'SAMSAT PROVINSI JAMBI';
@@ -118,10 +118,12 @@ class RekapitulasiPenerimaanRingkasController extends Controller
                 'nm_lokasi' => $nm_lokasi,
                 'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
                 'rpthdr2' => $nm_lokasi,
-                'rpthdr3' => $nm_lokasi,
+                'rpthdr3' => '',
             ];
         }
+
         return $lokasi;
+
     }
 
     private function calculateTotals($data_rekap)

@@ -12,7 +12,6 @@ class Lokasi extends Model
      * @var string
      */
     protected $table = 't_lokasi';
-    protected $connection;
 
     /**
      * The primary key associated with the table.
@@ -44,14 +43,6 @@ class Lokasi extends Model
         'kd_lokasi',
         'nm_lokasi',
     ];
-
-    public function __construct(?string $connection = 'induk', array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        // Dynamically set the connection based on the user's kd_wilayah
-        $this->connection = $connection;
-    }
 
     /**
      * Relationship to Users.

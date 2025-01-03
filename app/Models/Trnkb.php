@@ -8,6 +8,7 @@ use App\Models\IzinAng;
 use App\Models\JenisMilik;
 use App\Models\Lokasi;
 use App\Models\NoHp;
+use App\Models\Notice;
 use App\Models\Opsen;
 use App\Models\Plat;
 use App\Models\Tera;
@@ -79,9 +80,15 @@ class Trnkb extends Model
     {
         return $this->belongsTo(NoHp::class, 'no_polisi', 'no_polisi');
     }
+
     public function tera()
     {
         return $this->belongsTo(Tera::class, 'no_trn', 'no_trn');
+    }
+
+    public function notice()
+    {
+        return $this->belongsTo(Notice::class, 'no_trn', 'no_trn');
     }
 
 }

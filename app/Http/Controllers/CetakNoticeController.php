@@ -121,6 +121,8 @@ class CetakNoticeController extends Controller
                 ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
         }
 
+        // dd($trnkbData->notice);
+
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
         $jumlahPembayaran = $bea['total_seluruh'];
         $formattedNumber = number_format($jumlahPembayaran, 0, ',', '.');
@@ -140,7 +142,7 @@ class CetakNoticeController extends Controller
         $term = "term" . "$kdLokasi" . "201";
 
         $dataUpdateTrnkb = [
-            "no_notice" => $noNotice,
+            "no_noticepp" => $noNotice,
             "kd_status" => '5 ',
         ];
 
@@ -317,19 +319,18 @@ class CetakNoticeController extends Controller
             LogTrn::on(\Auth::user()->kd_wilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
-                    'kd_proses' => '4 ',
+                    'kd_proses' => '5 ',
                 ], $dataLogTrn);
 
             LogTrnkb::on(\Auth::user()->kd_wilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
-                    'kd_proses' => '4 ',
+                    'kd_proses' => '5 ',
                 ], $dataLogTrnkb);
 
             Notice::on(\Auth::user()->kd_wilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
-                    'no_notice' => $noNotice,
                 ], $dataNotice);
 
             Monitor::on('induk')

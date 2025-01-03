@@ -6,10 +6,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PenerimaanHarianController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZenixadminController;
 use App\Models\NamaLokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +44,7 @@ Route::get('/', function () {
 // Route::get('/market-capital', [ZenixadminController::class, 'market_capital']);
 // Route::get('/tranasactions', [ZenixadminController::class, 'tranasactions']);
 // Route::get('/my-wallets', [ZenixadminController::class, 'my_wallets']);
-// Route::get('/app-profile', [ZenixadminController::class, 'app_profile']);
+Route::get('/app-profile', [ZenixadminController::class, 'app_profile']);
 // Route::get('/post-details', [ZenixadminController::class, 'post_details']);
 // Route::get('/page-chat', [ZenixadminController::class, 'page_chat']);
 // Route::get('/project-list', [ZenixadminController::class, 'project_list']);
@@ -124,6 +126,9 @@ Route::middleware('auth')->group(function () {
     ]);
     // Protected routes (Only accessible by authenticated users)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route for showing the profile update form
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
     Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');

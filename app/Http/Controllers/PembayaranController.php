@@ -47,7 +47,7 @@ class PembayaranController extends Controller
         $page_title = 'Rincian Pembayaran';
         $kodeStatus = '3 ';
 
-        $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, \Auth::user()->kd_wilayah);
+        $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, $kdWilayah);
 
         if (!$trnkbData) {
             return redirect()
@@ -109,8 +109,9 @@ class PembayaranController extends Controller
         $noTrn = $validated['no_trn'];
         $metodeBayar = $validated['metode_bayar'];
         $kdLokasi = \Auth::user()->kd_lokasi;
+        $kdWilayah = \Auth::user()->kd_wilayah;
 
-        $trnkbData = $this->trnkbService->getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, \Auth::user()->kd_wilayah);
+        $trnkbData = $this->trnkbService->getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, $kdWilayah);
         if (!$trnkbData) {
             return redirect()
                 ->route('pembayaran')
@@ -125,7 +126,7 @@ class PembayaranController extends Controller
         $tahun = Carbon::now()->year;
         $tglskrng = Carbon::now()->format('Y-m-d');
 
-        $no_tera = $this->trnkbService->getNoTera($tglskrng, \Auth::user()->kd_wilayah);
+        $no_tera = $this->trnkbService->getNoTera($tglskrng, $kdWilayah);
         $cap_tera = "$noPolisi" . "*" . "$tglskrng" . "*" . "$formattedNumber";
         $term = "term" . "$kdLokasi" . "201";
         $tg_akhir_pkb_yl = $trnkbData->tg_akhir_pkb;
@@ -180,7 +181,7 @@ class PembayaranController extends Controller
         ];
 
         $logTrnkbLatest = (new LogTrnkb)
-            ->setConnection(\Auth::user()->kd_wilayah)
+            ->setConnection($kdWilayah)
             ->where('no_trn', $noTrn)
             ->orderBy('jam_proses', 'desc')
             ->first();
@@ -243,28 +244,28 @@ class PembayaranController extends Controller
         ];
 
         // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataTera, $dataMonitor);
-        DB::connection(\Auth::user()->kd_wilayah)->beginTransaction();
+        DB::connection($kdWilayah)->beginTransaction();
         DB::connection('induk')->beginTransaction();
         try {
 
-            Trnkb::on(\Auth::user()->kd_wilayah)
+            Trnkb::on($kdWilayah)
                 ->where('no_trn', $noTrn)
                 ->where('no_polisi', $noPolisi)
                 ->update($dataUpdateTrnkb);
 
-            LogTrn::on(\Auth::user()->kd_wilayah)
+            LogTrn::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                     'kd_proses' => '4 ',
                 ], $dataLogTrn);
 
-            LogTrnkb::on(\Auth::user()->kd_wilayah)
+            LogTrnkb::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                     'kd_proses' => '4 ',
                 ], $dataLogTrnkb);
 
-            Tera::on(\Auth::user()->kd_wilayah)
+            Tera::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                     'no_polisi' => $noPolisi,
@@ -276,12 +277,12 @@ class PembayaranController extends Controller
                     'no_polisi' => $noPolisi,
                 ], $dataMonitor);
 
-            DB::connection(\Auth::user()->kd_wilayah)->commit(); // Commit the transaction
+            DB::connection($kdWilayah)->commit(); // Commit the transaction
             DB::connection('induk')->commit(); // Commit the transaction
 
             return redirect()->route('pembayaran')->with('success', 'Pembayaran Untuk No Polisi ' . $noPolisi . ' Berhasil');
         } catch (\Exception $e) {
-            DB::connection(\Auth::user()->kd_wilayah)->rollBack(); // Rollback the transaction on error
+            DB::connection($kdWilayah)->rollBack(); // Rollback the transaction on error
             DB::connection('induk')->rollBack(); // Rollback the transaction on error
 
             return redirect()->route('pembayaran')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());

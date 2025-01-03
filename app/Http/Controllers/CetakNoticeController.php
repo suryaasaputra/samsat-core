@@ -113,23 +113,22 @@ class CetakNoticeController extends Controller
         $noNotice = $validated['no_notice'];
 
         $kdLokasi = \Auth::user()->kd_lokasi;
+        $kdWilayah = \Auth::user()->kd_wilayah;
 
-        $trnkbData = $this->trnkbService->getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, \Auth::user()->kd_wilayah);
+        $trnkbData = $this->trnkbService->getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, $kdWilayah);
         if (!$trnkbData) {
             return redirect()
                 ->route('cetak-notice')
                 ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
         }
 
-        // dd($trnkbData->notice);
-
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
         $jumlahPembayaran = $bea['total_seluruh'];
         $formattedNumber = number_format($jumlahPembayaran, 0, ',', '.');
 
-        $ttd_dirlantas = TTDNotice::on(\Auth::user()->kd_wilayah)->find('TTD-DIRLANTAS');
-        $ttd_kacabjr = TTDNotice::on(\Auth::user()->kd_wilayah)->find('TTD-KACABJR');
-        $ttd_kaban = TTDNotice::on(\Auth::user()->kd_wilayah)->find('TTD-KADISPENDA');
+        $ttd_dirlantas = TTDNotice::on($kdWilayah)->find('TTD-DIRLANTAS');
+        $ttd_kacabjr = TTDNotice::on($kdWilayah)->find('TTD-KACABJR');
+        $ttd_kaban = TTDNotice::on($kdWilayah)->find('TTD-KADISPENDA');
         $tglskrng = Carbon::now()->format('Y-m-d');
 
         $parts_no_trn = explode("/", $trnkbData->no_trn);
@@ -159,7 +158,7 @@ class CetakNoticeController extends Controller
         ];
 
         $logTrnkbLatest = (new LogTrnkb)
-            ->setConnection(\Auth::user()->kd_wilayah)
+            ->setConnection($kdWilayah)
             ->where('no_trn', $noTrn)
             ->orderBy('jam_proses', 'desc')
             ->first();
@@ -307,28 +306,28 @@ class CetakNoticeController extends Controller
         // die();
         // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataNotice, $dataMonitor);
 
-        DB::connection(\Auth::user()->kd_wilayah)->beginTransaction();
+        DB::connection($kdWilayah)->beginTransaction();
         DB::connection('induk')->beginTransaction();
         try {
 
-            Trnkb::on(\Auth::user()->kd_wilayah)
+            Trnkb::on($kdWilayah)
                 ->where('no_trn', $noTrn)
                 ->where('no_polisi', $noPolisi)
                 ->update($dataUpdateTrnkb);
 
-            LogTrn::on(\Auth::user()->kd_wilayah)
+            LogTrn::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                     'kd_proses' => '5 ',
                 ], $dataLogTrn);
 
-            LogTrnkb::on(\Auth::user()->kd_wilayah)
+            LogTrnkb::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                     'kd_proses' => '5 ',
                 ], $dataLogTrnkb);
 
-            Notice::on(\Auth::user()->kd_wilayah)
+            Notice::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
                 ], $dataNotice);
@@ -339,12 +338,12 @@ class CetakNoticeController extends Controller
                     'no_polisi' => $noPolisi,
                 ], $dataMonitor);
 
-            DB::connection(\Auth::user()->kd_wilayah)->commit(); // Commit the transaction
+            DB::connection($kdWilayah)->commit(); // Commit the transaction
             DB::connection('induk')->commit(); // Commit the transaction
 
             return redirect()->route('cetak-notice')->with('success', 'Berhasil Cetak Notice No Polisi ' . $noPolisi);
         } catch (\Exception $e) {
-            DB::connection(\Auth::user()->kd_wilayah)->rollBack(); // Rollback the transaction on error
+            DB::connection($kdWilayah)->rollBack(); // Rollback the transaction on error
             DB::connection('induk')->rollBack(); // Rollback the transaction on error
 
             return redirect()->route('cetak-notice')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());

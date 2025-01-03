@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
         $page_description = '';
         $action = __FUNCTION__;
         // return view('auth.login');
-        return view('page.login', compact('page_title', 'page_description', 'action'));
+        return view('auth.login', compact('page_title', 'page_description', 'action'));
     }
 
     /**
@@ -52,7 +52,8 @@ class AuthenticatedSessionController extends Controller
 
         // If login fails, return with error
         return back()->withErrors([
-            'username' => __('Username atau password yang anda masukkan salah.'),
+            'username' => 'Username atau password yang anda masukkan salah.',
+            'password' => 'Username atau password yang anda masukkan salah.',
         ])->onlyInput('username');
     }
 

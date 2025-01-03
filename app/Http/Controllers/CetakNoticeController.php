@@ -11,6 +11,7 @@ use App\Models\TTDNotice;
 use App\Services\TrnkbService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CetakNoticeController extends Controller
 {

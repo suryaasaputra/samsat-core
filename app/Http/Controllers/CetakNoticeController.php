@@ -21,7 +21,7 @@ class CetakNoticeController extends Controller
     public function __construct(TrnkbService $trnkbService)
     {
         // Apply the permission middleware
-        $this->middleware('permission:cetak-notice');
+        // $this->middleware('permission:cetak-notice');
         $this->trnkbService = $trnkbService;
 
     }

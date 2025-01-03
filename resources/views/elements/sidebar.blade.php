@@ -17,13 +17,13 @@
                     </a>
                 </li>
             @endcan
-            @can('cetak-notice')
-                <li><a href="{{ route('cetak-notice') }}" class="ai-icon" aria-expanded="false">
-                        <i class="flaticon-144-layout"></i>
-                        <span class="nav-text">Cetak Notice</span>
-                    </a>
-                </li>
-            @endcan
+            {{-- @can('cetak-notice') --}}
+            <li><a href="{{ route('cetak-notice') }}" class="ai-icon" aria-expanded="false">
+                    <i class="flaticon-144-layout"></i>
+                    <span class="nav-text">Cetak Notice</span>
+                </a>
+            </li>
+            {{-- @endcan --}}
 
             @if (Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
                 <li>

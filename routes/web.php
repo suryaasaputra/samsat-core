@@ -151,7 +151,7 @@ Route::middleware('auth')->group(function () {
         $kd_wilayah = $request->get('kd_wilayah');
 
         // Fetch Lokasi based on the selected Wilayah
-        $lokasi = NamaLokasi::where('kd_upt', substr($kd_wilayah, -2))->get(['kd_lokasi', 'nm_lokasi']);
+        $lokasi = NamaLokasi::where('kd_upt', substr($kd_wilayah, -2))->orderBy('kd_lokasi', 'asc')->get(['kd_lokasi', 'nm_lokasi']);
 
         return response()->json($lokasi);
     })->name('fetch.lokasi');

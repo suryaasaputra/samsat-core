@@ -3,6 +3,14 @@
 ***********************************-->
 <div class="deznav">
     <div class="deznav-scroll">
+        <div class="main-profile">
+            <div class="image-bx">
+                <img src="{{ asset('images/ic_admin.png') }}" alt="">
+                <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            </div>
+            <h5 class="name"><span class="font-w400">Hello,</span> {{ Auth::user()->name }}</h5>
+            <p class="email">{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</p>
+        </div>
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
             <li><a href="{{ route('home') }}" class="ai-icon" aria-expanded="false">
@@ -17,15 +25,15 @@
                     </a>
                 </li>
             @endcan
-            {{-- @can('cetak-notice') --}}
-            <li><a href="{{ route('cetak-notice') }}" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-144-layout"></i>
-                    <span class="nav-text">Cetak Notice</span>
-                </a>
-            </li>
-            {{-- @endcan --}}
+            @can('cetak-notice')
+                <li><a href="{{ route('cetak-notice') }}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Cetak Notice</span>
+                    </a>
+                </li>
+            @endcan
 
-            @if (Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
+            @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin']))
                 <li>
                     <a href="{{ route('users.index') }}" class="ai-icon" aria-expanded="false">
                         <i class="flaticon-144-layout"></i>

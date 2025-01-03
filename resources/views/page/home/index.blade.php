@@ -8,18 +8,37 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-                <a href="{{ route('pembayaran') }}">
-                    <div class=" ">
-                        <div class="d-flex align-items-center">
-                            <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">A. Pembayaran
-                                </h4>
+
+
+            @can('bayar')
+                <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
+                    <a href="{{ route('pembayaran') }}">
+                        <div class=" ">
+                            <div class="d-flex align-items-center">
+                                <div class="">
+                                    <h4 class=" font-w600 mb-0 text-white">Pembayaran
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endcan
+
+            @can('cetak-notice')
+                <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
+                    <a href="{{ route('cetak-notice') }}">
+                        <div class=" ">
+                            <div class="d-flex align-items-center">
+                                <div class="">
+                                    <h4 class=" font-w600 mb-0 text-white">Cetak Notice
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            @endcan
 
 
             <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
@@ -27,7 +46,7 @@
                     <div class=" ">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">B. Laporan Penerimaan Harian
+                                <h4 class=" font-w600 mb-0 text-white">Laporan Penerimaan Harian
                                 </h4>
                             </div>
                         </div>
@@ -39,7 +58,7 @@
                     <div class=" ">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">C. Rekapitulasi Penerimaan Harian (Ringkas)
+                                <h4 class=" font-w600 mb-0 text-white">Rekapitulasi Penerimaan Harian (Ringkas)
                                 </h4>
                             </div>
                         </div>
@@ -51,7 +70,7 @@
                     <div class=" ">
                         <div class="d-flex align-items-center">
                             <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">D. Rekapitulasi Penerimaan Harian (Detail)
+                                <h4 class=" font-w600 mb-0 text-white">Rekapitulasi Penerimaan Harian (Detail)
                                 </h4>
                             </div>
                         </div>

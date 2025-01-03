@@ -26,6 +26,7 @@ return [
         ],
         'global' => [
             'css' => [
+                'vendor/select2/css/select2.min.css',
                 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
                 'css/style.css',
                 'vendor/sweetalert2/dist/sweetalert2.min.css',
@@ -35,6 +36,7 @@ return [
             'js' => [
                 'top' => [
                     'vendor/global/global.min.js',
+                    'vendor/select2/js/select2.full.min.js',
                     'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
                 ],
                 'bottom' => [
@@ -44,6 +46,7 @@ return [
                     'js/plugins-init/sweetalert.init.js',
                     'vendor/toastr/js/toastr.min.js',
                     'js/plugins-init/toastr-init.js',
+                    'js/plugins-init/select2-init.js',
                 ],
             ],
         ],
@@ -519,6 +522,12 @@ return [
                 ],
 
                 'ZenixadminController_form_laporan' => [
+                    'vendor/moment/moment.min.js',
+                    'vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
+                    'js/plugins-init/material-date-picker-init.js',
+                ],
+
+                'ZenixadminController_form_create_user' => [
                     'vendor/moment/moment.min.js',
                     'vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
                     'js/plugins-init/material-date-picker-init.js',

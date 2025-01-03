@@ -47,7 +47,7 @@ class UserController extends Controller
             'page_title' => 'Create User',
             'roles' => Role::pluck('name')->all(),
             'wilayah' => Wilayah::all(),
-            'lokasi' => NamaLokasi::all(),
+            'lokasi' => NamaLokasi::orderBy('kd_lokasi')->get(),
             'printer' => Printer::all(),
 
         ]);

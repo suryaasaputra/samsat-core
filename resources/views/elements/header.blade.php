@@ -6,7 +6,7 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-                    <div class="input-group search-area right d-lg-inline-flex d-none">
+                    {{-- <div class="input-group search-area right d-lg-inline-flex d-none">
                         <input type="text" class="form-control" placeholder="Find something here...">
                         <div class="input-group-append">
                             <span class="input-group-text">
@@ -15,7 +15,7 @@
                                 </a>
                             </span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <ul class="navbar-nav header-right main-notification">
                     <li class="nav-item dropdown notification_dropdown">
@@ -39,9 +39,11 @@
 
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                            <img src="{{ asset('images/ic_admin.png') }}" width="20" alt="">
                             <div class="header-info">
-                                <span>{{ Auth::user()->name }}</span>
-                                <small>{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</small> <!-- First role -->
+                                <span>{{ Auth::user()->username }}</span>
+                                <small>{{ Auth::user()->namalokasi->kd_lokasi }} -
+                                    {{ Auth::user()->namalokasi->nm_lokasi }}</small> <!-- First role -->
                                 <!-- Assuming you have a role attribute in your user -->
                             </div>
                         </a>

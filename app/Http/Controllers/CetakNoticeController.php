@@ -9,10 +9,10 @@ use App\Models\Notice;
 use App\Models\Trnkb;
 use App\Models\TTDNotice;
 use App\Services\TrnkbService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PDF;
 
 class CetakNoticeController extends Controller
 {
@@ -221,6 +221,7 @@ class CetakNoticeController extends Controller
             'tg_bayar' => $tglskrng,
             'kd_status' => '5 ',
         ];
+        // dd($trnkbData);
 
         $data_notice = [
             'user_id' => \Auth::user()->username,
@@ -228,7 +229,9 @@ class CetakNoticeController extends Controller
             'nopol_lama' => $trnkbData->nopol_lama,
             'nm_pemilik' => $trnkbData->nm_pemilik,
             'al_pemilik' => $trnkbData->al_pemilik,
-            'nik_pemilik' => $trnkbData->no_ktp ?? $trnkbData->izinang->no_izin_ang ?? "-",
+            'nik_pemilik' => ($trnkbData->no_ktp === null || $trnkbData->no_ktp === "-")
+            ? $trnkbData->izinang?->no_izin_ang ?? "-"
+            : $trnkbData->no_ktp,
             'no_hp_pemilik' => $trnkbData->no_hp->no_hp ?? "-",
             'nm_merek_kb' => $trnkbData->nm_merek_kb,
             'nm_model_kb' => $trnkbData->nm_model_kb,
@@ -299,14 +302,9 @@ class CetakNoticeController extends Controller
         ];
 
         $file_name = 'Notice ' . $noNotice . ' No Polisi ' . $noPolisi . '.pdf';
-        $customPaper = [213, 75]; // in mm
-        $pdf = PDF::loadView('page.cetak-notice.notice-pdf', $data_notice);
-
-        return $pdf->stream($file_name . '.pdf', [
-            'format' => [213, 75],
-            'display_mode' => 'fullpage',
-            'default_font' => 'dejavusans',
-        ]);
+        $customPaper = [0, 0, 604.92, 213]; // in mm
+        $pdf = Pdf::loadView('page.cetak-notice.notice-pdf', $data_notice)->setPaper($customPaper);
+        return $pdf->stream('document.pdf');
 
         die();
         // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataNotice, $dataMonitor);

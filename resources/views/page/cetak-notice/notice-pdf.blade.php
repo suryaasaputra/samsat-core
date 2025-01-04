@@ -452,50 +452,16 @@
     <div class="petugas-penetapan">{{ $user_id_tetap }}</div>
     <div class="petugas-korektor">{{ $user_id_korektor ?? '-' }}</div>
 
-    <div class="ttd-dirlantas">
-        <img class="ttd" src="{{ asset('images/TTD-DIRLANTAS.jpg') }}" />
-    </div>
-
     <div class="nama-dirlantas">
-        <p style="text-align:center;text-decoration:underline">
-            {{ $ttd_dirlantas->text1 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_dirlantas->text2 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_dirlantas->text3 }}
-        </p>
+        {{ $ttd_dirlantas->text1 }}
     </div>
 
-    <div class="ttd-kaban-bpkpd">
-        <img class="ttd" src="{{ asset('images/TTD-KADISPENDA.jpg') }}" />
-    </div>
     <div class="nama-kaban-bpkpd">
-        <p style="text-align:center;text-decoration:underline">
-            {{ $ttd_kaban->text1 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_kaban->text2 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_kaban->text3 }}
-        </p>
+        {{ $ttd_kaban->text1 }}
     </div>
 
-    <div class="ttd-kacab-jr">
-        <img class="ttd" src="{{ asset('images/TTD-KACABJR.jpg') }}" />
-    </div>
     <div class="nama-kacab-jr">
-        <p style="text-align:center;text-decoration:underline">
-            {{ $ttd_kacabjr->text1 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_kacabjr->text2 }}
-        </p>
-        <p style="text-align:center ">
-            {{ $ttd_kacabjr->text3 }}
-        </p>
+        {{ $ttd_kacabjr->text1 }}
     </div>
 
     <div class="cap-tera">

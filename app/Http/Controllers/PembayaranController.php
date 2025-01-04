@@ -46,6 +46,7 @@ class PembayaranController extends Controller
 
         $page_title = 'Rincian Pembayaran';
         $kodeStatus = '3 ';
+        $kdWilayah = \Auth::user()->kd_wilayah;
 
         $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, $kdWilayah);
 

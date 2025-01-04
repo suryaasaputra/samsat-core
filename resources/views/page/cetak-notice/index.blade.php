@@ -26,7 +26,7 @@
                                         <div class="col-lg-4">
                                             <input type="text" class="form-control no-notice" name="no_notice"
                                                 placeholder="Nomor Notice" autofocus="" required="" min="1"
-                                                maxlength="10" autocomplete="off" style="text-align: center;"
+                                                maxlength="7" autocomplete="off" style="text-align: center;"
                                                 value="<?= $no_notice ?>">
                                         </div>
 

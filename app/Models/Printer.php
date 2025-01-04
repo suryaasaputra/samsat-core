@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Printer extends Model
 {
-
-    protected $connection = 'induk';
     /**
      * The table associated with the model.
      *
@@ -35,6 +33,8 @@ class Printer extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

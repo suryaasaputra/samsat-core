@@ -236,7 +236,7 @@
                             <input type="hidden" name="no_trn" id="no_trn"
                                 value="{{ $data_kendaraan->no_trn }}" />
                             <input type="hidden" name="no_notice" id="no_notice" value="{{ $no_notice }}" />
-                            <button class="btn btn-sm btn-success w-100 " type="submit" id='btn-bayar'>Cetak
+                            <button class="btn btn-sm btn-success w-100 " type="submit" id='btn-cetak'>Cetak
                                 Notice</button>
                         </form>
                     </div>
@@ -248,4 +248,9 @@
 
 
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#btn-cetak').focus();
+        });
+    </script>
 @endsection

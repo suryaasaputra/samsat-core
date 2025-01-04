@@ -11,7 +11,6 @@ use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZenixadminController;
 use App\Models\NamaLokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +43,7 @@ Route::get('/', function () {
 // Route::get('/market-capital', [ZenixadminController::class, 'market_capital']);
 // Route::get('/tranasactions', [ZenixadminController::class, 'tranasactions']);
 // Route::get('/my-wallets', [ZenixadminController::class, 'my_wallets']);
-Route::get('/app-profile', [ZenixadminController::class, 'app_profile']);
+// Route::get('/app-profile', [ZenixadminController::class, 'app_profile']);
 // Route::get('/post-details', [ZenixadminController::class, 'post_details']);
 // Route::get('/page-chat', [ZenixadminController::class, 'page_chat']);
 // Route::get('/project-list', [ZenixadminController::class, 'project_list']);

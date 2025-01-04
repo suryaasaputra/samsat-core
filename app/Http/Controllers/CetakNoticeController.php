@@ -6,13 +6,14 @@ use App\Models\LogTrn;
 use App\Models\LogTrnkb;
 use App\Models\Monitor;
 use App\Models\Notice;
+use App\Models\Printer;
 use App\Models\Trnkb;
 use App\Models\TTDNotice;
 use App\Services\TrnkbService;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class CetakNoticeController extends Controller
 {
@@ -30,14 +31,22 @@ class CetakNoticeController extends Controller
 
     public function index()
     {
-        $noNotice = Notice::on(\Auth::user()->kd_wilayah)
+        $noNotice = Notice::on('induk')
             ->select('no_notice')
             ->where('user_id', \Auth::user()->username)
             ->where('kd_lokasi', \Auth::user()->kd_lokasi)
             ->orderBy('tg_cetak', 'DESC')
-            ->orderBy('no_urut_trn', 'DESC')
+            ->orderBy('no_notice', 'DESC')
             ->first();
-        $newNotice = is_null($noNotice) ? 1 : (int) substr($noNotice->no_notice, 6) + 1;
+        $newNotice = is_null($noNotice)
+        ? '0000001'
+        : str_pad((int) substr($noNotice->no_notice, 6) + 1, 7, '0', STR_PAD_LEFT);
+
+        $printer = \Auth::user()->printer_term;
+
+        if (!$printer) {
+            return redirect()->route('home')->with('error', 'Printer belum diatur, silahkan minta admin untuk mengatur printer.');
+        }
 
         return view('page.cetak-notice.index', [
             "page_title" => "Cetak Notice",
@@ -53,12 +62,6 @@ class CetakNoticeController extends Controller
         ]);
 
         $no_notice = \Auth::User()->kd_lokasi . ' ' . $validated['no_notice'];
-        $exists = Notice::where('no_notice', $no_notice)->exists();
-
-        if ($exists) {
-            // Handle the case when the notice already exists
-            return redirect()->back()->with('error', 'No Notice ' . $no_notice . ' sudah Terpakai');
-        }
 
         return view('page.cetak-notice.nopol', [
             "page_title" => "Cetak Notice " . $no_notice,
@@ -92,7 +95,7 @@ class CetakNoticeController extends Controller
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
 
         $data = [
-            'page_title' => 'Detail Cetak Notice' . $validated['no_notice'] . ' No Polisi ' . $noPolisi,
+            'page_title' => 'Detail Cetak Notice ' . $validated['no_notice'] . ' No Polisi ' . $noPolisi,
             'data_kendaraan' => $trnkbData,
             'no_notice' => $validated['no_notice'],
             'bea' => $bea,
@@ -221,9 +224,8 @@ class CetakNoticeController extends Controller
             'tg_bayar' => $tglskrng,
             'kd_status' => '5 ',
         ];
-        // dd($trnkbData);
 
-        $data_notice = [
+        $dataCetakNotice = [
             'user_id' => \Auth::user()->username,
             'no_polisi' => $noPolisi,
             'nopol_lama' => $trnkbData->nopol_lama,
@@ -301,18 +303,20 @@ class CetakNoticeController extends Controller
             'jam_skrg' => Carbon::now()->format('H:i:s'),
         ];
 
-        $file_name = 'Notice ' . $noNotice . ' No Polisi ' . $noPolisi . '.pdf';
-        $customPaper = [0, 0, 604.92, 213]; // in mm
-        $pdf = Pdf::loadView('page.cetak-notice.notice-pdf', $data_notice)->setPaper($customPaper);
-        return $pdf->stream('document.pdf');
+        $urlNotice = $this->sendCetakNoticeRequest($dataCetakNotice);
 
-        die();
         // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataNotice, $dataMonitor);
+
+        $dataPrinter = [
+            'term_id' => \Auth::user()->printer_term,
+            'printer_terminal' => \Auth::user()->printer_term,
+            'act' => '1',
+            'pdf_path' => $urlNotice,
+        ];
 
         DB::connection($kdWilayah)->beginTransaction();
         DB::connection('induk')->beginTransaction();
         try {
-
             Trnkb::on($kdWilayah)
                 ->where('no_trn', $noTrn)
                 ->where('no_polisi', $noPolisi)
@@ -330,9 +334,11 @@ class CetakNoticeController extends Controller
                     'kd_proses' => '5 ',
                 ], $dataLogTrnkb);
 
-            Notice::on($kdWilayah)
+            Notice::on('induk')
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
+                    'no_notice' => $noNotice,
+
                 ], $dataNotice);
 
             Monitor::on('induk')
@@ -340,6 +346,15 @@ class CetakNoticeController extends Controller
                     'no_trn' => $noTrn,
                     'no_polisi' => $noPolisi,
                 ], $dataMonitor);
+
+            Printer::on($kdWilayah)
+                ->updateOrCreate([
+                    'term_id' => \Auth::user()->printer_term,
+                ], $dataPrinter);
+            Printer::on('induk')
+                ->updateOrCreate([
+                    'term_id' => \Auth::user()->printer_term,
+                ], $dataPrinter);
 
             DB::connection($kdWilayah)->commit(); // Commit the transaction
             DB::connection('induk')->commit(); // Commit the transaction
@@ -351,6 +366,18 @@ class CetakNoticeController extends Controller
 
             return redirect()->route('cetak-notice')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+
+    }
+
+    public function sendCetakNoticeRequest(array $dataCetakNotice)
+    {
+        // Read the URL from .env
+        $appUrl = env('PRINT_URL') . '/printer/createPDF';
+
+        // Send the POST request
+        $response = Http::asForm()->post($appUrl, ['data' => json_encode($dataCetakNotice)]);
+
+        return json_decode($response->body())->url;
 
     }
 

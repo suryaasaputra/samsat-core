@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\NamaLokasi;
-use App\Models\Printer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -67,8 +66,8 @@ class User extends Authenticatable
         return $this->belongsTo(NamaLokasi::class, 'kd_lokasi', 'kd_lokasi');
     }
 
-    public function printer()
-    {
-        return $this->belongsTo(Printer::class, 'printer_term', 'printer_terminal');
-    }
+    // public function printer()
+    // {
+    //     return $this->belongsTo(Printer::class, 'printer_term', 'printer_terminal');
+    // }
 }

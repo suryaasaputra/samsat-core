@@ -6,9 +6,16 @@
     <style>
         html,
         body {
+            margin: 0;
+            padding: 0;
             font-size: 11px;
             position: relative;
             font-family: droidsans;
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
         }
 
         td {
@@ -62,7 +69,7 @@
 
         .value-kb {
             position: absolute;
-            font-size: 10px;
+            font-size: 12px;
             height: 3.2mm;
             white-space: nowrap;
             overflow: hidden;
@@ -149,12 +156,12 @@
 
         .tg-akhir-pkb {
             position: absolute;
-            top: 67.8mm;
+            top: 67mm;
             left: 30.5mm;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             font-style: italic;
-            height: 3.2mm;
+            height: 4mm;
             width: 33mm;
             white-space: nowrap;
             overflow: hidden;
@@ -165,7 +172,7 @@
             position: absolute;
             top: 8mm;
             left: 167mm;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .tg-akhir-jr {
@@ -209,7 +216,7 @@
 
         .value-pokok-denda {
             position: absolute;
-            font-size: 10px;
+            font-size: 12px;
             height: 3.2mm;
             white-space: nowrap;
             overflow: hidden;
@@ -220,7 +227,7 @@
 
         .value-total {
             position: absolute;
-            font-size: 10px;
+            font-size: 12px;
             height: 3.2mm;
             white-space: nowrap;
             overflow: hidden;
@@ -377,6 +384,111 @@
             overflow: hidden;
             text-overflow: clip;
         }
+
+        .petugas-korektor {
+            position: absolute;
+            top: 57.8mm;
+            left: 179mm;
+            font-size: 12px;
+
+            height: 3.2mm;
+            width: 30mm;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .ttd {
+            mix-blend-mode: luminosity;
+            width: 55px;
+        }
+
+        .ttd-dirlantas {
+            position: absolute;
+            top: 61mm;
+            left: 100mm;
+            height: 13mm;
+            width: 21mm;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .nama-dirlantas {
+            position: absolute;
+            top: 66mm;
+            left: 100mm;
+            font-size: 7px;
+            font-weight: light;
+            height: 13mm;
+            width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+            text-align: center;
+        }
+
+        .ttd-kaban-bpkpd {
+            position: absolute;
+            top: 61mm;
+            left: 130mm;
+            height: 13mm;
+            width: 21mm;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .nama-kaban-bpkpd {
+            position: absolute;
+            top: 65mm;
+            left: 136mm;
+            font-size: 6.5px;
+            font-weight: light;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+            text-align: center;
+        }
+
+        .ttd-kacab-jr {
+            position: absolute;
+            top: 61mm;
+            left: 170mm;
+            height: 13mm;
+            width: 21mm;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
+
+        .nama-kacab-jr {
+            position: absolute;
+            top: 66mm;
+            left: 175mm;
+            font-size: 6.5px;
+            font-weight: light;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+            text-align: center;
+        }
+
+        .cap-tera {
+            position: absolute;
+            top: 63mm;
+            left: 95mm;
+            font-size: 22px;
+            font-weight: bold;
+            font-style: italic;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+        }
     </style>
 </head>
 
@@ -452,21 +564,56 @@
     <div class="petugas-penetapan">{{ $user_id_tetap }}</div>
     <div class="petugas-korektor">{{ $user_id_korektor ?? '-' }}</div>
 
+    <div class="ttd-dirlantas">
+        <img class="ttd" src="{{ public_path('images/TTD-DIRLANTAS.JPG') }}" />
+    </div>
+
     <div class="nama-dirlantas">
-        {{ $ttd_dirlantas->text1 }}
+        <p style="text-align:center;text-decoration:underline">
+            <?= $ttd_dirlantas->text1 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_dirlantas->text2 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_dirlantas->text3 ?>
+        </p>
     </div>
 
+    <div class="ttd-kaban-bpkpd">
+        <img class="ttd" src="{{ public_path('images/TTD-KADISPENDA.jpg') }}" />
+    </div>
     <div class="nama-kaban-bpkpd">
-        {{ $ttd_kaban->text1 }}
+        <p style="text-align:center;text-decoration:underline">
+            <?= $ttd_kaban->text1 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_kaban->text2 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_kaban->text3 ?>
+        </p>
     </div>
 
+    <div class="ttd-kacab-jr">
+        <img class="ttd" src="{{ public_path('images/TTD-KACABJR.jpg') }}" />
+    </div>
     <div class="nama-kacab-jr">
-        {{ $ttd_kacabjr->text1 }}
+        <p style="text-align:center;text-decoration:underline">
+            <?= $ttd_kacabjr->text1 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_kacabjr->text2 ?>
+        </p>
+        <p style="text-align:center ">
+            <?= $ttd_kacabjr->text3 ?>
+        </p>
     </div>
 
     <div class="cap-tera">
-        {{ $cap_tera }}
+        <?= $cap_tera ?>
     </div>
+
 
 </body>
 

@@ -120,16 +120,8 @@
                             <div class="mb-3 row">
                                 <label for="printer_term" class="form-label">Printer</label>
                                 <div>
-                                    <select name="printer_term"
-                                        class="default-select form-control wide @error('printer_term') is-invalid @enderror"
-                                        aria-label="printer_term" id="printer_term">
-                                        <option value="">Pilih Printer</option>
-                                        @foreach ($printer as $item)
-                                            <option value="{{ $item->term_id }}"
-                                                @if ($user->printer_term == $item->term_id) selected @endif>
-                                                {{ $item->term_id }}
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control @error('printer_term') is-invalid @enderror"
+                                        id="printer_term" name="printer_term" value="{{ $user->printer_term }}">
                                     @if ($errors->has('printer_term'))
                                         <span class="text-danger">{{ $errors->first('printer_term') }}</span>
                                     @endif

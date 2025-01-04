@@ -75,11 +75,12 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label for="kd_wilayah" class="form-label">Wilayah</label>
+                                <label for="kd_wilayah" class="select2-label">Wilayah</label>
                                 <div>
-                                    <select name="kd_wilayah"
-                                        class="form-control wide @error('kd_wilayah') is-invalid @enderror"
-                                        aria-label="kd_wilayah" id="kd_wilayah">
+                                    <select name="kd_wilayah" id="kd_wilayah"
+                                        class="select2-with-label-single js-states d-block @error('kd_wilayah') is-invalid @enderror"
+                                        aria-label="kd_wilayah">
+                                        <option value="">-- Pilih Wilayah --</option>
                                         @foreach ($wilayah as $item)
                                             <option value="{{ $item->kd_wilayah }}"
                                                 @if ($user->kd_wilayah == $item->kd_wilayah) selected @endif>
@@ -93,29 +94,22 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label for="kd_lokasi" class="form-label">Lokasi</label>
+                                <label for="kd_lokasi" class="select2-label">Lokasi</label>
                                 <div>
-                                    <select name="kd_lokasi"
-                                        class="default-select form-control wide @error('kd_lokasi') is-invalid @enderror"
-                                        id="kd_lokasi">
+                                    <select name="kd_lokasi" id="kd_lokasi"
+                                        class="select2-with-label-single js-states d-block @error('kd_lokasi') is-invalid @enderror">
+                                        <option value="">-- Pilih Wilayah Terlebih Dahulu --</option>
                                         @foreach ($lokasi as $item)
                                             <option value="{{ $item->kd_lokasi }}"
                                                 @if ($user->kd_lokasi == $item->kd_lokasi) selected @endif>
                                                 {{ $item->kd_lokasi }} - {{ $item->nm_lokasi }}
                                         @endforeach
-
-
                                     </select>
                                     @if ($errors->has('kd_lokasi'))
                                         <span class="text-danger">{{ $errors->first('kd_lokasi') }}</span>
                                     @endif
                                 </div>
                             </div>
-
-
-
-
-
 
                             <div class="mb-3 row">
                                 <label for="printer_term" class="form-label">Printer</label>
@@ -130,10 +124,11 @@
 
 
                             <div class="mb-3 row">
-                                <label for="roles" class="form-label">Roles</label>
+                                <label for="roles" class="select2-label">Roles</label>
                                 <div>
-                                    <select class="default-select form-control wide @error('roles') is-invalid @enderror"
-                                        multiple aria-label="Roles" id="roles" name="roles[]">
+                                    <select
+                                        class="select2-with-label-multiple js-states @error('roles') is-invalid @enderror "
+                                        multiple="multiple"tabindex="null" aria-label="Roles" id="roles" name="roles[]">
                                         @forelse ($roles as $role)
                                             @if ($role != 'Super Admin')
                                                 <option value="{{ $role }}"
@@ -171,37 +166,68 @@
 
 
 @section('scripts')
-    {{-- <script>
-        $('#kd_wilayah').on('change', function() {
-            let kd_wilayah = $(this).val();
-
+    <script>
+        $(document).ready(function() {
+            // Pada saat halaman pertama kali dimuat
+            let kd_wilayah = $('#kd_wilayah').val(); // Ambil nilai awal dari dropdown kd_wilayah
             if (kd_wilayah) {
+                populateLokasi(kd_wilayah); // Panggil fungsi untuk mengisi dropdown kd_lokasi
+            }
+
+            // Event listener untuk perubahan pada kd_wilayah
+            $('#kd_wilayah').on('change', function() {
+                let kd_wilayah = $(this).val();
+                console.log('Wilayah Terpilih:', kd_wilayah); // Debugging
+
+                if (kd_wilayah) {
+                    populateLokasi(kd_wilayah); // Panggil fungsi yang sama saat berubah
+                } else {
+                    $('#kd_lokasi')
+                        .empty()
+                        .append('<option value="">-- Pilih Wilayah Dahulu --</option>');
+                }
+            });
+
+            // Fungsi untuk mengisi dropdown kd_lokasi
+            function populateLokasi(kd_wilayah) {
                 $.ajax({
-                    url: "{{ route('fetch.lokasi') }}", // The route to fetch Lokasi
+                    url: "{{ route('fetch.lokasi') }}",
                     type: "GET",
                     data: {
                         kd_wilayah: kd_wilayah
                     },
                     success: function(data) {
-                        console.log(data); // For debugging
+                        console.log('Lokasi:', data); // Debugging
+                        var userKdLokasi = "{{ $user->kd_lokasi }}"; // Get user's current location
+
                         var options = data.map(function(item) {
-                            return '<option value="' + item.kd_lokasi + '">' + item
-                                .kd_lokasi + " - " + item.nm_lokasi + '</option>';
+                            // Check if the current location matches the user's location
+                            var selected = userKdLokasi == item.kd_lokasi ? "selected" : "";
+                            return (
+                                '<option value="' +
+                                item.kd_lokasi +
+                                '" ' +
+                                selected +
+                                '>' +
+                                item.kd_lokasi +
+                                " - " +
+                                item.nm_lokasi +
+                                '</option>'
+                            );
                         });
 
-                        // Ensure the dropdown is emptied and updated correctly
-                        $('#kd_lokasi').empty().append(
-                            '<option value="">-- Select Lokasi --</option>');
-                        $('#kd_lokasi').append(options.join(''));
+                        $('#kd_lokasi')
+                            .empty()
+                            .append('<option value="">-- Pilih Lokasi --</option>')
+                            .append(options.join(''))
+                            .trigger('change'); // Pastikan UI diperbarui
                     },
-                    error: function() {
+                    error: function(xhr) {
+                        console.error('Error:', xhr); // Debugging error
                         alert('Unable to fetch Lokasi data. Please try again.');
                     }
                 });
-            } else {
-                $('#kd_lokasi').empty().append(
-                    '<option value="">Pilih Wilayah Terlebih Dahulu</option>');
             }
         });
-    </script> --}}
+    </script>
 @endsection

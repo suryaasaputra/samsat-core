@@ -117,9 +117,6 @@
                                 </div>
                             </div>
 
-
-
-
                             <div class="mb-3 row">
                                 <label for="roles" class="select2-label">Roles</label>
                                 <div>

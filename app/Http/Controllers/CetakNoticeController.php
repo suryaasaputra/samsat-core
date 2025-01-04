@@ -12,6 +12,7 @@ use App\Services\TrnkbService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class CetakNoticeController extends Controller
 {
@@ -299,11 +300,15 @@ class CetakNoticeController extends Controller
 
         $file_name = 'Notice ' . $noNotice . ' No Polisi ' . $noPolisi . '.pdf';
         $customPaper = [213, 75]; // in mm
-        // $pdf = Pdf::loadView('page.cetak-notice.notice-pdf', $data_notice)->setPaper('A4', 'landscape');
+        $pdf = PDF::loadView('page.cetak-notice.notice-pdf', $data_notice);
 
-        // return $pdf->stream($file_name . '.pdf');
+        return $pdf->stream($file_name . '.pdf', [
+            'format' => [213, 75],
+            'display_mode' => 'fullpage',
+            'default_font' => 'dejavusans',
+        ]);
 
-        // die();
+        die();
         // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataNotice, $dataMonitor);
 
         DB::connection($kdWilayah)->beginTransaction();

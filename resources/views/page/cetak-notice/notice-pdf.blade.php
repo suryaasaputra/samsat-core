@@ -4,25 +4,6 @@
 <head>
     <title></title>
     <style>
-        @font-face {
-            font-family: droidsans;
-            src: url('{{ asset('images/DroidSans.ttf') }}');
-        }
-
-        .droidsans {
-            font-family: droidsans;
-        }
-
-        .droidsans-bold {
-            font-family: droidsans;
-        }
-
-        @page {
-            margin: 0mm 0mm 0mm 0mm;
-            background: url('{{ asset('images/notice.jpg') }}') no-repeat 0 0;
-            background-image-resize: 6;
-        }
-
         html,
         body {
             font-size: 11px;

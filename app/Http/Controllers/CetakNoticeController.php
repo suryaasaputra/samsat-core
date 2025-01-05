@@ -225,6 +225,15 @@ class CetakNoticeController extends Controller
             'kd_status' => '5 ',
         ];
 
+        $nm_user_penetapan = DB::connection(\Auth::user()->kd_wilayah)
+            ->table('t_user')
+            ->where('user_id', $trnkbData->user_id_tetap)
+            ->first();
+        $nm_user_korektor = DB::connection(\Auth::user()->kd_wilayah)
+            ->table('t_user')
+            ->where('user_id', $trnkbData->user_id_korektor)
+            ->first();
+
         $dataCetakNotice = [
             'user_id' => \Auth::user()->username,
             'no_polisi' => $noPolisi,
@@ -266,8 +275,13 @@ class CetakNoticeController extends Controller
             'tg_akhir_jr' => $trnkbData->tg_akhir_jr,
 
             'tg_tetap' => $trnkbData->tg_tetap,
-            'user_id_tetap' => $trnkbData->user_id_tetap,
-            'user_id_korektor' => $trnkbData->user_id_korektor,
+
+            'user_id_tetap' => isset($nm_user_penetapan->nm_user) && $nm_user_penetapan->nm_user
+            ? $nm_user_penetapan->nm_user
+            : $trnkbData->user_id_tetap,
+            'user_id_korektor' => isset($nm_user_korektor->nm_user) && $nm_user_korektor->nm_user
+            ? $nm_user_korektor->nm_user
+            : $trnkbData->user_id_korektor,
 
             'bea_bbn_pok' => $bea['pokok_bbnkb'],
             'bea_bbn_den' => $bea['denda_bbnkb'],
@@ -304,8 +318,6 @@ class CetakNoticeController extends Controller
         ];
 
         $urlNotice = $this->sendCetakNoticeRequest($dataCetakNotice);
-
-        // dd($dataUpdateTrnkb, $dataLogTrn, $dataLogTrnkb, $dataNotice, $dataMonitor);
 
         $dataPrinter = [
             'term_id' => \Auth::user()->printer_term,

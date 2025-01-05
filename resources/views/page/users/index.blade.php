@@ -19,7 +19,7 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">username</th>
                             <th scope="col">Roles</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -29,7 +29,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->username }}</td>
                                 <td>
                                     @forelse ($user->getRoleNames() as $role)
                                         <span class="badge bg-primary">{{ $role }}</span>

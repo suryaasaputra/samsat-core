@@ -35,10 +35,15 @@
                                 <label for="username" class="form-label">Username</label>
                                 <div>
                                     <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                        id="username" name="username" value="{{ $user->username }}">
+                                        id="username" name="username" value="{{ $user->username }}"
+                                        oninput="this.value = this.value.toLowerCase().replace(/\s+/g, '')"
+                                        aria-describedby="usernameHelp">
                                     @if ($errors->has('username'))
                                         <span class="text-danger">{{ $errors->first('username') }}</span>
                                     @endif
+                                    <small id="usernameHelp" class="form-text text-muted">
+                                        Username hanya boleh berisi huruf kecil, angka, underscore (_) dan tanpa spasi.
+                                    </small>
                                 </div>
                             </div>
 
@@ -59,10 +64,13 @@
                                 <label for="password" class="form-label">Password</label>
                                 <div>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password">
+                                        id="password" name="password" aria-describedby="passwordHelp">
                                     @if ($errors->has('password'))
                                         <span class="text-danger">{{ $errors->first('password') }}</span>
                                     @endif
+                                    <small id="passwordHelp" class="form-text text-danger" style="display: none;">
+                                        Password minimal 8 karakter.
+                                    </small>
                                 </div>
                             </div>
 
@@ -71,6 +79,10 @@
                                 <div>
                                     <input type="password" class="form-control" id="password_confirmation"
                                         name="password_confirmation">
+                                    <small id="passwordConfirmationHelp" class="form-text text-danger"
+                                        style="display: none;">
+                                        Password tidak cocok.
+                                    </small>
                                 </div>
                             </div>
 
@@ -128,7 +140,8 @@
                                 <div>
                                     <select
                                         class="select2-with-label-multiple js-states @error('roles') is-invalid @enderror "
-                                        multiple="multiple"tabindex="null" aria-label="Roles" id="roles" name="roles[]">
+                                        multiple="multiple"tabindex="null" aria-label="Roles" id="roles"
+                                        name="roles[]">
                                         @forelse ($roles as $role)
                                             @if ($role != 'Super Admin')
                                                 <option value="{{ $role }}"
@@ -185,6 +198,25 @@
                     $('#kd_lokasi')
                         .empty()
                         .append('<option value="">-- Pilih Wilayah Dahulu --</option>');
+                }
+            });
+
+            $('#password, #password_confirmation').on('input', function() {
+                const password = $('#password').val();
+                const passwordConfirmation = $('#password_confirmation').val();
+
+                // Check password length
+                if (password.length < 8) {
+                    $('#passwordHelp').show(); // Show length error
+                } else {
+                    $('#passwordHelp').hide(); // Hide length error
+                }
+
+                // Check if passwords match
+                if (password !== passwordConfirmation) {
+                    $('#passwordConfirmationHelp').show(); // Show mismatch error
+                } else {
+                    $('#passwordConfirmationHelp').hide(); // Hide mismatch error
                 }
             });
 

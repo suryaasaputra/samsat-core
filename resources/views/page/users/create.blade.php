@@ -34,10 +34,14 @@
                                 <label for="username" class="form-label">Username</label>
                                 <div>
                                     <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                        id="username" name="username" value="{{ old('username') }}">
+                                        id="username" name="username" value="{{ old('username') }}"
+                                        oninput="this.value = this.value.toLowerCase().replace(/\s+/g, '')">
                                     @if ($errors->has('username'))
                                         <span class="text-danger">{{ $errors->first('username') }}</span>
                                     @endif
+                                    <small id="usernameHelp" class="form-text text-muted">
+                                        Username hanya boleh berisi huruf kecil, angka, underscore (_) dan tanpa spasi.
+                                    </small>
                                 </div>
                             </div>
 
@@ -58,10 +62,13 @@
                                 <label for="password" class="form-label">Password</label>
                                 <div>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password">
+                                        id="password" name="password" aria-describedby="passwordHelp">
                                     @if ($errors->has('password'))
                                         <span class="text-danger">{{ $errors->first('password') }}</span>
                                     @endif
+                                    <small id="passwordHelp" class="form-text text-danger" style="display: none;">
+                                        Password minimal 8 karakter.
+                                    </small>
                                 </div>
                             </div>
 
@@ -70,6 +77,10 @@
                                 <div>
                                     <input type="password" class="form-control" id="password_confirmation"
                                         name="password_confirmation">
+                                    <small id="passwordConfirmationHelp" class="form-text text-danger"
+                                        style="display: none;">
+                                        Password tidak cocok.
+                                    </small>
                                 </div>
                             </div>
 
@@ -168,6 +179,25 @@
             if (kd_wilayah) {
                 populateLokasi(kd_wilayah); // Panggil fungsi untuk mengisi dropdown kd_lokasi
             }
+
+            $('#password, #password_confirmation').on('input', function() {
+                const password = $('#password').val();
+                const passwordConfirmation = $('#password_confirmation').val();
+
+                // Check password length
+                if (password.length < 8) {
+                    $('#passwordHelp').show(); // Show length error
+                } else {
+                    $('#passwordHelp').hide(); // Hide length error
+                }
+
+                // Check if passwords match
+                if (password !== passwordConfirmation) {
+                    $('#passwordConfirmationHelp').show(); // Show mismatch error
+                } else {
+                    $('#passwordConfirmationHelp').hide(); // Hide mismatch error
+                }
+            });
 
             // Event listener untuk perubahan pada kd_wilayah
             $('#kd_wilayah').on('change', function() {

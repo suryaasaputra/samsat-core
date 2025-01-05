@@ -110,7 +110,7 @@
                                 <label for="printer_term" class="form-label">Printer</label>
                                 <div>
                                     <input type="text" class="form-control @error('printer_term') is-invalid @enderror"
-                                        id="printer_term" name="printer_term" value="{{ $user->printer_term }}">
+                                        id="printer_term" name="printer_term" value="{{ old('printer_term') }}">
                                     @if ($errors->has('printer_term'))
                                         <span class="text-danger">{{ $errors->first('printer_term') }}</span>
                                     @endif

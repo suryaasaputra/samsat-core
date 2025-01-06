@@ -92,7 +92,7 @@ class CetakNoticeController extends Controller
                 ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
         }
 
-        $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
+        $bea = $this->trnkbService->sumPokokDanDendaNotice($trnkbData);
 
         $data = [
             'page_title' => 'Detail Cetak Notice ' . $validated['no_notice'] . ' No Polisi ' . $noPolisi,

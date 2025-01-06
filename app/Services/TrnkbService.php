@@ -87,7 +87,7 @@ class TrnkbService
             })
             ->where(DB::raw('T.tg_bayar'), $tanggal)
             ->where(DB::raw('T.kd_lokasi'), 'like', "%$kd_lokasi%")
-            ->orderByRaw("CAST(split_part(T.no_noticepp, ' ', 2) AS INTEGER) ASC");
+            ->orderByRaw("T.no_noticepp ASC");
 
         return $query->get();
 

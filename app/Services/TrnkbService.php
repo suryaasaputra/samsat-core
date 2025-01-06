@@ -290,14 +290,10 @@ class TrnkbService
         $bea_swdkllj_den = $this->calculateTotal($t_trnkb, $swdklljDenKeys);
         $bea_swdkllj = $bea_swdkllj_pok + $bea_swdkllj_den;
 
-        $bea_adm_stnk = (float) $t_trnkb->bea_adm_stnk;
-
-        $bea_plat_nomor = (float) $t_trnkb->bea_plat_nomor;
-
         // Final totals
-        $total_pokok = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok + $t_trnkb->bea_adm_stnk + $t_trnkb->bea_plat_nomor;
+        $total_pokok = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok;
         $total_denda = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
-        $total_seluruh = $bea_bbn + $bea_opsen_bbn + $bea_pkb + $bea_opsen_pkb + $bea_swdkllj + $bea_adm_stnk + $bea_plat_nomor;
+        $total_seluruh = $bea_bbn + $bea_opsen_bbn + $bea_pkb + $bea_opsen_pkb + $bea_swdkllj;
 
         return [
             'pokok_bbnkb' => $bea_bbn_pok,
@@ -327,9 +323,6 @@ class TrnkbService
             'pokok_opsen_pkb' => $bea_opsen_pkb_pok,
             'denda_opsen_pkb' => $bea_opsen_pkb_den,
             'total_opsen_pkb' => $bea_opsen_pkb,
-
-            'bea_adm_stnk' => $bea_adm_stnk,
-            'bea_plat_nomor' => $bea_plat_nomor,
 
             'total_pokok' => $total_pokok,
             'total_denda' => $total_denda,

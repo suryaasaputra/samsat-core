@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
-class CetakNoticeController extends Controller
+class UlangCetakNoticeController extends Controller
 {
     protected $trnkbService;
     /**
@@ -40,7 +40,7 @@ class CetakNoticeController extends Controller
             ->first();
         $newNotice = is_null($noNotice)
         ? '0000001'
-        : str_pad((int) substr($noNotice->no_notice, 6) + 1, 7, '0', STR_PAD_LEFT);
+        : str_pad((int) substr($noNotice->no_notice, 6), 7, '0', STR_PAD_LEFT);
 
         $printer = \Auth::user()->printer_term;
 
@@ -48,7 +48,7 @@ class CetakNoticeController extends Controller
             return redirect()->route('home')->with('error', 'Printer belum diatur, silahkan minta admin untuk mengatur printer.');
         }
 
-        return view('page.cetak-notice.index', [
+        return view('page.ulang-cetak-notice.index', [
             "page_title" => "Cetak Notice",
             "no_notice" => $newNotice,
         ]
@@ -63,7 +63,7 @@ class CetakNoticeController extends Controller
 
         $no_notice = \Auth::User()->kd_lokasi . ' ' . $validated['no_notice'];
 
-        return view('page.cetak-notice.nopol', [
+        return view('page.ulang-cetak-notice.nopol', [
             "page_title" => "Cetak Notice " . $no_notice,
             "no_notice" => $no_notice,
         ]
@@ -82,14 +82,14 @@ class CetakNoticeController extends Controller
 
         $noPolisi = 'BH ' . strtoupper($validated['no_polisi']) . " " . strtoupper($validated['seri']);
 
-        $kodeStatus = '4 ';
+        $kodeStatus = '5 ';
 
         $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, \Auth::user()->kd_wilayah);
 
         if (!$trnkbData) {
             return redirect()
                 ->back()
-                ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+                ->with('error', 'Kendaraan No Polisi ' . $noPolisi . ' Belum Melakukan Cetak Notice');
         }
 
         $bea = $this->trnkbService->sumPokokDanDendaNotice($trnkbData);
@@ -101,7 +101,7 @@ class CetakNoticeController extends Controller
             'bea' => $bea,
         ];
 
-        return view('page.cetak-notice.detail-cetak-notice', $data);
+        return view('page.ulang-cetak-notice.detail-cetak-notice', $data);
 
     }
 
@@ -367,12 +367,12 @@ class CetakNoticeController extends Controller
             DB::connection($kdWilayah)->commit(); // Commit the transaction
             DB::connection('induk')->commit(); // Commit the transaction
 
-            return redirect()->route('cetak-notice')->with('success', 'Berhasil Cetak Notice No Polisi ' . $noPolisi);
+            return redirect()->route('ulang-cetak-notice')->with('success', 'Berhasil Cetak Notice No Polisi ' . $noPolisi);
         } catch (\Exception $e) {
             DB::connection($kdWilayah)->rollBack(); // Rollback the transaction on error
             DB::connection('induk')->rollBack(); // Rollback the transaction on error
 
-            return redirect()->route('cetak-notice')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->route('ulang-cetak-notice')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
 
     }

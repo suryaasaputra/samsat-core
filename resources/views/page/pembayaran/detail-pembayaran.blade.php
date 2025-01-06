@@ -199,18 +199,48 @@
                                     <td class="text-right">{{ number_format($bea['denda_swdkllj'], 0, ',', '.') }}</td>
                                     <td class="text-right">{{ number_format($bea['total_swdkllj'], 0, ',', '.') }}</td>
                                 </tr>
-                                <tr>
-                                    <th class="bg-dark text-white">JUMLAH</th>
-                                    <td class="bg-dark text-white text-right">
-                                        <b>{{ number_format($bea['total_pokok'], 0, ',', '.') }}</b>
-                                    </td>
-                                    <td class="bg-dark text-white text-right">
-                                        <b>{{ number_format($bea['total_denda'], 0, ',', '.') }}</b>
-                                    </td>
-                                    <td class="bg-dark text-white text-right">
-                                        <b>{{ number_format($bea['total_seluruh'], 0, ',', '.') }}</b>
-                                    </td>
-                                </tr>
+
+                                @if (\Auth::user()->kd_wilayah != '001')
+                                    <tr>
+                                        <th>ADM. STNK</th>
+                                        <td class="text-right">{{ number_format($bea['bea_adm_stnk'], 0, ',', '.') }}</td>
+                                        <td class="text-right"></td>
+                                        <td class="text-right">{{ number_format($bea['bea_adm_stnk'], 0, ',', '.') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ADM. TNKB</th>
+                                        <td class="text-right">{{ number_format($bea['bea_plat_nomor'], 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right"></td>
+                                        <td class="text-right">{{ number_format($bea['bea_plat_nomor'], 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-dark text-white">TOTAL</th>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_pokok'] + $bea['bea_adm_stnk'] + $bea['bea_plat_nomor'], 0, ',', '.') }}</b>
+                                        </td>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_denda'], 0, ',', '.') }}</b>
+                                        </td>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_seluruh'] + $bea['bea_adm_stnk'] + $bea['bea_plat_nomor'], 0, ',', '.') }}</b>
+                                        </td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <th class="bg-dark text-white">TOTAL</th>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_pokok'], 0, ',', '.') }}</b>
+                                        </td>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_denda'], 0, ',', '.') }}</b>
+                                        </td>
+                                        <td class="bg-dark text-white text-right">
+                                            <b>{{ number_format($bea['total_seluruh'], 0, ',', '.') }}</b>
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

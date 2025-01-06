@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UlangCetakNoticeController;
 use App\Http\Controllers\UserController;
 use App\Models\NamaLokasi;
 use Illuminate\Http\Request;
@@ -138,6 +139,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/cetak-notice', [CetakNoticeController::class, 'nopol'])->name('cetak-notice.input-nopol');
     Route::post('/cetak-notice/detail', [CetakNoticeController::class, 'searchNopol'])->name('detail-cetak-notice');
     Route::post('/cetak-notice/cetak', [CetakNoticeController::class, 'cetak'])->name('cetak-notice.cetak');
+
+    Route::get('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'index'])->name('ulang-cetak-notice');
+    Route::post('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'nopol'])->name('ulang-cetak-notice.input-nopol');
+    Route::post('/ulang-cetak-notice/detail', [UlangCetakNoticeController::class, 'searchNopol'])->name('ulang-detail-cetak-notice');
+    Route::post('/ulang-cetak-notice/cetak', [UlangCetakNoticeController::class, 'cetak'])->name('ulang-cetak-notice.cetak');
 
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');

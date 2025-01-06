@@ -67,7 +67,9 @@
                 <th><strong>Opsen BBNKB Denda</strong></th>
                 <th><strong>Opsen PKB Pokok</strong></th>
                 <th><strong>Opsen PKB Denda</strong></th>
+                <th><strong>Kasir</strong></th>
                 <th><strong>Metode Bayar</strong></th>
+
             </tr>
         </thead>
         <tbody>
@@ -93,11 +95,12 @@
 
                     <td>{{ number_format($row->opsen_pkb_pokok, 0) }}</td>
                     <td>{{ number_format($row->opsen_pkb_denda, 0) }}</td>
+                    <td>{{ $row->user_id_bayar }}</td>
                     <td>{{ $row->metode_bayar }}</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="8" class="text-center"><strong>JUMLAH TOTAL</strong></td>
+                <td colspan="8" rowspan="2" style="text-align: center"><strong>JUMLAH TOTAL</strong></td>
                 <td><strong>{{ number_format($sumJumlah['bbn_pokok'], 0) }} </strong></td>
                 <td><strong>{{ number_format($sumJumlah['bbn_denda'], 0) }} </strong></td>
                 <td><strong>{{ number_format($sumJumlah['pkb_pokok'], 0) }} </strong></td>
@@ -109,6 +112,25 @@
                 <td><strong>{{ number_format($sumJumlah['opsen_pkb_pokok'], 0) }} </strong></td>
                 <td><strong>{{ number_format($sumJumlah['opsen_pkb_denda'], 0) }} </strong></td>
                 <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="12" style="text-align: center">
+                    <strong>{{ number_format(
+                        $sumJumlah['bbn_pokok'] +
+                            $sumJumlah['bbn_denda'] +
+                            $sumJumlah['pkb_pokok'] +
+                            $sumJumlah['pkb_denda'] +
+                            $sumJumlah['swd_pokok'] +
+                            $sumJumlah['swd_denda'] +
+                            $sumJumlah['opsen_bbn_pokok'] +
+                            $sumJumlah['opsen_bbn_denda'] +
+                            $sumJumlah['opsen_pkb_pokok'] +
+                            $sumJumlah['opsen_pkb_denda'],
+                        0,
+                    ) }}
+                    </strong>
+                </td>
             </tr>
         </tbody>
     </table>

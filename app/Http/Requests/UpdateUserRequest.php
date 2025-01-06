@@ -23,7 +23,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'username' => 'required|string|max:250|unique:users,username,' . $this->user->id,
+            'username' => 'required|string|max:15|unique:users,username,' . $this->user->id,
             'kd_wilayah' => 'required|string|max:3',
             'kd_lokasi' => 'required|string|max:5',
             'printer_term' => 'nullable',

@@ -34,13 +34,14 @@
                                 <label for="username" class="form-label">Username</label>
                                 <div>
                                     <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                        id="username" name="username" value="{{ old('username') }}"
+                                        id="username" name="username" value="{{ old('username') }}" maxlength="15"
                                         oninput="this.value = this.value.toLowerCase().replace(/\s+/g, '')">
                                     @if ($errors->has('username'))
                                         <span class="text-danger">{{ $errors->first('username') }}</span>
                                     @endif
                                     <small id="usernameHelp" class="form-text text-muted">
-                                        Username hanya boleh berisi huruf kecil, angka, underscore (_) dan tanpa spasi.
+                                        Username max 15 karakter hanya boleh berisi huruf kecil, angka, underscore (_) dan
+                                        tanpa spasi.
                                     </small>
                                 </div>
                             </div>
@@ -133,7 +134,8 @@
                                 <div>
                                     <select
                                         class="select2-with-label-multiple js-states @error('roles') is-invalid @enderror "
-                                        multiple="multiple"tabindex="null" aria-label="Roles" id="roles" name="roles[]">
+                                        multiple="multiple"tabindex="null" aria-label="Roles" id="roles"
+                                        name="roles[]">
                                         @forelse ($roles as $role)
                                             @if ($role != 'Super Admin')
                                                 <option value="{{ $role }}"

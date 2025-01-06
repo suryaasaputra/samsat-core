@@ -35,14 +35,16 @@
                                 <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
                                 <div>
                                     <input type="text" class="form-control @error('username') is-invalid @enderror"
-                                        id="username" name="username" value="{{ old('username', $user->username) }}"
+                                        id="username" name="username" maxlength="15"
+                                        value="{{ old('username', $user->username) }}"
                                         oninput="this.value = this.value.toLowerCase().replace(/\s+/g, '')"
                                         aria-describedby="usernameHelp">
                                     @if ($errors->has('username'))
                                         <span class="text-danger">{{ $errors->first('username') }}</span>
                                     @endif
                                     <small id="usernameHelp" class="form-text text-muted">
-                                        Username hanya boleh berisi huruf kecil, angka, underscore (_) dan tanpa spasi.
+                                        Username max 15 karakter hanya boleh berisi huruf kecil, angka, underscore (_) dan
+                                        tanpa spasi.
                                     </small>
                                 </div>
                             </div>

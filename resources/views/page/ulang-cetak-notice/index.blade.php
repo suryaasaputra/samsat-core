@@ -14,7 +14,7 @@
                 </div>
                 <div class="card-body">
                     <div class="basic-form">
-                        <form action="{{ route('cetak-notice.input-nopol') }}" method="post">
+                        <form action="{{ route('ulang-cetak-notice.input-nopol') }}" method="post">
                             @csrf
                             <div class="card-body mt-2">
                                 <div class="form-input">

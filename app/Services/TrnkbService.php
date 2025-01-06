@@ -78,6 +78,9 @@ class TrnkbService
                 DB::raw('(C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2) AS opsen_bbn_denda'),
                 DB::raw('(C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5) AS opsen_pkb_pokok'),
                 DB::raw('(C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5) AS opsen_pkb_denda'),
+                DB::raw('T.bea_adm_stnk'),
+                DB::raw('T.bea_plat_nomor'),
+                DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
             ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
@@ -290,6 +293,9 @@ class TrnkbService
         $bea_swdkllj_den = $this->calculateTotal($t_trnkb, $swdklljDenKeys);
         $bea_swdkllj = $bea_swdkllj_pok + $bea_swdkllj_den;
 
+        $bea_adm_stnk = (float) $t_trnkb->bea_adm_stnk;
+        $bea_plat_nomor = (float) $t_trnkb->bea_plat_nomor;
+
         // Final totals
         $total_pokok = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok;
         $total_denda = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
@@ -323,6 +329,9 @@ class TrnkbService
             'pokok_opsen_pkb' => $bea_opsen_pkb_pok,
             'denda_opsen_pkb' => $bea_opsen_pkb_den,
             'total_opsen_pkb' => $bea_opsen_pkb,
+
+            'bea_adm_stnk' => $bea_adm_stnk,
+            'bea_plat_nomor' => $bea_plat_nomor,
 
             'total_pokok' => $total_pokok,
             'total_denda' => $total_denda,

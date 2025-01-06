@@ -28,7 +28,7 @@ class ProfileController extends Controller
             'username' => [
                 'required',
                 'string',
-                'max:255',
+                'max:15',
                 'unique:users,username,' . $user->id,
                 'regex:/^[a-z0-9_]+$/', // hanya huruf kecil dan angka, tanpa spasi
             ],

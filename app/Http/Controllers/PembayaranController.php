@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LogTrn;
 use App\Models\LogTrnkb;
 use App\Models\Monitor;
+use App\Models\Opsen;
 use App\Models\Tera;
 use App\Models\Trnkb;
 use App\Services\TrnkbService;
@@ -56,33 +57,16 @@ class PembayaranController extends Controller
                 ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
         }
 
+        $tg_akhir = DB::connection(\Auth::user()->kd_wilayah)
+            ->table('t_tg_akhir')
+            ->where('no_trn', $trnkbData->no_trn)
+            ->first();
+
         // Get the current date
         $tahun = Carbon::now()->year;
         $tglskrng = Carbon::now()->format('Y-m-d'); // Format current date to 'md' (month and day)
 
         $tg_akhir_pkb_yl = $trnkbData->tg_akhir_pkb;
-
-        if (is_null($trnkbData->tg_akhir_pkb)) {
-            // If tg_akhir_pkb is null
-            $potong_tg_akhir = substr($tglskrng, 4);
-            $potong_tg_akhir_jr = substr($tglskrng, 4);
-            $tg_akhir_now = $tahun . $potong_tg_akhir;
-            $tg_akhir_jr_now = $tahun . $potong_tg_akhir_jr;
-            // Use Carbon for date manipulation
-            $tg_akhir_pkb = Carbon::parse($tg_akhir_now)->addYear()->format('Y-m-d');
-            $tg_akhir_pkb_yl = Carbon::parse($trnkbData->tg_faktur)->addMonth()->format('Y-m-d');
-            $tg_akhir_swdkllj = Carbon::parse($tg_akhir_jr_now)->addYear()->format('Y-m-d');
-        } else {
-            // If tg_akhir_pkb is not null
-            $potong_tg_akhir = substr($trnkbData->tg_akhir_pkb, 4);
-            $potong_tg_akhir_jr = substr($trnkbData->tg_akhir_jr, 4);
-            $tg_akhir_now = $tahun . $potong_tg_akhir;
-            $tg_akhir_jr_now = $tahun . $potong_tg_akhir_jr;
-
-            // Use Carbon for date manipulation
-            $tg_akhir_pkb = Carbon::parse($tg_akhir_now)->addYear()->format('Y-m-d');
-            $tg_akhir_swdkllj = Carbon::parse($tg_akhir_jr_now)->addYear()->format('Y-m-d');
-        }
 
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
 
@@ -91,8 +75,8 @@ class PembayaranController extends Controller
             'data_kendaraan' => $trnkbData,
             'bea' => $bea,
             'tg_akhir_pkb_yl' => $tg_akhir_pkb_yl,
-            'tg_akhir_pkb' => $tg_akhir_pkb,
-            'tg_akhir_swdkllj' => $tg_akhir_swdkllj,
+            'tg_akhir_pkb' => $tg_akhir->tg_akhir_pkb,
+            'tg_akhir_swdkllj' => $tg_akhir->tg_akhir_jr,
         ];
 
         return view('page.pembayaran.detail-pembayaran', $data);
@@ -130,43 +114,35 @@ class PembayaranController extends Controller
         $no_tera = $this->trnkbService->getNoTera($tglskrng, $kdWilayah);
         $cap_tera = "$noPolisi" . "*" . "$tglskrng" . "*" . "$formattedNumber";
         $term = "term" . "$kdLokasi" . "201";
+
+        $tg_akhir = DB::connection(\Auth::user()->kd_wilayah)
+            ->table('t_tg_akhir')
+            ->where('no_trn', $trnkbData->no_trn)
+            ->first();
+
         $tg_akhir_pkb_yl = $trnkbData->tg_akhir_pkb;
         $tg_akhir_swd_yl = $trnkbData->tg_akhir_jr;
 
-        if (is_null($trnkbData->tg_akhir_pkb)) {
-            // If tg_akhir_pkb is null
-            $potong_tg_akhir = substr($tglskrng, 4);
-            $potong_tg_akhir_jr = substr($tglskrng, 4);
-            $tg_akhir_now = $tahun . $potong_tg_akhir;
-            $tg_akhir_jr_now = $tahun . $potong_tg_akhir_jr;
-            // Use Carbon for date manipulation
-            $tg_akhir_pkb = Carbon::parse($tg_akhir_now)->addYear()->format('Y-m-d');
-            $tg_akhir_pkb_yl = Carbon::parse($trnkbData->tg_faktur)->addMonth()->format('Y-m-d');
-            $tg_akhir_swdkllj = Carbon::parse($tg_akhir_jr_now)->addYear()->format('Y-m-d');
-        } else {
-            // If tg_akhir_pkb is not null
-            $potong_tg_akhir = substr($trnkbData->tg_akhir_pkb, 4);
-            $potong_tg_akhir_jr = substr($trnkbData->tg_akhir_jr, 4);
-            $tg_akhir_now = $tahun . $potong_tg_akhir;
-            $tg_akhir_jr_now = $tahun . $potong_tg_akhir_jr;
-
-            // Use Carbon for date manipulation
-            $tg_akhir_pkb = Carbon::parse($tg_akhir_now)->addYear()->format('Y-m-d');
-            $tg_akhir_swdkllj = Carbon::parse($tg_akhir_jr_now)->addYear()->format('Y-m-d');
-        }
+        $tg_akhir_pkb = $tg_akhir->tg_akhir_pkb;
+        $tg_akhir_jr = $tg_akhir->tg_akhir_jr;
 
         $dataUpdateTrnkb = [
             "kd_lokasi" => $kdLokasi,
             "kd_status" => '4 ',
             "tg_awal_pkb" => $tg_akhir_pkb_yl,
-            "tg_akhir_pkb" => $tg_akhir_pkb,
+            "tg_akhir_pkb" => $tg_akhir->tg_akhir_pkb,
             "tg_awal_jr" => $tg_akhir_swd_yl,
-            "tg_akhir_jr" => $tg_akhir_swdkllj,
+            "tg_akhir_jr" => $tg_akhir->tg_akhir_jr,
             "tg_bayar" => $tglskrng,
             "no_tera" => $no_tera,
             "user_id_bayar" => \Auth::user()->username,
             "kd_kasir" => 1,
             "kd_bayar" => 1,
+        ];
+
+        $dataUpdateOpsen = [
+            "tg_awal_pkb" => $tg_akhir_pkb_yl,
+            "tg_akhir_pkb" => $tg_akhir->tg_akhir_pkb,
         ];
 
         $dataLogTrn = [
@@ -253,6 +229,11 @@ class PembayaranController extends Controller
                 ->where('no_trn', $noTrn)
                 ->where('no_polisi', $noPolisi)
                 ->update($dataUpdateTrnkb);
+
+            Opsen::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->update($dataUpdateOpsen);
 
             LogTrn::on($kdWilayah)
                 ->updateOrCreate([

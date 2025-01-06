@@ -48,6 +48,7 @@ class RekapitulasiPenerimaanRingkasController extends Controller
             'lokasi' => $data['lokasi'],
             'kd_lokasi' => $data['kd_lokasi'],
             'dataPenerimaanOpsen' => $data['dataPenerimaanOpsen'],
+            'dataRekeningWilayah' => $data['dataRekeningWilayah'],
             'dataTotal' => $data['dataTotal'],
         ]);
     }
@@ -64,6 +65,7 @@ class RekapitulasiPenerimaanRingkasController extends Controller
             'lokasi' => $data['lokasi'],
             'kd_lokasi' => $data['kd_lokasi'],
             'dataPenerimaanOpsen' => $data['dataPenerimaanOpsen'],
+            'dataRekeningWilayah' => $data['dataRekeningWilayah'],
             'dataTotal' => $data['dataTotal'],
         ]);
         return $pdf->stream($file_name . '.pdf');
@@ -81,9 +83,23 @@ class RekapitulasiPenerimaanRingkasController extends Controller
         $data_rekap = $this->trnkbService->getRekapharian($tanggal, $kd_lokasi);
         $dataPenerimaanOpsen = $this->trnkbService->getDataPenerimaanOpsen($tanggal, $kd_lokasi);
 
+        $dataRekeningWilayah = [
+            "001" => '701500048',
+            "002" => '501500011',
+            "003" => '601500019',
+            "004" => '401560009',
+            "005" => '201500017',
+            "006" => '301500017',
+            "007" => '611500025',
+            "008" => '711500014',
+            "009" => '801560008',
+            "010" => '901500045',
+            "011" => '301500084',
+        ];
+
         $dataTotal = $this->calculateTotals($data_rekap);
 
-        return compact('page_title', 'data_rekap', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi');
+        return compact('page_title', 'data_rekap', 'dataRekeningWilayah', 'tanggal', 'lokasi', 'dataPenerimaanOpsen', 'dataTotal', 'kd_lokasi');
     }
 
     private function validateFormRequest(Request $request)

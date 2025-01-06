@@ -69,7 +69,8 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td><strong>*** TOTAL BBNKB & PKB ***</strong></td>
+                <td><strong>*** TOTAL BBNKB & PKB *** (Rek.
+                        101431703)</strong></td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
                     <strong>
@@ -93,7 +94,9 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}</td>
+                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}
+                        (Rek.{{ $dataRekeningWilayah[$row->kd_wilayah] }})
+                    </td>
                     <td>Rp.</td>
                     <td style="text-align: right; padding-right:10px;">
                         {{ number_format($row->opsen_bbn_pokok + $row->opsen_bbn_denda + $row->opsen_pkb_pokok + $row->opsen_pkb_denda, 0) }}
@@ -163,15 +166,66 @@
                 <td></td>
                 <td></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>TOTAL SELURUH</strong></td>
-                <td><strong>Rp.</strong></td>
-                <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}</strong>
-                </td>
-            </tr>
+            @if (\Auth::user()->kd_wilayah != '001')
+                <tr>
+                    <td colspan="5">
+                        <strong>D. PNBP</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td width="20px">1.</td>
+                    <td>ADM. STNK</td>
+                    <td>Rp.</td>
+                    <td style="text-align: right; padding-right:10px;">
+                        {{ number_format($data_rekap->adm_stnk, 0) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>2.</td>
+                    <td>ADM TNKB</td>
+                    <td>Rp.</td>
+                    <td style="text-align: right; padding-right:10px;">
+                        {{ number_format($data_rekap->plat_nomor, 0) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>*** TOTAL PNBP ***</strong></td>
+                    <td>Rp.</td>
+                    <td style="text-align: right; padding-right:10px;">
+                        <strong>{{ number_format($dataTotal['total_pnbp'], 0) }}</strong>
+                    </td>
+                </tr>
+                <tr height="15px">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>TOTAL SELURUH</strong></td>
+                    <td><strong>Rp.</strong></td>
+                    <td style="text-align: right; padding-right:10px;">
+                        <strong>{{ number_format($dataTotal['total_seluruh'] + $dataTotal['total_pnbp'], 0) }}</strong>
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><strong>TOTAL SELURUH</strong></td>
+                    <td><strong>Rp.</strong></td>
+                    <td style="text-align: right; padding-right:10px;">
+                        <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}</strong>
+                    </td>
+                </tr>
+            @endif
         </tbody>
     </table>
 </body>

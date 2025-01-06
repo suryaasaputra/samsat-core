@@ -31,6 +31,11 @@
                         <span class="nav-text">Cetak Notice</span>
                     </a>
                 </li>
+                <li><a href="{{ route('ulang-cetak-notice') }}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Cetak Notice Ulang</span>
+                    </a>
+                </li>
             @endcan
 
             @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin']))

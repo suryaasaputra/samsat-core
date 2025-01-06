@@ -38,6 +38,18 @@
                         </div>
                     </a>
                 </div>
+                <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
+                    <a href="{{ route('ulang-cetak-notice') }}">
+                        <div class=" ">
+                            <div class="d-flex align-items-center">
+                                <div class="">
+                                    <h4 class=" font-w600 mb-0 text-white">Cetak Notice Ulang
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             @endcan
 
             @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin']))

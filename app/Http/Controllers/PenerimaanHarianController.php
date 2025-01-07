@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenerimaanExport;
 use App\Models\Lokasi;
 use App\Services\TrnkbService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenerimaanHarianController extends Controller
 {
@@ -71,6 +73,15 @@ class PenerimaanHarianController extends Controller
         ])->setPaper('A4', 'landscape');
 
         return $pdf->stream($file_name . '.pdf');
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        $data = $this->prepareData($request);
+
+        $fileName = 'Laporan_Penerimaan_Tanggal_' . $data['tanggal'] . '_di_' . $data['lokasi']->nm_lokasi . '.xlsx';
+
+        return Excel::download(new PenerimaanExport($data), $fileName);
     }
 
     private function prepareData(Request $request)

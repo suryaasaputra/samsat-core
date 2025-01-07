@@ -200,7 +200,7 @@
                                     <td class="text-right">{{ number_format($bea['total_swdkllj'], 0, ',', '.') }}</td>
                                 </tr>
 
-                                @if (\Auth::user()->kd_wilayah != '001' && \Auth::user()->kd_wilayah != '003')
+                                @if (\Auth::user()->kd_wilayah != '001' && \Auth::user()->kd_wilayah != '003' && \Auth::user()->kd_wilayah != '008')
                                     <!-- Content for users whose kd_wilayah is NOT '001' or '003' -->
 
                                     <tr>

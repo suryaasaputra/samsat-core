@@ -23,6 +23,14 @@
                                     <button type="submit" class="btn btn-sm btn-primary w-100">PDF</button>
                                 </form>
                             </div>
+                            <div class="dropdown-item">
+                                <form action="{{ route('penerimaan-harian.excel') }}" method="post" target="_blank">
+                                    @csrf
+                                    <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
+                                    <input type="hidden" id="kd_lokasi" name="kd_lokasi" value="{{ $lokasi->kd_lokasi }}">
+                                    <button type="submit" class="btn btn-sm btn-info w-100">Excel</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

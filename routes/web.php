@@ -148,6 +148,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
     Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanHarianController::class, 'exportToPdf'])->name('penerimaan-harian.pdf');
+    Route::post('/laporan/penerimaan-harian/excel', [PenerimaanHarianController::class, 'exportToExcel'])->name('penerimaan-harian.excel');
 
     Route::get('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'showForm'])->name('rekapitulasi-penerimaan-ringkas.form');
     Route::post('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-ringkas.submit');

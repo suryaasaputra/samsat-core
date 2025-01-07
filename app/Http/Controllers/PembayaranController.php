@@ -188,7 +188,6 @@ class PembayaranController extends Controller
         ];
 
         $dataTera = [
-
             "no_trn" => $noTrn,
             "no_polisi" => $noPolisi,
             "tg_daftar" => $trnkbData->tg_daftar,
@@ -200,7 +199,6 @@ class PembayaranController extends Controller
             "no_tera" => $no_tera,
             "cap_tera" => $cap_tera,
             "flag_tera" => 1,
-
         ];
 
         $dataMonitor = [

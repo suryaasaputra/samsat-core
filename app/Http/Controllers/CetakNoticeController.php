@@ -234,6 +234,8 @@ class CetakNoticeController extends Controller
             ->where('user_id', $trnkbData->user_id_korektor)
             ->first();
 
+        $cap_tera = "$noPolisi" . "*" . "$tglskrng" . "*" . "$formattedNumber";
+
         $dataCetakNotice = [
             'user_id' => \Auth::user()->username,
             'no_polisi' => $noPolisi,
@@ -268,7 +270,7 @@ class CetakNoticeController extends Controller
             'no_skum' => "",
             'no_daftar' => $trnkbData->no_daftar,
             'nm_lokasi' => $trnkbData->lokasi->nm_lokasi,
-            'cap_tera' => $trnkbData->tera->cap_tera,
+            'cap_tera' => $trnkbData->tera->cap_tera ?? $cap_tera,
 
             'tg_awal_stnk' => $trnkbData->tg_awal_stnk,
             'tg_akhir_stnk' => $trnkbData->tg_akhir_stnk,

@@ -251,7 +251,10 @@ class CetakNoticeController extends Controller
             'nm_bbm' => $trnkbData->bbm->nm_bbm,
             'th_buatan' => $trnkbData->th_buatan,
             'th_rakitan' => $trnkbData->th_rakitan,
-            'jumlah_cc' => $trnkbData->jumlah_cc,
+            'jumlah_cc' => $trnkbData->kd_bbm != 5
+            ? $trnkbData->jumlah_cc . ' cc'
+            : $trnkbData->jumlah_cc . ' kWh',
+
             'jumlah_sumbu' => $trnkbData->jumlah_sumbu,
             'warna_kb' => $trnkbData->warna_kb,
             'no_chasis' => $trnkbData->no_chasis,

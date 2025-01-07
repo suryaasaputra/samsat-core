@@ -166,7 +166,7 @@
                 <td></td>
                 <td></td>
             </tr>
-            @if (\Auth::user()->kd_wilayah != '001')
+            @if (\Auth::user()->kd_wilayah != '001' && \Auth::user()->kd_wilayah != '003')
                 <tr>
                     <td colspan="5">
                         <strong>D. PNBP</strong>

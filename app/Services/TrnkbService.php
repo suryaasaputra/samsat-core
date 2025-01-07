@@ -71,7 +71,7 @@ class TrnkbService
                 DB::raw('(T.bea_bbn1_pok + T.bea_bbn2_pok + T.bea_bbn_tgk1 + T.bea_bbn_tgk2) as bbn_pokok'),
                 DB::raw('(T.bea_bbn1_den + T.bea_bbn2_den + T.bea_bbn_den1 + T.bea_bbn_den2) as bbn_denda'),
                 DB::raw('(T.bea_pkb_pok + T.bea_pkb_tgk1 + T.bea_pkb_tgk2 + T.bea_pkb_tgk3 + T.bea_pkb_tgk4 + T.bea_pkb_tgk5) AS pkb_pokok'),
-                DB::raw('(T.bea_pkb_den + T.bea_pkb_den1 + T.bea_pkb_den2 + T.bea_pkb_tgk3 + T.bea_pkb_den3 + T.bea_pkb_tgk4 + T.bea_pkb_den4 + T.bea_pkb_tgk5 + T.bea_pkb_den5 + T.bea_denkas_pkb) AS pkb_denda'),
+                DB::raw('(T.bea_pkb_den + T.bea_pkb_den1 + T.bea_pkb_den2  + T.bea_pkb_den3  + T.bea_pkb_den4  + T.bea_pkb_den5 + T.bea_denkas_pkb) AS pkb_denda'),
                 DB::raw('(T.bea_swdkllj_pok + T.bea_swdkllj_tgk1 + T.bea_swdkllj_tgk2 + T.bea_swdkllj_tgk3 + T.bea_swdkllj_tgk4) AS swd_pokok'),
                 DB::raw('(T.bea_swdkllj_den + T.bea_swdkllj_den1 + T.bea_swdkllj_den2 + T.bea_swdkllj_den3 + T.bea_swdkllj_den4 + T.bea_denkas_swd) AS swd_denda'),
                 DB::raw('(C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2) AS opsen_bbn_pokok'),

@@ -80,7 +80,14 @@ class CetakNoticeController extends Controller
             'seri' => 'nullable|string|max:3|regex:/^[A-Z]+$/', // optional but must be uppercase letters if provided
         ]);
 
-        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']) . " " . strtoupper($validated['seri']);
+        // Assemble the full no_polisi value by combining no_polisi and seri
+
+        // Assemble the full no_polisi value
+        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']);
+
+        if (!empty($validated['seri'])) {
+            $noPolisi .= ' ' . strtoupper($validated['seri']);
+        }
 
         $kodeStatus = '4 ';
 

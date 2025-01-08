@@ -243,11 +243,11 @@ class TrnkbService
         $bbnPokKeys = ['bea_bbn1_pok', 'bea_bbn2_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
         $bbnDenKeys = ['bea_bbn1_den', 'bea_bbn2_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
-        $bbn1PokKeys = ['bea_bbn1_pok', 'bea_bbn_tgk1'];
-        $bbn1DenKeys = ['bea_bbn1_den', 'bea_bbn_den1'];
+        $bbn1PokKeys = ['bea_bbn1_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
+        $bbn1DenKeys = ['bea_bbn1_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
-        $bbn2PokKeys = ['bea_bbn2_pok', 'bea_bbn_tgk2'];
-        $bbn2DenKeys = ['bea_bbn2_den', 'bea_bbn_den2'];
+        $bbn2PokKeys = ['bea_bbn2_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
+        $bbn2DenKeys = ['bea_bbn2_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
         $opsenBbnPokKeys = ['opsen_bbn1_pok', 'opsen_bbn2_pok', 'opsen_bbn_tgk1', 'opsen_bbn_tgk2'];
         $opsenBbnDenKeys = ['opsen_bbn1_den', 'opsen_bbn2_den', 'opsen_bbn_den1', 'opsen_bbn_den2'];
@@ -344,11 +344,11 @@ class TrnkbService
         $bbnPokKeys = ['bea_bbn1_pok', 'bea_bbn2_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
         $bbnDenKeys = ['bea_bbn1_den', 'bea_bbn2_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
-        $bbn1PokKeys = ['bea_bbn1_pok', 'bea_bbn_tgk1'];
-        $bbn1DenKeys = ['bea_bbn1_den', 'bea_bbn_den1'];
+        $bbn1PokKeys = ['bea_bbn1_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
+        $bbn1DenKeys = ['bea_bbn1_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
-        $bbn2PokKeys = ['bea_bbn2_pok', 'bea_bbn_tgk2'];
-        $bbn2DenKeys = ['bea_bbn2_den', 'bea_bbn_den2'];
+        $bbn2PokKeys = ['bea_bbn2_pok', 'bea_bbn_tgk1', 'bea_bbn_tgk2'];
+        $bbn2DenKeys = ['bea_bbn2_den', 'bea_bbn_den1', 'bea_bbn_den2'];
 
         $opsenBbnPokKeys = ['opsen_bbn1_pok', 'opsen_bbn2_pok', 'opsen_bbn_tgk1', 'opsen_bbn_tgk2'];
         $opsenBbnDenKeys = ['opsen_bbn1_den', 'opsen_bbn2_den', 'opsen_bbn_den1', 'opsen_bbn_den2'];

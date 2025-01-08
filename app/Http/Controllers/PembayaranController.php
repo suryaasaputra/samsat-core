@@ -43,7 +43,15 @@ class PembayaranController extends Controller
         ]);
 
         // Assemble the full no_polisi value by combining no_polisi and seri
-        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']) . " " . strtoupper($validated['seri']);
+
+        // Assemble the full no_polisi value
+        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']);
+
+        if (!empty($validated['seri'])) {
+            $noPolisi .= ' ' . strtoupper($validated['seri']);
+        }
+
+        // dd($noPolisi);
 
         $page_title = 'Rincian Pembayaran';
         $kodeStatus = '3 ';

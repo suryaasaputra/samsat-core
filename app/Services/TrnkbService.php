@@ -99,101 +99,43 @@ class TrnkbService
     public function getRekapharian($tanggal, $kd_lokasi)
     {
         $q = "SELECT
-					SUM ( T.bea_pkb_pok ) pkb_pok,
-					COUNT ( T.bea_pkb_pok ) AS wp_pkb_pok,
+					SUM ( T.bea_pkb_pok + T.bea_pkb_tgk1 + T.bea_pkb_tgk2 + T.bea_pkb_tgk3 + T.bea_pkb_tgk4 + T.bea_pkb_tgk5) AS pkb_pok,
+					COUNT (  CASE WHEN T.bea_pkb_pok != '0' THEN 1 END ) AS wp_pkb_pok,
 
-					SUM ( T.bea_pkb_den + T.bea_denkas_pkb ) pkb_den,
-					COUNT ( CASE WHEN T.bea_pkb_den != '0' OR T.bea_denkas_pkb != '0' THEN 1 END ) AS wp_pkb_den,
+					SUM ( T.bea_pkb_den + T.bea_pkb_den1 + T.bea_pkb_den2 + T.bea_pkb_den3 + T.bea_pkb_den4 + T.bea_pkb_den5 + T.bea_denkas_pkb ) AS pkb_den,
+					COUNT (  CASE WHEN T.bea_pkb_den != '0' THEN 1 END  ) AS wp_pkb_den,
 
-					SUM ( T.bea_pkb_tgk1 + T.bea_pkb_tgk2 + T.bea_pkb_tgk3 + T.bea_pkb_tgk4 + T.bea_pkb_tgk5 ) AS tgk_pkb_pok,
-					COUNT ( CASE WHEN T.bea_pkb_tgk1 != '0' OR T.bea_pkb_tgk2 != '0' OR T.bea_pkb_tgk3 != '0' OR T.bea_pkb_tgk4 != '0' OR T.bea_pkb_tgk5 != '0' THEN 1 END ) AS wp_tgk_pkb_pok,
 
-					SUM ( T.bea_pkb_den1 + T.bea_pkb_den2 + T.bea_pkb_den3 + T.bea_pkb_den4 + T.bea_pkb_den5 ) AS tgk_pkb_den,
-					COUNT ( CASE WHEN T.bea_pkb_den1 != '0' OR T.bea_pkb_den2 != '0' OR T.bea_pkb_den3 != '0' OR T.bea_pkb_den4 != '0' OR T.bea_pkb_den5 != '0' THEN 1 END ) AS wp_tgk_pkb_den,
+					SUM ( T.bea_bbn1_pok + T.bea_bbn2_pok +  T.bea_bbn_tgk1 + T.bea_bbn_tgk2  ) AS bbn_pok,
+					COUNT ( CASE WHEN T.bea_bbn1_pok != '0' THEN 1 END) AS wp_bbn_pok,
 
-					SUM ( T.bea_bbn1_pok ) AS bbn1_pok,
-					COUNT ( CASE WHEN T.bea_bbn1_pok != '0' THEN 1 END ) AS wp_bbn1_pok,
+					SUM ( T.bea_bbn1_den + T.bea_denkas_bbn1 + T.bea_bbn2_den + T.bea_denkas_bbn2 + T.bea_bbn_den1 + T.bea_bbn_den2) AS bbn_den,
+					COUNT (CASE WHEN T.bea_bbn1_den != '0' THEN 1 END  ) AS wp_bbn_den,
 
-					SUM ( T.bea_bbn1_den + T.bea_denkas_bbn1 ) AS bbn1_den,
-					COUNT ( CASE WHEN T.bea_bbn1_den != '0' OR T.bea_denkas_bbn1 != '0' THEN 1 END ) AS wp_bbn1_den,
 
-					SUM ( T.bea_bbn_tgk1 ) AS tgk_bbn1_pok,
-					COUNT ( CASE WHEN T.bea_bbn_tgk1 != '0' THEN 1 END ) AS wp_tgk_bbn1_pok,
+					SUM ( T.bea_swdkllj_pok + T.bea_swdkllj_tgk1 + T.bea_swdkllj_tgk2 + T.bea_swdkllj_tgk3 + T.bea_swdkllj_tgk4 ) AS swd_pok,
+					COUNT ( CASE WHEN T.bea_swdkllj_pok != '0' THEN 1 END  ) AS wp_swd_pok,
 
-					SUM ( T.bea_bbn_den1 ) AS tgk_bbn1_den,
-					COUNT ( CASE WHEN T.bea_bbn_den1 != '0' THEN 1 END ) AS wp_tgk_bbn1_den,
-
-					SUM ( T.bea_bbn2_pok ) bbn2_pok,
-					COUNT ( CASE WHEN T.bea_bbn2_pok != '0' THEN 1 END ) AS wp_bbn2_pok,
-
-					SUM ( T.bea_bbn2_den + T.bea_denkas_bbn2 ) AS bbn2_den,
-					COUNT ( CASE WHEN T.bea_bbn2_den != '0' OR T.bea_denkas_bbn2 != '0' THEN 1 END ) AS wp_bbn2_den,
-
-					SUM ( T.bea_bbn_tgk2 ) AS tgk_bbn2_pok,
-					COUNT ( CASE WHEN T.bea_bbn_tgk2 != '0' THEN 1 END ) AS wp_tgk_bbn2_pok,
-
-					SUM ( T.bea_bbn_den2 ) AS tgk_bbn2_den,
-					COUNT ( CASE WHEN T.bea_bbn_den2 != '0' THEN 1 END ) AS wp_tgk_bbn2_den,
-
-					SUM ( T.bea_swdkllj_pok ) AS swd_pok,
-					COUNT ( CASE WHEN T.bea_swdkllj_pok != '0' THEN 1 END ) AS wp_swd_pok,
-
-					SUM ( T.bea_swdkllj_den + T.bea_denkas_swd ) AS swd_den,
-					COUNT ( CASE WHEN T.bea_swdkllj_den != '0' OR T.bea_denkas_swd != '0' THEN 1 END ) AS wp_swd_den,
-
-					SUM ( T.bea_swdkllj_tgk1 + T.bea_swdkllj_tgk2 + T.bea_swdkllj_tgk3 + T.bea_swdkllj_tgk4 ) AS tgk_swd_pok,
-					COUNT ( CASE WHEN T.bea_swdkllj_tgk1 != '0' OR T.bea_swdkllj_tgk2 != '0' OR T.bea_swdkllj_tgk3 != '0' OR T.bea_swdkllj_tgk4 != '0' THEN 1 END ) AS wp_tgk_swd_pok,
-
-					SUM ( T.bea_swdkllj_den1 + T.bea_swdkllj_den2 + T.bea_swdkllj_den3 + T.bea_swdkllj_den4 ) AS tgk_swd_den,
-					COUNT ( CASE WHEN T.bea_swdkllj_den1 != '0' OR T.bea_swdkllj_den2 != '0' OR T.bea_swdkllj_den3 != '0' OR T.bea_swdkllj_den4 != '0' THEN 1 END ) AS wp_tgk_swd_den,
+					SUM ( T.bea_swdkllj_den + T.bea_swdkllj_den1 + T.bea_swdkllj_den2 + T.bea_swdkllj_den3 + T.bea_swdkllj_den4 + T.bea_denkas_swd ) AS swd_den,
+					COUNT ( CASE WHEN T.bea_swdkllj_den != '0' THEN 1 END) AS wp_swd_den,
 
 					SUM ( bea_adm_stnk ) AS adm_stnk,
-					COUNT ( CASE WHEN bea_adm_stnk != '0' THEN 1 END ) AS wp_adm_stnk,
+					COUNT ( CASE WHEN T.bea_adm_stnk != '0' THEN 1 END ) AS wp_adm_stnk,
 
 					SUM ( T.bea_plat_nomor ) AS plat_nomor,
-					COUNT ( CASE WHEN T.bea_plat_nomor != '0' THEN 1 END ) AS wp_plat_nomor,
+					COUNT (CASE WHEN T.bea_plat_nomor != '0' THEN 1 END ) AS wp_plat_nomor,
 
-					SUM ( T.bea_leges_pkb ) AS leges_pkb,
-					COUNT ( CASE WHEN T.bea_leges_pkb != '0' THEN 1 END ) AS wp_leges_pkb,
+					SUM ( C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5 ) AS opsen_pkb_pok,
+					COUNT (CASE WHEN C.opsen_pkb_pok != '0' THEN 1 END ) AS wp_opsen_pkb_pok,
 
-					SUM ( T.bea_leges_bbn ) AS leges_bbn,
-					COUNT ( CASE WHEN T.bea_leges_bbn != '0' THEN 1 END ) AS wp_leges_bbn,
-
-					SUM ( T.bea_leges_frm ) AS leges_frm,
-					COUNT ( CASE WHEN T.bea_leges_frm != '0' THEN 1 END ) AS wp_leges_frm,
-
-					SUM ( T.bea_leges_fis ) AS leges_fis,
-					COUNT ( CASE WHEN T.bea_leges_fis != '0' THEN 1 END ) AS wp_leges_fis,
-
-					SUM ( T.bea_leges_fad ) AS leges_fad,
-					COUNT ( CASE WHEN T.bea_leges_fad != '0' THEN 1 END ) AS wp_leges_fad,
-
-					SUM ( T.bea_penning ) AS penning,
-					COUNT ( CASE WHEN T.bea_penning != '0' THEN 1 END ) AS wp_penning,
-
-					SUM ( C.opsen_pkb_pok ) opsen_pkb_pok,
-					COUNT ( C.opsen_pkb_pok ) AS wp_opsen_pkb_pok,
-
-					SUM ( C.opsen_pkb_den) opsen_pkb_den,
+					SUM ( C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5) AS opsen_pkb_den,
 					COUNT ( CASE WHEN C.opsen_pkb_den != '0' THEN 1 END ) AS wp_opsen_pkb_den,
 
-					SUM ( C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5 ) AS tgk_opsen_pkb_pok,
-					COUNT ( CASE WHEN C.opsen_pkb_tgk1 != '0' OR C.opsen_pkb_tgk2 != '0' OR C.opsen_pkb_tgk3 != '0' OR C.opsen_pkb_tgk4 != '0' OR C.opsen_pkb_tgk5 != '0' THEN 1 END ) AS wp_tgk_opsen_pkb_pok,
+					SUM ( C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2 ) AS opsen_bbn_pok,
+					COUNT ( CASE WHEN C.opsen_bbn1_pok != '0' THEN 1 END ) AS wp_opsen_bbn_pok,
 
-					SUM ( C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5 ) AS tgk_opsen_pkb_den,
-					COUNT ( CASE WHEN C.opsen_pkb_den1 != '0' OR C.opsen_pkb_den2 != '0' OR C.opsen_pkb_den3 != '0' OR C.opsen_pkb_den4 != '0' OR C.opsen_pkb_den5 != '0' THEN 1 END ) AS wp_tgk_opsen_pkb_den,
-
-					SUM ( C.opsen_bbn1_pok + C.opsen_bbn2_pok ) opsen_bbn_pok,
-					COUNT ( CASE WHEN C.opsen_bbn1_pok != '0' OR C.opsen_bbn2_pok != '0' THEN 1 END ) AS wp_opsen_bbn_pok,
-
-					SUM ( C.opsen_bbn1_den + C.opsen_bbn2_den ) opsen_bbn_den,
-					COUNT ( CASE WHEN C.opsen_bbn1_den != '0' OR C.opsen_bbn2_den != '0' THEN 1 END) AS wp_opsen_bbn_den,
-
-					SUM ( C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2) AS tgk_opsen_bbn_pok,
-					COUNT ( CASE WHEN C.opsen_bbn_tgk1 != '0' OR C.opsen_bbn_tgk2 != '0' THEN 1 END ) AS wp_tgk_opsen_bbn_pok,
-
-					SUM ( C.opsen_bbn_den1 + C.opsen_bbn_den2 ) AS tgk_opsen_bbn_den,
-					COUNT ( CASE WHEN C.opsen_bbn_den1 != '0' OR C.opsen_bbn_den2 != '0'THEN 1 END ) AS wp_tgk_opsen_bbn_den,
+					SUM ( C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2 ) AS opsen_bbn_den,
+					COUNT ( CASE WHEN C.opsen_bbn1_den != '0' THEN 1 END) AS wp_opsen_bbn_den,
 
 					COUNT ( T.bea_pkb_pok ) AS jml_wp
 

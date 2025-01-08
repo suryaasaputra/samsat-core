@@ -41,7 +41,7 @@
         <hr width="100%" size="2">
     </h3>
 
-    <table>
+    <table">
         <tbody>
             <tr>
                 <td colspan="6">
@@ -54,10 +54,10 @@
                 <td width="400px">POKOK BBNKB</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->bbn1_pok + $data_rekap->bbn2_pok, 0) }}
+                    {{ number_format($data_rekap->bbn_pok, 0) }}
                 </td>
                 <td width="100px">
-                    ( {{ number_format($data_rekap->wp_bbn1_pok + $data_rekap->wp_bbn2_pok, 0) }} )
+                    ( {{ number_format($data_rekap->wp_bbn_pok, 0) }} )
                 </td>
             </tr>
             <tr>
@@ -66,34 +66,10 @@
                 <td>DENDA BBNKB</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->bbn1_den + $data_rekap->bbn2_den, 0) }}
+                    {{ number_format($data_rekap->bbn_den, 0) }}
                 </td>
                 <td>
-                    ( {{ number_format($data_rekap->wp_bbn1_den + $data_rekap->wp_bbn2_den, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>3.</td>
-                <td>TGK. POKOK BBNKB</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->tgk_bbn1_pok + $data_rekap->tgk_bbn2_pok, 0) }}
-                </td>
-                <td>
-                    ( {{ number_format($data_rekap->wp_tgk_bbn1_pok + $data_rekap->wp_tgk_bbn2_pok, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>4.</td>
-                <td>TGK. DENDA BBNKB</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->tgk_bbn1_den + $data_rekap->tgk_bbn2_den, 0) }}
-                </td>
-                <td>
-                    ( {{ number_format($data_rekap->wp_tgk_bbn1_den + $data_rekap->wp_tgk_bbn2_den, 0) }} )
+                    ( {{ number_format($data_rekap->wp_bbn_den, 0) }} )
                 </td>
             </tr>
             <tr>
@@ -133,11 +109,11 @@
                 <td>Opsen BBNKB Pokok</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($data_rekap->opsen_bbn_pok + $data_rekap->tgk_opsen_bbn_pok, 0) }}</strong>
+                    <strong>{{ number_format($data_rekap->opsen_bbn_pok, 0) }}</strong>
                 </td>
                 <td width="50px">
                     (
-                    {{ number_format($data_rekap->wp_opsen_bbn_pok + $data_rekap->wp_tgk_opsen_bbn_pok, 0) }}
+                    {{ number_format($data_rekap->wp_opsen_bbn_pok, 0) }}
                     )
                 </td>
             </tr>
@@ -158,11 +134,11 @@
                 <td>Opsen BBNKB Denda</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($data_rekap->opsen_bbn_den + $data_rekap->tgk_opsen_bbn_den, 0) }}</strong>
+                    <strong>{{ number_format($data_rekap->opsen_bbn_den, 0) }}</strong>
                 </td>
                 <td>
                     (
-                    {{ number_format($data_rekap->wp_opsen_bbn_den + $data_rekap->wp_tgk_opsen_bbn_den, 0) }}
+                    {{ number_format($data_rekap->wp_opsen_bbn_den, 0) }}
                     )
                 </td>
             </tr>
@@ -225,30 +201,6 @@
             </tr>
             <tr>
                 <td></td>
-                <td>3.</td>
-                <td>TGK. POKOK PKB</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->tgk_pkb_pok, 0) }}
-                </td>
-                <td>
-                    ( {{ number_format($data_rekap->wp_tgk_pkb_pok, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>4.</td>
-                <td>TGK. DENDA PKB</td>
-                <td>Rp.</td>
-                <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->tgk_pkb_den, 0) }}
-                </td>
-                <td>
-                    ( {{ number_format($data_rekap->wp_tgk_pkb_den, 0) }} )
-                </td>
-            </tr>
-            <tr>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -284,11 +236,11 @@
                 <td>Opsen PKB Pokok</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($data_rekap->opsen_pkb_pok + $data_rekap->tgk_opsen_pkb_pok, 0) }}</strong>
+                    <strong>{{ number_format($data_rekap->opsen_pkb_pok, 0) }}</strong>
                 </td>
                 <td width="50px">
                     (
-                    {{ number_format($data_rekap->wp_opsen_pkb_pok + $data_rekap->wp_tgk_opsen_pkb_pok, 0) }}
+                    {{ number_format($data_rekap->wp_opsen_pkb_pok, 0) }}
                     )
                 </td>
             </tr>
@@ -309,11 +261,11 @@
                 <td>Opsen PKB Denda</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    <strong>{{ number_format($data_rekap->opsen_pkb_den + $data_rekap->tgk_opsen_pkb_den, 0) }}</strong>
+                    <strong>{{ number_format($data_rekap->opsen_pkb_den, 0) }}</strong>
                 </td>
                 <td>
                     (
-                    {{ number_format($data_rekap->wp_opsen_pkb_den + $data_rekap->wp_tgk_opsen_pkb_den, 0) }}
+                    {{ number_format($data_rekap->wp_opsen_pkb_den, 0) }}
                     )
                 </td>
             </tr>
@@ -356,10 +308,10 @@
                 <td>POKOK SWDKLLJ</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->swd_pok + $data_rekap->tgk_swd_pok, 0) }}
+                    {{ number_format($data_rekap->swd_pok, 0) }}
                 </td>
                 <td width="50px">
-                    ( {{ number_format($data_rekap->wp_swd_pok + $data_rekap->wp_tgk_swd_pok, 0) }} )
+                    ( {{ number_format($data_rekap->wp_swd_pok, 0) }} )
                 </td>
             </tr>
             <tr>
@@ -368,10 +320,10 @@
                 <td>DENDA SWDKLLJ</td>
                 <td>Rp.</td>
                 <td style="text-align: right; padding-right:10px;">
-                    {{ number_format($data_rekap->swd_den + $data_rekap->tgk_swd_den, 0) }}
+                    {{ number_format($data_rekap->swd_den, 0) }}
                 </td>
                 <td>
-                    ( {{ number_format($data_rekap->wp_swd_den + $data_rekap->wp_tgk_swd_den, 0) }} )
+                    ( {{ number_format($data_rekap->wp_swd_den, 0) }} )
                 </td>
             </tr>
             <tr>
@@ -391,10 +343,11 @@
                 <td></td>
                 <td></td>
             </tr>
+
             @if (\Auth::user()->kd_wilayah != '001' && \Auth::user()->kd_wilayah != '003' && \Auth::user()->kd_wilayah != '008')
                 <tr>
                     <td colspan="5">
-                        <strong>D. PNBP</strong>
+                        <strong>F. PNBP</strong>
                     </td>
                 </tr>
                 <tr>
@@ -452,7 +405,7 @@
                 </tr>
             @endif
         </tbody>
-    </table>
+        </table>
 </body>
 
 </html>

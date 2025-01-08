@@ -127,11 +127,11 @@ class RekapitulasiPenerimaanDetailController extends Controller
 
     private function calculateTotals($data_rekap)
     {
-        $total_bbn = $data_rekap->bbn1_pok + $data_rekap->bbn2_pok + $data_rekap->bbn1_den + $data_rekap->tgk_bbn1_pok + $data_rekap->tgk_bbn1_den + $data_rekap->tgk_bbn2_pok + $data_rekap->tgk_bbn2_den;
-        $total_pkb = $data_rekap->pkb_pok + $data_rekap->pkb_den + $data_rekap->tgk_pkb_pok + $data_rekap->tgk_pkb_den;
-        $total_swd = $data_rekap->swd_pok + $data_rekap->swd_den + $data_rekap->tgk_swd_pok + $data_rekap->tgk_swd_den;
-        $total_opsen_bbnkb = $data_rekap->opsen_bbn_pok + $data_rekap->opsen_bbn_den + $data_rekap->tgk_opsen_bbn_pok + $data_rekap->tgk_opsen_bbn_den;
-        $total_opsen_pkb = $data_rekap->opsen_pkb_pok + $data_rekap->opsen_pkb_den + $data_rekap->tgk_opsen_pkb_pok + $data_rekap->tgk_opsen_pkb_den;
+        $total_bbn = $data_rekap->bbn_pok + $data_rekap->bbn_den;
+        $total_pkb = $data_rekap->pkb_pok + $data_rekap->pkb_den;
+        $total_swd = $data_rekap->swd_pok + $data_rekap->swd_den;
+        $total_opsen_bbnkb = $data_rekap->opsen_bbn_pok + $data_rekap->opsen_bbn_den;
+        $total_opsen_pkb = $data_rekap->opsen_pkb_pok + $data_rekap->opsen_pkb_den;
         $total_pnbp = $data_rekap->adm_stnk + $data_rekap->plat_nomor;
         $total_seluruh = $total_bbn + $total_opsen_bbnkb + $total_pkb + $total_opsen_pkb + $total_swd;
 

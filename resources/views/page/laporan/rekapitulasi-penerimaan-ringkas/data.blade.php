@@ -121,7 +121,7 @@
                                 <td>POKOK SWDKLLJ</td>
                                 <td>Rp.</td>
                                 <td style="text-align: right; padding-right:10px;">
-                                    {{ number_format($data_rekap->swd_pok + $data_rekap->tgk_swd_pok, 0) }}
+                                    {{ number_format($data_rekap->swd_pok, 0) }}
                                 </td>
                             </tr>
                             <tr>
@@ -130,7 +130,7 @@
                                 <td>DENDA SWDKLLJ</td>
                                 <td>Rp.</td>
                                 <td style="text-align: right; padding-right:10px;">
-                                    {{ number_format($data_rekap->swd_den + $data_rekap->tgk_swd_den, 0) }}
+                                    {{ number_format($data_rekap->swd_den, 0) }}
                                 </td>
                             </tr>
                             <tr>

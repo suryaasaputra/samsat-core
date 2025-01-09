@@ -66,7 +66,12 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('penerimaan-harian.form') }}">Penerimaan Harian</a></li>
                     @if (\Auth::user()->hasRole(['Kasir Bank Jambi']))
-                        <li><a href="{{ route('penerimaan-harian-opsen.form') }}">Penerimaan Harian Opsen Kab/Kota</a>
+                        <li>
+                            <a href="{{ route('penerimaan-harian-opsen.form') }}">Penerimaan Harian Opsen Kab/Kota</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('rekapitulasi-penerimaan-user.form') }}">Rekapitulasi Penerimaan Per
+                                User</a>
                         </li>
                     @endif
                     <li><a href="{{ route('rekapitulasi-penerimaan-ringkas.form') }}">Rekapitulasi Penerimaan Harian

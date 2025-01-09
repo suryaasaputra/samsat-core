@@ -187,6 +187,69 @@ class TrnkbService
 					";
         return DB::connection(\Auth::user()->kd_wilayah)->selectOne($q);
     }
+    public function getRekapharianUser($tanggal, $kd_lokasi)
+    {
+        $query = "
+        SELECT
+            T.user_id_bayar AS user,
+            L.nm_lokasi,
+            L.kd_lokasi,
+            SUM(T.bea_pkb_pok + T.bea_pkb_tgk1 + T.bea_pkb_tgk2 + T.bea_pkb_tgk3 + T.bea_pkb_tgk4 + T.bea_pkb_tgk5) AS pkb_pok,
+            COUNT(CASE WHEN T.bea_pkb_pok != 0 THEN 1 END) AS wp_pkb_pok,
+
+            SUM(T.bea_pkb_den + T.bea_pkb_den1 + T.bea_pkb_den2 + T.bea_pkb_den3 + T.bea_pkb_den4 + T.bea_pkb_den5 + T.bea_denkas_pkb) AS pkb_den,
+            COUNT(CASE WHEN T.bea_pkb_den != 0 THEN 1 END) AS wp_pkb_den,
+
+            SUM(T.bea_bbn1_pok + T.bea_bbn2_pok + T.bea_bbn_tgk1 + T.bea_bbn_tgk2) AS bbn_pok,
+            COUNT(CASE WHEN T.bea_bbn1_pok != 0 THEN 1 END) AS wp_bbn_pok,
+
+            SUM(T.bea_bbn1_den + T.bea_denkas_bbn1 + T.bea_bbn2_den + T.bea_denkas_bbn2 + T.bea_bbn_den1 + T.bea_bbn_den2) AS bbn_den,
+            COUNT(CASE WHEN T.bea_bbn1_den != 0 THEN 1 END) AS wp_bbn_den,
+
+            SUM(T.bea_swdkllj_pok + T.bea_swdkllj_tgk1 + T.bea_swdkllj_tgk2 + T.bea_swdkllj_tgk3 + T.bea_swdkllj_tgk4) AS swd_pok,
+            COUNT(CASE WHEN T.bea_swdkllj_pok != 0 THEN 1 END) AS wp_swd_pok,
+
+            SUM(T.bea_swdkllj_den + T.bea_swdkllj_den1 + T.bea_swdkllj_den2 + T.bea_swdkllj_den3 + T.bea_swdkllj_den4 + T.bea_denkas_swd) AS swd_den,
+            COUNT(CASE WHEN T.bea_swdkllj_den != 0 THEN 1 END) AS wp_swd_den,
+
+            SUM(bea_adm_stnk) AS adm_stnk,
+            COUNT(CASE WHEN T.bea_adm_stnk != 0 THEN 1 END) AS wp_adm_stnk,
+
+            SUM(T.bea_plat_nomor) AS plat_nomor,
+            COUNT(CASE WHEN T.bea_plat_nomor != 0 THEN 1 END) AS wp_plat_nomor,
+
+            SUM(C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5) AS opsen_pkb_pok,
+            COUNT(CASE WHEN C.opsen_pkb_pok != 0 THEN 1 END) AS wp_opsen_pkb_pok,
+
+            SUM(C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5) AS opsen_pkb_den,
+            COUNT(CASE WHEN C.opsen_pkb_den != 0 THEN 1 END) AS wp_opsen_pkb_den,
+
+            SUM(C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2) AS opsen_bbn_pok,
+            COUNT(CASE WHEN C.opsen_bbn1_pok != 0 THEN 1 END) AS wp_opsen_bbn_pok,
+
+            SUM(C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2) AS opsen_bbn_den,
+            COUNT(CASE WHEN C.opsen_bbn1_den != 0 THEN 1 END) AS wp_opsen_bbn_den,
+
+            COUNT(T.bea_pkb_pok) AS jml_wp
+        FROM
+            t_trnkb T
+            JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+            LEFT JOIN t_lokasi L ON T.kd_lokasi = L.kd_lokasi
+        WHERE
+            T.tg_bayar = ?
+            AND T.kd_lokasi LIKE ?
+            AND T.kd_status >= '4'
+            AND T.kd_kasir != 'X'
+        GROUP BY
+            T.user_id_bayar, L.kd_lokasi
+        ORDER BY
+            L.kd_lokasi;
+    ";
+
+        $result = DB::connection(\Auth::user()->kd_wilayah)->select($query, [$tanggal, "%$kd_lokasi%"]);
+        return $result;
+
+    }
 
     public function getDataPenerimaanOpsen($tanggal, $kd_lokasi)
     {

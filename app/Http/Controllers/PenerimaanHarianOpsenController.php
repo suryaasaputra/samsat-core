@@ -54,7 +54,8 @@ class PenerimaanHarianOpsenController extends Controller
     public function exportToPdf(Request $request)
     {
         $data = $this->prepareData($request);
-
+        ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', '300');
         $file_name = 'Laporan Penerimaan Opsen ' . $data['wilayah']->nm_wilayah . ' Tanggal ' . $data['tanggal'];
         $pdf = Pdf::loadView('page.laporan.penerimaan-harian-opsen.export-pdf', [
             'page_title' => $data['page_title'],

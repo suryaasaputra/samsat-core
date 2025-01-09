@@ -9,6 +9,7 @@ use App\Http\Controllers\PenerimaanHarianOpsenController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
+use App\Http\Controllers\RekapitulasiPenerimaanPerUserController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UlangCetakNoticeController;
@@ -159,6 +160,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'showForm'])->name('rekapitulasi-penerimaan-ringkas.form');
     Route::post('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-ringkas.submit');
     Route::post('/laporan/rekapitulasi-penerimaan-ringkas/pdf', [RekapitulasiPenerimaanRingkasController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-ringkas.pdf');
+
+    Route::get('/laporan/rekapitulasi-penerimaan-user', [RekapitulasiPenerimaanPerUserController::class, 'showForm'])->name('rekapitulasi-penerimaan-user.form');
+    Route::post('/laporan/rekapitulasi-penerimaan-user', [RekapitulasiPenerimaanPerUserController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-user.submit');
+    Route::post('/laporan/rekapitulasi-penerimaan-user/pdf', [RekapitulasiPenerimaanPerUserController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-user.pdf');
 
     Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'showForm'])->name('rekapitulasi-penerimaan-detail.form');
     Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-detail.submit');

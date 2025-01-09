@@ -397,6 +397,9 @@
                     <td style="text-align: right; padding-right:10px;">
                         <strong>{{ number_format($dataTotal['total_seluruh'] + $dataTotal['total_pnbp'], 0) }}</strong>
                     </td>
+                    <td>
+                        <strong> ({{ $data_rekap->jml_wp }})</strong>
+                    </td>
                 </tr>
             @else
                 <tr>
@@ -406,6 +409,9 @@
                     <td><strong>Rp.</strong></td>
                     <td style="text-align: right; padding-right:10px;">
                         <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}</strong>
+                    </td>
+                    <td>
+                        <strong> ({{ $data_rekap->jml_wp }})</strong>
                     </td>
                 </tr>
             @endif

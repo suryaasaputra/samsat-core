@@ -96,6 +96,43 @@ class TrnkbService
 
     }
 
+    public function getLaporanTransaksiHarianOpsen($tanggal, $kd_wilayah)
+    {
+        $query = DB::connection(\Auth::user()->kd_wilayah)->table(DB::raw('t_trnkb AS T'))
+            ->select(
+                DB::raw('T.no_polisi'),
+                DB::raw('T.no_noticepp'),
+                DB::raw('T.tg_bayar'),
+                DB::raw('T.tg_awal_pkb'),
+                DB::raw('T.tg_akhir_pkb'),
+                DB::raw('T.kd_lokasi'),
+                DB::raw('T.kd_mohon'),
+                DB::raw('(T.bea_bbn1_pok + T.bea_bbn2_pok + T.bea_bbn_tgk1 + T.bea_bbn_tgk2) as bbn_pokok'),
+                DB::raw('(T.bea_bbn1_den + T.bea_bbn2_den + T.bea_bbn_den1 + T.bea_bbn_den2) as bbn_denda'),
+                DB::raw('(T.bea_pkb_pok + T.bea_pkb_tgk1 + T.bea_pkb_tgk2 + T.bea_pkb_tgk3 + T.bea_pkb_tgk4 + T.bea_pkb_tgk5) AS pkb_pokok'),
+                DB::raw('(T.bea_pkb_den + T.bea_pkb_den1 + T.bea_pkb_den2  + T.bea_pkb_den3  + T.bea_pkb_den4  + T.bea_pkb_den5 + T.bea_denkas_pkb) AS pkb_denda'),
+                DB::raw('(T.bea_swdkllj_pok + T.bea_swdkllj_tgk1 + T.bea_swdkllj_tgk2 + T.bea_swdkllj_tgk3 + T.bea_swdkllj_tgk4) AS swd_pokok'),
+                DB::raw('(T.bea_swdkllj_den + T.bea_swdkllj_den1 + T.bea_swdkllj_den2 + T.bea_swdkllj_den3 + T.bea_swdkllj_den4 + T.bea_denkas_swd) AS swd_denda'),
+                DB::raw('(C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2) AS opsen_bbn_pokok'),
+                DB::raw('(C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2) AS opsen_bbn_denda'),
+                DB::raw('(C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5) AS opsen_pkb_pokok'),
+                DB::raw('(C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5) AS opsen_pkb_denda'),
+                DB::raw('T.user_id_bayar'),
+                DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
+            )
+            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('t_post_qris'), function ($join) {
+                $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
+                    ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
+            })
+            ->where(DB::raw('T.tg_bayar'), $tanggal)
+            ->where(DB::raw('T.kd_wilayah'), 'like', "%$kd_wilayah%")
+            ->orderByRaw("T.no_noticepp ASC");
+
+        return $query->get();
+
+    }
+
     public function getRekapharian($tanggal, $kd_lokasi)
     {
         $q = "SELECT

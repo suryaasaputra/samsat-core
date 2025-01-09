@@ -336,6 +336,7 @@
 
                             @if (
                                 \Auth::user()->kd_wilayah != '001' &&
+                                    \Auth::user()->kd_wilayah != '002' &&
                                     \Auth::user()->kd_wilayah != '003' &&
                                     \Auth::user()->kd_wilayah != '008' &&
                                     \Auth::user()->kd_wilayah != '007')

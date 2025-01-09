@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CetakNoticeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\PenerimaanHarianController;
+use App\Http\Controllers\PenerimaanHarianOpsenController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
@@ -149,6 +149,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
     Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanHarianController::class, 'exportToPdf'])->name('penerimaan-harian.pdf');
     Route::post('/laporan/penerimaan-harian/excel', [PenerimaanHarianController::class, 'exportToExcel'])->name('penerimaan-harian.excel');
+
+    Route::get('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'showForm'])->name('penerimaan-harian-opsen.form');
+    Route::post('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'handleFormSubmission'])->name('penerimaan-harian-opsen.submit');
+    Route::post('/laporan/penerimaan-harian-opsen/pdf', [PenerimaanHarianOpsenController::class, 'exportToPdf'])->name('penerimaan-harian-opsen.pdf');
+    Route::post('/laporan/penerimaan-harian-opsen/excel', [PenerimaanHarianOpsenController::class, 'exportToExcel'])->name('penerimaan-harian-opsen.excel');
 
     Route::get('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'showForm'])->name('rekapitulasi-penerimaan-ringkas.form');
     Route::post('/laporan/rekapitulasi-penerimaan-ringkas', [RekapitulasiPenerimaanRingkasController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-ringkas.submit');

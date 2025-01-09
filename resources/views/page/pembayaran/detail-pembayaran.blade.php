@@ -202,11 +202,10 @@
 
                                 @if (
                                     \Auth::user()->kd_wilayah != '001' &&
+                                        \Auth::user()->kd_wilayah != '002' &&
                                         \Auth::user()->kd_wilayah != '003' &&
                                         \Auth::user()->kd_wilayah != '008' &&
                                         \Auth::user()->kd_wilayah != '007')
-                                    <!-- Content for users whose kd_wilayah is NOT '001' or '003' -->
-
                                     <tr>
                                         <th>ADM. STNK</th>
                                         <td class="text-right">{{ number_format($bea['bea_adm_stnk'], 0, ',', '.') }}</td>

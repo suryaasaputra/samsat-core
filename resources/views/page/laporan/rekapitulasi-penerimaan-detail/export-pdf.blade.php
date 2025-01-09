@@ -344,7 +344,11 @@
                 <td></td>
             </tr>
 
-            @if (\Auth::user()->kd_wilayah != '001' && \Auth::user()->kd_wilayah != '003' && \Auth::user()->kd_wilayah != '008')
+            @if (
+                \Auth::user()->kd_wilayah != '001' &&
+                    \Auth::user()->kd_wilayah != '003' &&
+                    \Auth::user()->kd_wilayah != '008' &&
+                    \Auth::user()->kd_wilayah != '007')
                 <tr>
                     <td colspan="5">
                         <strong>F. PNBP</strong>

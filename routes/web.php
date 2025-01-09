@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CetakNoticeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PenerimaanHarianController;
 use App\Http\Controllers\PenerimaanHarianOpsenController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;

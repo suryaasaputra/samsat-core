@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PenerimaanHarianController as PenerimaanAdmin;
+use App\Http\Controllers\Admin\RekapitulasiPenerimaanDetailController as RekapDetailAdmin;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CetakNoticeController;
 use App\Http\Controllers\HomeController;
@@ -151,6 +153,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');
     Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanHarianController::class, 'exportToPdf'])->name('penerimaan-harian.pdf');
     Route::post('/laporan/penerimaan-harian/excel', [PenerimaanHarianController::class, 'exportToExcel'])->name('penerimaan-harian.excel');
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/laporan/penerimaan-harian', [PenerimaanAdmin::class, 'showForm'])->name('admin.penerimaan-harian.form');
+        Route::post('/laporan/penerimaan-harian', [PenerimaanAdmin::class, 'handleFormSubmission'])->name('admin.penerimaan-harian.submit');
+        Route::post('/laporan/penerimaan-harian/pdf', [PenerimaanAdmin::class, 'exportToPdf'])->name('admin.penerimaan-harian.pdf');
+        Route::post('/laporan/penerimaan-harian/excel', [PenerimaanAdmin::class, 'exportToExcel'])->name('admin.penerimaan-harian.excel');
+
+        Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapDetailAdmin::class, 'showForm'])->name('admin.rekapitulasi-penerimaan-detail.form');
+        Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapDetailAdmin::class, 'handleFormSubmission'])->name('admin.rekapitulasi-penerimaan-detail.submit');
+        Route::post('/laporan/rekapitulasi-penerimaan-detail/pdf', [RekapDetailAdmin::class, 'exportToPdf'])->name('admin.rekapitulasi-penerimaan-detail.pdf');
+    });
 
     Route::get('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'showForm'])->name('penerimaan-harian-opsen.form');
     Route::post('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'handleFormSubmission'])->name('penerimaan-harian-opsen.submit');

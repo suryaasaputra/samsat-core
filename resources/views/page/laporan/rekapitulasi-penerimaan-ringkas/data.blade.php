@@ -46,6 +46,7 @@
                                 <td style="text-align: right; padding-right:10px;">
                                     {{ number_format($dataTotal['total_bbn'], 0) }}
                                 </td>
+                                <td> ( {{ number_format($data_rekap->wp_bbn_pok, 0) }} )</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -55,6 +56,7 @@
                                 <td style="text-align: right; padding-right:10px;">
                                     {{ number_format($dataTotal['total_pkb'], 0) }}
                                 </td>
+                                <td> ( {{ number_format($data_rekap->wp_pkb_pok, 0) }} )</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -92,6 +94,9 @@
                                     <td style="text-align: right; padding-right:10px;">
                                         {{ number_format($row->opsen_bbn_pokok + $row->opsen_bbn_denda + $row->opsen_pkb_pokok + $row->opsen_pkb_denda, 0) }}
                                     </td>
+                                    <td>
+                                        ( {{ number_format($row->jumlah_trn, 0) }} )
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
@@ -123,6 +128,7 @@
                                 <td style="text-align: right; padding-right:10px;">
                                     {{ number_format($data_rekap->swd_pok, 0) }}
                                 </td>
+                                <td> ( {{ number_format($data_rekap->wp_swd_pok, 0) }} )</td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -131,6 +137,9 @@
                                 <td>Rp.</td>
                                 <td style="text-align: right; padding-right:10px;">
                                     {{ number_format($data_rekap->swd_den, 0) }}
+                                </td>
+                                <td>
+                                    ( {{ number_format($data_rekap->wp_swd_den, 0) }} )
                                 </td>
                             </tr>
                             <tr>
@@ -219,6 +228,10 @@
                                     <td><strong>Rp.</strong></td>
                                     <td style="text-align: right; padding-right:10px;">
                                         <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}</strong>
+                                    </td>
+
+                                    <td>
+                                        <strong> ({{ $data_rekap->jml_wp }})</strong>
                                     </td>
                                 </tr>
                             @endif

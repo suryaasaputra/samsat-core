@@ -8,7 +8,7 @@
     <div class="col px-3">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">REKAPITULASI PENERIMAAN TANGGAL {{ $tanggal }} DI
+                <h4 class="card-title">REKAPITULASI PENERIMAAN TANGGAL {{ $tg_awal }} S/D {{ $tg_akhir }} DI
                     {{ $lokasi->nm_lokasi }}</h4>
                 <div class="basic-dropdown">
                     <div class="dropdown">
@@ -17,11 +17,12 @@
                         </button>
                         <div class="dropdown-menu">
                             <div class="dropdown-item">
-                                <form action="{{ route('rekapitulasi-penerimaan-detail.pdf') }}" method="post"
+                                <form action="{{ route('admin.rekapitulasi-penerimaan-detail.pdf') }}" method="post"
                                     target="_blank">
                                     @csrf
                                     <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
-                                    <input type="hidden" id="kd_lokasi" name="kd_lokasi" value="{{ $lokasi->kd_lokasi }}">
+                                    <input type="hidden" id="kd_lokasi" name="kd_lokasi" value="{{ $kd_lokasi }}">
+                                    <input type="hidden" id="kd_wilayah" name="kd_wilayah" value="{{ $kd_wilayah }}">
                                     <button type="submit" class="btn btn-sm btn-primary w-100">PDF</button>
                                 </form>
                             </div>
@@ -93,7 +94,7 @@
                                     <strong>B. Opsen BBNKB</strong>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="font-weight: bold">
                                 <td></td>
                                 <td width="20px">1.</td>
                                 <td>Opsen BBNKB Pokok</td>
@@ -111,15 +112,15 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}</td>
+                                    <td>{{ $row->kd_wilayah ?? $row['kd_wilayah'] }} -
+                                        {{ $row->nm_wilayah ?? $row['nm_wilayah'] }}</td>
                                     <td>Rp.</td>
                                     <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($row->opsen_bbn_pokok, 0) }}
+                                        {{ number_format($row->opsen_bbn_pokok ?? $row['opsen_bbn_pokok'], 0) }}
                                     </td>
-
                                 </tr>
                             @endforeach
-                            <tr>
+                            <tr style="font-weight: bold">
                                 <td></td>
                                 <td>2.</td>
                                 <td>Opsen BBNKB Denda</td>
@@ -137,10 +138,11 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}</td>
+                                    <td>{{ $row->kd_wilayah ?? $row['kd_wilayah'] }} -
+                                        {{ $row->nm_wilayah ?? $row['nm_wilayah'] }}</td>
                                     <td>Rp.</td>
                                     <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($row->opsen_bbn_denda, 0) }}
+                                        {{ number_format($row->opsen_bbn_denda ?? $row['opsen_bbn_denda'], 0) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -221,7 +223,7 @@
                                     <strong>D. Opsen PKB</strong>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="font-weight: bold">
                                 <td></td>
                                 <td width="20px">1.</td>
                                 <td>Opsen PKB Pokok</td>
@@ -239,14 +241,15 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}</td>
+                                    <td>{{ $row->kd_wilayah ?? $row['kd_wilayah'] }} -
+                                        {{ $row->nm_wilayah ?? $row['nm_wilayah'] }}</td>
                                     <td>Rp.</td>
                                     <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($row->opsen_pkb_pokok, 0) }}
+                                        {{ number_format($row->opsen_pkb_pokok ?? $row['opsen_pkb_pokok'], 0) }}
                                     </td>
                                 </tr>
                             @endforeach
-                            <tr>
+                            <tr style="font-weight: bold">
                                 <td></td>
                                 <td>2.</td>
                                 <td>Opsen PKB Denda</td>
@@ -264,10 +267,11 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>{{ $row->kd_wilayah }} - {{ $row->nm_wilayah }}</td>
+                                    <td>{{ $row->kd_wilayah ?? $row['kd_wilayah'] }} -
+                                        {{ $row->nm_wilayah ?? $row['nm_wilayah'] }}</td>
                                     <td>Rp.</td>
                                     <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($row->opsen_pkb_denda, 0) }}
+                                        {{ number_format($row->opsen_pkb_denda ?? $row['opsen_pkb_denda'], 0) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -334,79 +338,19 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-
-                            @if (
-                                \Auth::user()->kd_wilayah != '001' &&
-                                    \Auth::user()->kd_wilayah != '002' &&
-                                    \Auth::user()->kd_wilayah != '003' &&
-                                    \Auth::user()->kd_wilayah != '008' &&
-                                    \Auth::user()->kd_wilayah != '007')
-                                <tr>
-                                    <td colspan="5">
-                                        <strong>F. PNBP</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td width="20px">1.</td>
-                                    <td>ADM. STNK</td>
-                                    <td>Rp.</td>
-                                    <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($data_rekap->adm_stnk, 0) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>2.</td>
-                                    <td>ADM TNKB</td>
-                                    <td>Rp.</td>
-                                    <td style="text-align: right; padding-right:10px;">
-                                        {{ number_format($data_rekap->plat_nomor, 0) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><strong>*** TOTAL PNBP ***</strong></td>
-                                    <td>Rp.</td>
-                                    <td style="text-align: right; padding-right:10px;">
-                                        <strong>{{ number_format($dataTotal['total_pnbp'], 0) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr height="15px">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><strong>TOTAL SELURUH</strong></td>
-                                    <td><strong>Rp.</strong></td>
-                                    <td style="text-align: right; padding-right:10px;">
-                                        <strong>{{ number_format($dataTotal['total_seluruh'] + $dataTotal['total_pnbp'], 0) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong> ({{ $data_rekap->jml_wp }})</strong>
-                                    </td>
-                                </tr>
-                            @else
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td><strong>TOTAL SELURUH</strong></td>
-                                    <td><strong>Rp.</strong></td>
-                                    <td style="text-align: right; padding-right:10px;">
-                                        <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <strong> ({{ $data_rekap->jml_wp }})</strong>
-                                    </td>
-                                </tr>
-                            @endif
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><strong>TOTAL SELURUH</strong></td>
+                                <td><strong>Rp.</strong></td>
+                                <td style="text-align: right; padding-right:10px;">
+                                    <strong>{{ number_format($dataTotal['total_seluruh'], 0) }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong> ({{ $data_rekap->jml_wp }})</strong>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

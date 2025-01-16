@@ -234,6 +234,11 @@ return [
                     'vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
                     'https://fonts.googleapis.com/icon?family=Material+Icons',
                 ],
+                'ZenixadminController_form_laporan_admin' => [
+                    'vendor/bootstrap-daterangepicker/daterangepicker.css',
+                    'vendor/pickadate/themes/default.css',
+                    'vendor/pickadate/themes/default.date.css',
+                ],
             ],
             'js' => [
                 'ZenixadminController_dashboard_1' => [
@@ -525,6 +530,16 @@ return [
                     'vendor/moment/moment.min.js',
                     'vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js',
                     'js/plugins-init/material-date-picker-init.js',
+                ],
+
+                'ZenixadminController_form_laporan_admin' => [
+                    'vendor/moment/moment.min.js',
+                    'vendor/bootstrap-daterangepicker/daterangepicker.js',
+                    'vendor/pickadate/picker.js',
+                    'vendor/pickadate/picker.time.js',
+                    'vendor/pickadate/picker.date.js',
+                    'js/plugins-init/bs-daterange-picker-init.js',
+                    'js/plugins-init/pickadate-init.js',
                 ],
 
                 'ZenixadminController_form_create_user' => [

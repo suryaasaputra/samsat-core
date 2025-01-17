@@ -63,6 +63,13 @@
                     </a>
                     <ul aria-expanded="false">
                         <li><a href="{{ route('admin.penerimaan-harian.form') }}">Penerimaan Harian</a></li>
+                        <li><a href="{{ route('admin.rekapitulasi-penerimaan-detail.form') }}">Rekapitulasi Penerimaan
+                                Harian
+                            </a>
+                        </li>
+                        <li><a href="{{ route('admin.penerimaan-opsen.form') }}">Penerimaan Opsen
+                            </a>
+                        </li>
                         @if (\Auth::user()->hasRole(['Kasir Bank Jambi']))
                             <li>
                                 <a href="{{ route('penerimaan-harian-opsen.form') }}">Penerimaan Harian Opsen
@@ -73,9 +80,7 @@
                                     User</a>
                             </li>
                         @endif
-                        <li><a href="{{ route('admin.rekapitulasi-penerimaan-detail.form') }}">Rekapitulasi Penerimaan
-                                Harian
-                                (Mendetail)</a></li>
+
                     </ul>
                 </li>
             @else

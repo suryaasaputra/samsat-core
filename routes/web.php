@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PenerimaanHarianController as PenerimaanAdmin;
+use App\Http\Controllers\Admin\PenerimaanOpsen;
 use App\Http\Controllers\Admin\RekapitulasiPenerimaanDetailController as RekapDetailAdmin;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CetakNoticeController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UlangCetakNoticeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ZenixadminController;
 use App\Models\NamaLokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -89,7 +91,7 @@ Route::get('/', function () {
 // Route::get('/ui-progressbar', [ZenixadminController::class, 'ui_progressbar']);
 // Route::get('/ui-tab', [ZenixadminController::class, 'ui_tab']);
 // Route::get('/ui-typography', [ZenixadminController::class, 'ui_typography']);
-// Route::get('/uc-nestable', [ZenixadminController::class, 'uc_nestable']);
+Route::get('/uc-nestable', [ZenixadminController::class, 'uc_nestable']);
 // Route::get('/uc-lightgallery', [ZenixadminController::class, 'uc_lightgallery']);
 // Route::get('/uc-noui-slider', [ZenixadminController::class, 'uc_noui_slider']);
 // Route::get('/uc-select2', [ZenixadminController::class, 'uc_select2']);
@@ -124,8 +126,8 @@ Route::middleware(['guest'])->group(function () {
 // Authentication routes (Auth middleware will protect these)
 Route::middleware('auth')->group(function () {
     Route::resources([
-        'roles' => RoleController::class,
-        'users' => UserController::class,
+        'roles'       => RoleController::class,
+        'users'       => UserController::class,
         'permissions' => PermissionController::class,
     ]);
     // Protected routes (Only accessible by authenticated users)
@@ -163,6 +165,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapDetailAdmin::class, 'showForm'])->name('admin.rekapitulasi-penerimaan-detail.form');
         Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapDetailAdmin::class, 'handleFormSubmission'])->name('admin.rekapitulasi-penerimaan-detail.submit');
         Route::post('/laporan/rekapitulasi-penerimaan-detail/pdf', [RekapDetailAdmin::class, 'exportToPdf'])->name('admin.rekapitulasi-penerimaan-detail.pdf');
+
+        Route::get('/laporan/penerimaan-opsen', [PenerimaanOpsen::class, 'showForm'])->name('admin.penerimaan-opsen.form');
+        Route::post('/laporan/penerimaan-opsen', [PenerimaanOpsen::class, 'handleFormSubmission'])->name('admin.penerimaan-opsen.submit');
+        Route::post('/laporan/penerimaan-opsen/pdf', [PenerimaanOpsen::class, 'exportToPdf'])->name('admin.penerimaan-opsen.pdf');
     });
 
     Route::get('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'showForm'])->name('penerimaan-harian-opsen.form');

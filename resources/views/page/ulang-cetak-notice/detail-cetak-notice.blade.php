@@ -212,16 +212,24 @@
                                     <td class="text-right"></td>
                                     <td class="text-right">{{ number_format($bea['bea_plat_nomor'], 0, ',', '.') }}</td>
                                 </tr>
+                                @if ($iwkbu)
+                                    <tr>
+                                        <th>IWKBU</th>
+                                        <td class="text-right">{{ number_format($iwkbu, 0, ',', '.') }}</td>
+                                        <td class="text-right"></td>
+                                        <td class="text-right">{{ number_format($iwkbu, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <th class="bg-dark text-white">JUMLAH</th>
                                     <td class="bg-dark text-white text-right">
-                                        <b>{{ number_format($bea['total_pokok'], 0, ',', '.') }}</b>
+                                        <b>{{ number_format($bea['total_pokok'] + $iwkbu, 0, ',', '.') }}</b>
                                     </td>
                                     <td class="bg-dark text-white text-right">
                                         <b>{{ number_format($bea['total_denda'], 0, ',', '.') }}</b>
                                     </td>
                                     <td class="bg-dark text-white text-right">
-                                        <b>{{ number_format($bea['total_seluruh'], 0, ',', '.') }}</b>
+                                        <b>{{ number_format($bea['total_seluruh'] + $iwkbu, 0, ',', '.') }}</b>
                                     </td>
                                 </tr>
                             </tbody>

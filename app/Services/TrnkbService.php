@@ -492,33 +492,62 @@ class TrnkbService
             ORDER BY t_wilayah.kd_wilayah ASC;";
         return DB::connection($kd_wilayah)->select($q, [$tg_awal, $tg_akhir, "%$kd_lokasi%"]);
     }
-    public function getDataPenerimaanOpsenRentangWaktuByKdWilayah($tg_awal, $tg_akhir, $kd_db)
+    public function getDataPenerimaanOpsenRentangWaktuByKdWilayah($tg_awal, $tg_akhir, $kd_db, $kd_wilayah)
     {
         $q = "SELECT
-			t_wilayah.kd_wilayah,
-			t_wilayah.nm_wilayah,
-			COALESCE(SUM(
-				C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2
-			), 0) AS opsen_bbn_pokok,
-			COALESCE(SUM(
-				C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2
-			), 0) AS opsen_bbn_denda,
-			COALESCE(SUM(
-				C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5
-			), 0) AS opsen_pkb_pokok,
-			COALESCE(SUM(
-				C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5
-			), 0) AS opsen_pkb_denda,
-            COUNT(T.no_trn) AS jumlah_trn
-			FROM
-			t_wilayah
-			LEFT JOIN t_trnkb T ON T.kd_wilayah = t_wilayah.kd_wilayah
-				AND T.tg_bayar BETWEEN ? AND ?
-			LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
-			GROUP BY
-			t_wilayah.kd_wilayah, t_wilayah.nm_wilayah
-            ORDER BY t_wilayah.kd_wilayah ASC;";
-        return DB::connection($kd_db)->select($q, [$tg_awal, $tg_akhir]);
+    SUBSTRING(t_lokasi.kd_lokasi, 1, 2) AS kd_lokasi_group,
+    CASE SUBSTRING(t_lokasi.kd_lokasi, 1, 2)
+        WHEN '01' THEN 'UPTD PPD SAMSAT KOTA JAMBI'
+        WHEN '02' THEN 'UPTD PPD SAMSAT KAB. BATANGHARI'
+        WHEN '03' THEN 'UPTD PPD SAMSAT KAB. TANJAB BARAT'
+        WHEN '04' THEN 'UPTD PPD SAMSAT KAB. MERANGIN'
+        WHEN '05' THEN 'UPTD PPD SAMSAT KAB. BUNGO'
+        WHEN '06' THEN 'UPTD PPD SAMSAT KAB. KERINCI'
+        WHEN '07' THEN 'UPTD PPD SAMSAT KAB. TANJAB TIMUR'
+        WHEN '08' THEN 'UPTD PPD SAMSAT KAB. MUARO JAMBI'
+        WHEN '09' THEN 'UPTD PPD SAMSAT KAB. SAROLANGUN'
+        WHEN '10' THEN 'UPTD PPD SAMSAT KAB. TEBO'
+        ELSE 'UNKNOWN LOCATION'
+    END AS nm_lokasi,
+    COALESCE(SUM(
+        C.opsen_bbn1_pok + C.opsen_bbn2_pok + C.opsen_bbn_tgk1 + C.opsen_bbn_tgk2
+    ), 0) AS opsen_bbn_pokok,
+    COALESCE(SUM(
+        C.opsen_bbn1_den + C.opsen_bbn2_den + C.opsen_bbn_den1 + C.opsen_bbn_den2
+    ), 0) AS opsen_bbn_denda,
+    COALESCE(SUM(
+        C.opsen_pkb_pok + C.opsen_pkb_tgk1 + C.opsen_pkb_tgk2 + C.opsen_pkb_tgk3 + C.opsen_pkb_tgk4 + C.opsen_pkb_tgk5
+    ), 0) AS opsen_pkb_pokok,
+    COALESCE(SUM(
+        C.opsen_pkb_den + C.opsen_pkb_den1 + C.opsen_pkb_den2 + C.opsen_pkb_den3 + C.opsen_pkb_den4 + C.opsen_pkb_den5
+    ), 0) AS opsen_pkb_denda,
+    COUNT(T.no_trn) AS jumlah_trn
+FROM
+    t_lokasi
+LEFT JOIN t_trnkb T ON T.kd_lokasi = t_lokasi.kd_lokasi
+LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+WHERE
+    T.tg_bayar BETWEEN ? AND ?
+    AND T.kd_wilayah = ?
+GROUP BY
+    SUBSTRING(t_lokasi.kd_lokasi, 1, 2),
+    CASE SUBSTRING(t_lokasi.kd_lokasi, 1, 2)
+        WHEN '01' THEN 'UPTD PPD SAMSAT KOTA JAMBI'
+        WHEN '02' THEN 'UPTD PPD SAMSAT KAB. BATANGHARI'
+        WHEN '03' THEN 'UPTD PPD SAMSAT KAB. TANJAB BARAT'
+        WHEN '04' THEN 'UPTD PPD SAMSAT KAB. MERANGIN'
+        WHEN '05' THEN 'UPTD PPD SAMSAT KAB. BUNGO'
+        WHEN '06' THEN 'UPTD PPD SAMSAT KAB. KERINCI'
+        WHEN '07' THEN 'UPTD PPD SAMSAT KAB. TANJAB TIMUR'
+        WHEN '08' THEN 'UPTD PPD SAMSAT KAB. MUARO JAMBI'
+        WHEN '09' THEN 'UPTD PPD SAMSAT KAB. SAROLANGUN'
+        WHEN '10' THEN 'UPTD PPD SAMSAT KAB. TEBO'
+        ELSE 'UNKNOWN LOCATION'
+    END
+ORDER BY
+    kd_lokasi_group ASC;
+";
+        return DB::connection($kd_db)->select($q, [$tg_awal, $tg_akhir, $kd_wilayah]);
     }
 
     public function sumPokokDanDenda($t_trnkb)

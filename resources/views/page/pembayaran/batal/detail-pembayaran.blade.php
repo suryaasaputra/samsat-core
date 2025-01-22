@@ -54,7 +54,7 @@
     <div class="col px-3" id="hasil_penetapan">
         <div class="card">
             <div class="card-header b-0">
-                <h4 class="card-title">Hasil Penetapan - {{ $data_kendaraan->no_polisi }} </h4>
+                <h4 class="card-title">Data Pembayaran - {{ $data_kendaraan->no_polisi }} </h4>
             </div>
             <div class="card-body pt-2">
                 <div class="row">
@@ -259,58 +259,16 @@
                         </table>
                     </div>
 
-                    <div class="col-12 mt-4">
-                        <form method="post" action="{{ route('bayar') }}" id="form-bayar">
+                    <div class="col-12 mt-2">
+                        <form method="post" action="{{ route('proses-batal-bayar') }}" id="form-batal-bayar">
                             @csrf
                             <input type="hidden" name="no_polisi" id="no_polisi"
                                 value="{{ $data_kendaraan->no_polisi }}" />
                             <input type="hidden" name="no_trn" id="no_trn"
                                 value="{{ $data_kendaraan->no_trn }}" />
-                            <input type="hidden" name="tg_bayar" value="{{ now()->format('Y-m-d') }}">
-                            <input type="hidden" name="kd_lokasi" value="{{ $data_kendaraan->kd_lokasi }}">
-                            <input type="hidden" name="kd_lokasinya" value="{{ $data_kendaraan->kd_lokasi }}">
-                            <input type="hidden" name="tg_awal_pkb" value="{{ $tg_akhir_pkb_yl }}">
-                            <input type="hidden" name="tg_akhir_pkb" value="{{ $tg_akhir_pkb }}">
-                            <input type="hidden" name="tg_awal_swdkllj" value="{{ $tg_akhir_pkb_yl }}">
-                            <input type="hidden" name="tg_akhir_swdkllj" value="{{ $tg_akhir_swdkllj }}">
-                            <input type="hidden" name="tg_daftar" value="{{ $data_kendaraan->tg_daftar }}">
-                            <input type="hidden" name="jml_total" value="{{ $bea['total_seluruh'] }}">
-                            <label class="select2-label" for="metode_bayar"><b>Metode Pembayaran</b><span
-                                    class="text-danger">*</span></label>
-                            <div class="row">
-                                <select class="disabling-options @error('metode_bayar') is-invalid @enderror mb-3"
-                                    name="metode_bayar" id="metode-bayar" tabindex="null">
-                                    <option value=null>Pilih Metode Pembayaran </option>
-                                    <option selected value="tunai">Tunai</option>
-                                    <option value="qris" disabled="disabled">Non Tunai (QRIS) (SEDANG TIDAK TERSEDIA)
-                                </select>
-                            </div>
-                            {{-- <div style="display:none;" id="card-qris" class="text-center mt-2">
-                                <div class="position-relative">
-                                    <img src="{{ asset('assets/images/qris_logo.png') }}"
-                                        class="img-fluid mx-auto mb-1 logo-qris" alt="Logo QRIS">
-                                    <button
-                                        class="btn btn-sm btn-primary position-absolute top-50 end-0 translate-middle-y"
-                                        type="button" id="printQrButton">Cetak QR</button>
-                                </div>
 
-                                <div class="d-flex justify-content-center">
-                                    <img src="" class="img-fluid h-25 w-25" id="qrcode" alt="...">
-                                </div>
-
-                                <h1 class="mt-3">
-                                    <small><span id="jumlah_bayar"></span></small>
-                                </h1>
-
-                                <div class="mt-2">
-                                    <p class="my-0">Silahkan Scan QR Code di atas untuk melakukan pembayaran
-                                    </p>
-                                    <p class="my-0">QR Code berlaku hingga <b><span id="batas_bayar"></span></b>
-                                    </p>
-                                </div>
-                            </div> --}}
-
-                            <button class="btn btn-sm btn-success w-100 " type="submit" id='btn-bayar'>Bayar</button>
+                            <button class="btn btn-sm btn-danger w-100 " type="submit" id='btn-batal'>Batalkan
+                                Pembayaran</button>
                         </form>
                     </div>
                 </div>
@@ -320,38 +278,13 @@
 @endsection
 
 
+
+
 @section('scripts')
     <script>
         $(document).ready(function() {
 
-
-            $('#btn-bayar').focus();
-
-            $('#form-bayar').submit(function(e) {
-                e.preventDefault();
-                $('#loadingDiv').show();
-                $('#btn-bayar').prop('disabled', true);
-
-                // var postData = {
-                // no_polisi: $('#no_polisi').val(),
-                // no_trn: $('#no_trn').val(),
-                // metode: $('#metode_bayar').val()
-                // };
-                // console.log(postData);
-                let metode_bayar = $('select[name="metode_bayar"]').val();
-
-                if (metode_bayar == null || metode_bayar == '' || metode_bayar == 'null') {
-                    $('#loadingDiv').hide();
-                    $('#btn-bayar').prop('disabled', false);
-                    toastr.error("Pilih metode pembayaran terlebih dahulu");
-                    $('select[name="metode_bayar"]').focus();
-                    $('select[name="metode_bayar"]').addClass('is-invalid');
-                    return;
-                }
-
-                // If form validation passes, submit the form
-                this.submit();
-            });
+            $('#btn-batal').focus();
 
             $('#metode_bayar').change(function() {
                 if ($(this).val() === 'qris') {

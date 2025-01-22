@@ -126,8 +126,8 @@ Route::middleware(['guest'])->group(function () {
 // Authentication routes (Auth middleware will protect these)
 Route::middleware('auth')->group(function () {
     Route::resources([
-        'roles'       => RoleController::class,
-        'users'       => UserController::class,
+        'roles' => RoleController::class,
+        'users' => UserController::class,
         'permissions' => PermissionController::class,
     ]);
     // Protected routes (Only accessible by authenticated users)
@@ -139,6 +139,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
     Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
+
+    Route::get('/batal-pembayaran', [PembayaranController::class, 'indexBatalBayar'])->name('batal-pembayaran');
+    Route::post('/batal-pembayaran', [PembayaranController::class, 'searchDataBatalBayar'])->name('detail-batal-pembayaran');
+    Route::post('/batal-pembayaran/submit', [PembayaranController::class, 'batalBayar'])->name('proses-batal-bayar');
+
     Route::post('/pembayaran/generateQris', [PembayaranController::class, 'generateQris'])->name('generate-qris');
 
     Route::get('/cetak-notice', [CetakNoticeController::class, 'index'])->name('cetak-notice');
@@ -183,6 +188,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/rekapitulasi-penerimaan-user', [RekapitulasiPenerimaanPerUserController::class, 'showForm'])->name('rekapitulasi-penerimaan-user.form');
     Route::post('/laporan/rekapitulasi-penerimaan-user', [RekapitulasiPenerimaanPerUserController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-user.submit');
     Route::post('/laporan/rekapitulasi-penerimaan-user/pdf', [RekapitulasiPenerimaanPerUserController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-user.pdf');
+    Route::get('/laporan/rekapitulasi-penerimaan-user/rincian', [RekapitulasiPenerimaanPerUserController::class, 'unduhDetailExcel'])->name('rekapitulasi-penerimaan-user.rincian');
 
     Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'showForm'])->name('rekapitulasi-penerimaan-detail.form');
     Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-detail.submit');

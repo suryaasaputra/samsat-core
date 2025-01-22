@@ -28,7 +28,7 @@ return [
             'css' => [
                 'vendor/select2/css/select2.min.css',
                 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css',
-                'css/style.css',
+                'css/style.min.css',
                 'vendor/sweetalert2/dist/sweetalert2.min.css',
                 'vendor/toastr/css/toastr.min.css',
 
@@ -232,7 +232,6 @@ return [
 
                 'ZenixadminController_form_laporan' => [
                     'vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css',
-                    'https://fonts.googleapis.com/icon?family=Material+Icons',
                 ],
                 'ZenixadminController_form_laporan_admin' => [
                     'vendor/bootstrap-daterangepicker/daterangepicker.css',

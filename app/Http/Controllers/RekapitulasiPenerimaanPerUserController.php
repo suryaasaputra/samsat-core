@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenerimaanExport;
 use App\Models\Lokasi;
 use App\Services\TrnkbService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RekapitulasiPenerimaanPerUserController extends Controller
 {
@@ -69,6 +71,34 @@ class RekapitulasiPenerimaanPerUserController extends Controller
             'dataTotal' => $data['dataTotal'],
         ]);
         return $pdf->stream($file_name . '.pdf');
+    }
+
+    public function unduhDetailExcel(Request $request)
+    {
+        $validated = $request->validate([
+            'tanggal' => 'required|date',
+            'kd_lokasi' => 'required|string',
+            'user' => 'required|string',
+        ]);
+
+        $tanggal = Carbon::parse($validated['tanggal'])->format('Y-m-d');
+        $kd_lokasi = $validated['kd_lokasi'];
+        $user = $validated['user'];
+        $lokasi = $this->getLokasi($kd_lokasi);
+        $dataTransaksi = $this->trnkbService->getLaporanTransaksiHarianByUser($tanggal, $user, $kd_lokasi);
+        $sumJumlah = $this->calculateSumJumlah($dataTransaksi);
+
+        $data = [
+            'dataTransaksi' => $dataTransaksi,
+            'tanggal' => $tanggal,
+            'lokasi' => $lokasi,
+            'kd_lokasi' => $kd_lokasi,
+            'sumJumlah' => $sumJumlah,
+        ];
+
+        $fileName = $user . '_Laporan_Penerimaan_Tanggal_' . $data['tanggal'] . '_di_' . $data['lokasi']->nm_lokasi . '.xlsx';
+
+        return Excel::download(new PenerimaanExport($data), $fileName);
     }
 
     private function prepareData(Request $request)
@@ -203,6 +233,30 @@ class RekapitulasiPenerimaanPerUserController extends Controller
             ],
         ];
 
+    }
+
+    private function calculateSumJumlah($dataTransaksi)
+    {
+        $sumJumlah = [
+            "bbn_pokok" => 0,
+            "bbn_denda" => 0,
+            "pkb_pokok" => 0,
+            "pkb_denda" => 0,
+            "swd_pokok" => 0,
+            "swd_denda" => 0,
+            "opsen_bbn_pokok" => 0,
+            "opsen_bbn_denda" => 0,
+            "opsen_pkb_pokok" => 0,
+            "opsen_pkb_denda" => 0,
+        ];
+
+        foreach ($dataTransaksi as $item) {
+            foreach ($sumJumlah as $key => &$value) {
+                $value += $item->$key;
+            }
+        }
+
+        return $sumJumlah;
     }
 
 }

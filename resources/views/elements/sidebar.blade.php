@@ -4,10 +4,7 @@
 <div class="deznav">
     <div class="deznav-scroll">
         <div class="main-profile">
-            <div class="image-bx">
-                <img src="{{ asset('images/ic_admin.png') }}" alt="">
-                <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
-            </div>
+
             <h5 class="name"><span class="font-w400">Hello,</span> {{ Auth::user()->name }}</h5>
             <p class="email">{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</p>
         </div>
@@ -22,6 +19,11 @@
                 <li><a href="{{ route('pembayaran') }}" class="ai-icon" aria-expanded="false">
                         <i class="flaticon-144-layout"></i>
                         <span class="nav-text">Pembayaran</span>
+                    </a>
+                </li>
+                <li><a href="{{ route('batal-pembayaran') }}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Batal Pembayaran</span>
                     </a>
                 </li>
             @endcan
@@ -114,15 +116,7 @@
 
         </ul>
 
-        <div class="main-profile contact-us p-1">
-            <div class="">
-                <img src="{{ asset('images/contact_us.png') }}" alt="" class="img-fluid w-75" />
-            </div>
-            <a href="https://wa.me/6281930924356?text=Halo Saya ada masalah terkait aplikasi ..." target="_blank"
-                class=" text-decoration-none">
-                <p class="p-1 text-white bg-primary fw-600 mx-4 mt-0 rounded-2">Klik Disini</p>
-            </a>
-        </div>
+
 
     </div>
 </div>

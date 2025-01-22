@@ -14,7 +14,7 @@
                         New
                         User</a>
                 @endcan
-                <table class="table table-striped table-bordered">
+                <table id="example" class="display table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
@@ -32,7 +32,7 @@
                                 <td>{{ $user->username }}</td>
                                 <td>
                                     @forelse ($user->getRoleNames() as $role)
-                                        <span class="badge bg-primary">{{ $role }}</span>
+                                        <span class="badge bg-info">{{ $role }}</span>
                                     @empty
                                     @endforelse
                                 </td>

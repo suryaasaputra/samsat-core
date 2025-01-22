@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Iwkbu;
 use App\Models\LogTrn;
 use App\Models\LogTrnkb;
 use App\Models\Monitor;
@@ -70,6 +71,12 @@ class PembayaranController extends Controller
             ->where('no_trn', $trnkbData->no_trn)
             ->first();
 
+        if (!$tg_akhir) {
+            return redirect()
+                ->route('pembayaran')
+                ->with('error', 'Data Tanggal Akhir (t_tg_akhir) Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
+
         // Get the current date
         $tahun = Carbon::now()->year;
         $tglskrng = Carbon::now()->format('Y-m-d'); // Format current date to 'md' (month and day)
@@ -78,6 +85,12 @@ class PembayaranController extends Controller
 
         $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
 
+        $iwkbu = Iwkbu::on(\Auth::user()->kd_wilayah)
+            ->where('no_trn', $trnkbData->no_trn)
+            ->where('no_polisi', $trnkbData->no_polisi)
+            ->where('kd_stat_trn', '0')
+            ->first();
+
         $data = [
             'page_title' => $page_title,
             'data_kendaraan' => $trnkbData,
@@ -85,6 +98,7 @@ class PembayaranController extends Controller
             'tg_akhir_pkb_yl' => $tg_akhir_pkb_yl,
             'tg_akhir_pkb' => $tg_akhir->tg_akhir_pkb,
             'tg_akhir_swdkllj' => $tg_akhir->tg_akhir_jr,
+            'iwkbu' => $iwkbu->jml_iwkbu ?? 0,
         ];
 
         return view('page.pembayaran.detail-pembayaran', $data);
@@ -127,6 +141,11 @@ class PembayaranController extends Controller
             ->table('t_tg_akhir')
             ->where('no_trn', $trnkbData->no_trn)
             ->first();
+        if (!$tg_akhir->tg_akhir_pkb) {
+            return redirect()
+                ->route('pembayaran')
+                ->with('error', 'Data Tanggal Akhir (t_tg_akhir) Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
 
         $tg_akhir_pkb_yl = $trnkbData->tg_akhir_pkb;
         $tg_akhir_swd_yl = $trnkbData->tg_akhir_jr;
@@ -151,6 +170,11 @@ class PembayaranController extends Controller
         $dataUpdateOpsen = [
             "tg_awal_pkb" => $tg_akhir_pkb_yl,
             "tg_akhir_pkb" => $tg_akhir->tg_akhir_pkb,
+        ];
+
+        $dataUpdateIwkbu = [
+            'kd_stat_trn' => '1',
+            'tg_bayar' => $tglskrng,
         ];
 
         $dataLogTrn = [
@@ -241,6 +265,11 @@ class PembayaranController extends Controller
                 ->where('no_polisi', $noPolisi)
                 ->update($dataUpdateOpsen);
 
+            Iwkbu::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->update($dataUpdateIwkbu);
+
             LogTrn::on($kdWilayah)
                 ->updateOrCreate([
                     'no_trn' => $noTrn,
@@ -274,6 +303,181 @@ class PembayaranController extends Controller
             DB::connection('induk')->rollBack(); // Rollback the transaction on error
 
             return redirect()->route('pembayaran')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
+    }
+
+    public function indexBatalBayar()
+    {
+        return view('page.pembayaran.batal.index', ["page_title" => "Batalkan Pembayaran"]);
+    }
+
+    public function searchDataBatalBayar(Request $request)
+    {
+
+        // Validate the incoming form data
+        $validated = $request->validate([
+            'no_polisi' => 'required|string|max:4',
+            'seri' => 'nullable|string|max:3|regex:/^[A-Z]+$/', // optional but must be uppercase letters if provided
+        ]);
+
+        // Assemble the full no_polisi value by combining no_polisi and seri
+
+        // Assemble the full no_polisi value
+        $noPolisi = 'BH ' . strtoupper($validated['no_polisi']);
+
+        if (!empty($validated['seri'])) {
+            $noPolisi .= ' ' . strtoupper($validated['seri']);
+        }
+
+        // dd($noPolisi);
+
+        $page_title = 'Rincian Pembayaran';
+        $kodeStatus = '4 ';
+        $kdWilayah = \Auth::user()->kd_wilayah;
+
+        $trnkbData = $this->trnkbService->getDataTransaksi($noPolisi, $kodeStatus, $kdWilayah);
+
+        if (!$trnkbData) {
+            return redirect()
+                ->back()
+                ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
+
+        $tg_akhir = DB::connection(\Auth::user()->kd_wilayah)
+            ->table('t_tg_akhir')
+            ->where('no_trn', $trnkbData->no_trn)
+            ->first();
+
+        if (!$tg_akhir) {
+            return redirect()
+                ->route('pembayaran')
+                ->with('error', 'Data Tanggal Akhir (t_tg_akhir) Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
+
+        // Get the current date
+        $tahun = Carbon::now()->year;
+        $tglskrng = Carbon::now()->format('Y-m-d'); // Format current date to 'md' (month and day)
+
+        $tg_akhir_pkb_yl = $trnkbData->tg_awal_pkb;
+
+        $bea = $this->trnkbService->sumPokokDanDenda($trnkbData);
+
+        $iwkbu = Iwkbu::on(\Auth::user()->kd_wilayah)
+            ->where('no_trn', $trnkbData->no_trn)
+            ->where('no_polisi', $trnkbData->no_polisi)
+            ->where('kd_stat_trn', '0')
+            ->first();
+
+        $data = [
+            'page_title' => $page_title,
+            'data_kendaraan' => $trnkbData,
+            'bea' => $bea,
+            'tg_akhir_pkb_yl' => $tg_akhir_pkb_yl,
+            'tg_akhir_pkb' => $tg_akhir->tg_akhir_pkb,
+            'tg_akhir_swdkllj' => $tg_akhir->tg_akhir_jr,
+            'iwkbu' => $iwkbu->jml_iwkbu ?? 0,
+        ];
+
+        return view('page.pembayaran.batal.detail-pembayaran', $data);
+
+    }
+
+    public function batalBayar(Request $request)
+    {
+        // Validate the incoming form data
+        $validated = $request->validate([
+            'no_polisi' => 'required|string',
+            'no_trn' => 'required|string',
+        ]);
+        $noPolisi = $validated['no_polisi'];
+        $noTrn = $validated['no_trn'];
+        $kdLokasi = \Auth::user()->kd_lokasi;
+        $kdWilayah = \Auth::user()->kd_wilayah;
+
+        $trnkbData = $this->trnkbService->getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, $kdWilayah);
+        if (!$trnkbData) {
+            return redirect()
+                ->route('pembayaran')
+                ->with('error', 'Data Transaksi Kendaraan No Polisi ' . $noPolisi . ' Tidak Ditemukan');
+        }
+
+        DB::connection($kdWilayah)->beginTransaction();
+        DB::connection('induk')->beginTransaction();
+
+        try {
+            // Step 1: Revert data updates in `Trnkb`
+            Trnkb::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->update([
+                    "kd_status" => '3 ', // Revert status (example)
+                    "tg_bayar" => null, // Nullify payment date
+                    "user_id_bayar" => null,
+                    "kd_kasir" => null,
+                    "kd_bayar" => null,
+                    "tg_awal_pkb" => null,
+                    "tg_akhir_pkb" => $trnkbData->tg_pre_pkb,
+                    "tg_awal_jr" => null,
+                    "tg_akhir_jr" => $trnkbData->tg_pre_jr,
+                ]);
+
+            // Step 2: Revert data updates in `Opsen`
+            Opsen::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->update([
+                    "tg_awal_pkb" => $trnkbData->tg_pre_pkb,
+                    "tg_akhir_pkb" => $trnkbData->tg_pre_pkb,
+                ]);
+
+            // Step 3: Revert data updates in `Iwkbu`
+            Iwkbu::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->update([
+                    'kd_stat_trn' => '0', // Default status (example)
+                    'tg_bayar' => null,
+                ]);
+
+            // Step 4: Delete log in `LogTrn`
+            LogTrn::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->where('kd_proses', '4 ')
+                ->delete();
+
+            // Step 5: Delete log in `LogTrnkb`
+            LogTrnkb::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->where('kd_proses', '4 ')
+                ->delete();
+
+            // Step 6: Remove data from `Tera`
+            Tera::on($kdWilayah)
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->delete();
+
+            // Step 7: Update cancellation status in `Monitor`
+            Monitor::on('induk')
+                ->where('no_trn', $noTrn)
+                ->where('no_polisi', $noPolisi)
+                ->where('kd_proses', '4')
+                ->delete();
+
+            // Commit all transactions
+            DB::connection($kdWilayah)->commit();
+            DB::connection('induk')->commit();
+
+            return redirect()->route('batal-pembayaran')->with('success', 'Pembayaran Untuk No Polisi ' . $noPolisi . ' Berhasil Dibatalkan');
+        } catch (\Exception $e) {
+            // Rollback in case of failure
+            DB::connection($kdWilayah)->rollBack();
+            DB::connection('induk')->rollBack();
+
+            return redirect()->route('batal-pembayaran')->with('error', 'Terjadi kesalahan saat pembatalan: ' . $e->getMessage());
         }
 
     }

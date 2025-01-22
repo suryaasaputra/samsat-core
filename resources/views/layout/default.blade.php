@@ -10,13 +10,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="@yield('page_description', $page_description ?? '')" />
-    <meta property="og:title" content="Zenix - Crypto Laravel Admin Dashboard" />
+    <meta property="og:title" content="Samsat Core Web" />
     <meta property="og:description" content="{{ config('dz.name') }} | @yield('title', $page_title ?? '')" />
-    <meta property="og:image" content="https://zenix.dexignzone.com/laravel/social-image.png" />
     <meta name="format-detection" content="telephone=no">
     <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logo_samsat_ok.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logo.png') }}">
 
     @php
         $action = isset($action) ? 'ZenixadminController_' . $action : 'dashboard_1';
@@ -34,7 +33,6 @@
         @endforeach
     @endif
 
-    @livewireStyles
 </head>
 
 <body>
@@ -42,13 +40,13 @@
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    {{-- <div id="preloader">
         <div class="sk-three-bounce">
             <div class="sk-child sk-bounce1"></div>
             <div class="sk-child sk-bounce2"></div>
             <div class="sk-child sk-bounce3"></div>
         </div>
-    </div>
+    </div> --}}
     <!--*******************
         Preloader end
     ********************-->
@@ -64,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="{{ route('home') }}" class="brand-logo">
-                <img src="{{ asset('images/logo_samsat_ok.png') }}" width="50">
+                <img src="{{ asset('images/logo.png') }}" width="50">
                 <svg class="brand-title" fill="none" width="166.144" height="21.922" viewBox="0 0 166.144 21.922"
                     xmlns="http://www.w3.org/2000/svg">
                     <g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#000"

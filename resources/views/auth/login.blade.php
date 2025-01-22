@@ -17,7 +17,7 @@
                 <div class="col-xl-12">
                     <div class="auth-form">
                         <div class="text-center  mb-3">
-                            <h3 class="text-primary">Aplikasi Samsat Web</h3>
+                            <h3 class="text-primary">Login Samsat Core Web</h3>
                         </div>
                         {{-- <h4 class="text-center mb-4">Silahkan masuk</h4> --}}
                         <form method="POST" action="{{ route('login') }}">

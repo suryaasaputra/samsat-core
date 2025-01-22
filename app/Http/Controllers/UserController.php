@@ -34,6 +34,7 @@ class UserController extends Controller
         return view('page.users.index', [
             'users' => User::latest('id')->paginate(10),
             'page_title' => 'Users',
+            'action' => 'table_datatable_basic',
         ]);
     }
 

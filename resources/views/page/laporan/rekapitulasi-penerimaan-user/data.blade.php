@@ -40,13 +40,15 @@
                                 <th style="text-align: right">BBNKB & PKB</th>
                                 <th style="text-align: right">Opsen BBNKB & PKB</th>
                                 <th style="text-align: right">SWDKLLJ</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data_rekap as $index => $item)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $item->user ?? 'Unknown' }}</td> <!-- Replace with actual user key -->
+                                    <td>{{ $item->user ?? 'Unknown' }}
+                                    </td> <!-- Replace with actual user key -->
                                     <td>{{ $item->nm_lokasi ?? 'N/A' }}</td> <!-- Replace with actual gerai/unit key -->
                                     <td style="text-align: right">
                                         {{ number_format($dataTotal['totals_per_item'][$index]['total_bbn'] + $dataTotal['totals_per_item'][$index]['total_pkb'], 0, ',', '.') }}
@@ -56,6 +58,12 @@
                                     </td>
                                     <td style="text-align: right">
                                         {{ number_format($dataTotal['totals_per_item'][$index]['total_swd'], 0, ',', '.') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('rekapitulasi-penerimaan-user.rincian', ['tanggal' => $tanggal, 'kd_lokasi' => $item->kd_lokasi, 'user' => $item->user]) }}"
+                                            class="btn btn-xs btn-info " targe="__blank">
+                                            Rincian
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -70,12 +78,15 @@
                                 <td style="text-align: right">
                                     {{ number_format($dataTotal['grand_totals']['total_swd'], 0, ',', '.') }}
                                 </td>
+                                <td>
+
+                                </td>
                             </tr>
                             <tr style="font-weight: bold">
                                 <td colspan="3" style="text-align: center">
                                     Total Seluruh
                                 </td>
-                                <td colspan="3" style="text-align: center">
+                                <td colspan="4" style="text-align: center">
                                     {{ number_format(
                                         $dataTotal['grand_totals']['total_bbn'] +
                                             $dataTotal['grand_totals']['total_pkb'] +

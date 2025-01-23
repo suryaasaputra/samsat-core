@@ -25,6 +25,20 @@ class TrnkbService
             ->orderBy('tg_daftar', 'desc');
         return $query->first();
     }
+
+    public function getDataTransaksiTerakhirOnInduk($noPolisi)
+    {
+        $query = $this->trnkb
+            ->where('no_polisi', $noPolisi)
+            ->orderBy('tg_bayar', 'desc');
+
+// Fetch the results as a collection
+        $results = $query->get();
+
+// Return the second row (index 1, since collections are zero-indexed)
+        return $results->skip(1)->first();
+    }
+
     public function getDataTransaksiByNoTransaksiAndNoPolisi($noTrn, $noPolisi, $kd_wilayah)
     {
 
@@ -82,7 +96,7 @@ class TrnkbService
                 DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
-            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
             ->leftJoin(DB::raw('t_post_qris'), function ($join) {
                 $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
                     ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
@@ -121,7 +135,7 @@ class TrnkbService
                 DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
-            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
             ->leftJoin(DB::raw('t_post_qris'), function ($join) {
                 $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
                     ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
@@ -162,7 +176,7 @@ class TrnkbService
                 DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
-            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
             ->leftJoin(DB::raw('t_post_qris'), function ($join) {
                 $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
                     ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
@@ -200,7 +214,7 @@ class TrnkbService
                 DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
-            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
             ->leftJoin(DB::raw('t_post_qris'), function ($join) {
                 $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
                     ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
@@ -237,7 +251,7 @@ class TrnkbService
                 DB::raw('T.user_id_bayar'),
                 DB::raw("CASE WHEN t_post_qris.nama IS NOT NULL THEN 'Non Tunai (QRIS)' ELSE 'Tunai' END AS metode_bayar")
             )
-            ->join(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
+            ->leftJoin(DB::raw('cweb_t_opsen AS C'), DB::raw('T.no_trn'), '=', DB::raw('C.no_trn'))
             ->leftJoin(DB::raw('t_post_qris'), function ($join) {
                 $join->on(DB::raw('T.no_polisi'), '=', DB::raw('t_post_qris.nama'))
                     ->where(DB::raw('t_post_qris.status_bayar'), '=', 'L');
@@ -295,7 +309,7 @@ class TrnkbService
 
 					FROM
 						t_trnkb
-					T JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+					T LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
 					WHERE
 						T.tg_bayar = '$tanggal'
 						AND T.kd_lokasi LIKE '%$kd_lokasi%'
@@ -348,7 +362,7 @@ class TrnkbService
 
             FROM
                 t_trnkb T
-                JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+                LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
             WHERE
                 T.tg_bayar BETWEEN ? AND ?
                 AND T.kd_lokasi LIKE ?
@@ -400,7 +414,7 @@ class TrnkbService
 
             FROM
                 t_trnkb T
-                JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+                LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
             WHERE
                 T.tg_bayar BETWEEN ? AND ?
                 AND T.kd_wilayah = ?
@@ -456,7 +470,7 @@ class TrnkbService
             COUNT(T.bea_pkb_pok) AS jml_wp
         FROM
             t_trnkb T
-            JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
+            LEFT JOIN cweb_t_opsen C ON T.no_trn = C.no_trn
             LEFT JOIN t_lokasi L ON T.kd_lokasi = L.kd_lokasi
         WHERE
             T.tg_bayar = ?
@@ -618,77 +632,77 @@ ORDER BY
 
         $bea_bbn1_pok = $this->calculateTotal($t_trnkb, $bbn1PokKeys);
         $bea_bbn1_den = $this->calculateTotal($t_trnkb, $bbn1DenKeys);
-        $bea_bbn1 = $bea_bbn1_pok + $bea_bbn1_den;
+        $bea_bbn1     = $bea_bbn1_pok + $bea_bbn1_den;
 
         $bea_bbn2_pok = $this->calculateTotal($t_trnkb, $bbn2PokKeys);
         $bea_bbn2_den = $this->calculateTotal($t_trnkb, $bbn2DenKeys);
-        $bea_bbn2 = $bea_bbn2_pok + $bea_bbn2_den;
+        $bea_bbn2     = $bea_bbn2_pok + $bea_bbn2_den;
 
         $bea_bbn_pok = $this->calculateTotal($t_trnkb, $bbnPokKeys);
         $bea_bbn_den = $this->calculateTotal($t_trnkb, $bbnDenKeys);
-        $bea_bbn = $bea_bbn_pok + $bea_bbn_den;
+        $bea_bbn     = $bea_bbn_pok + $bea_bbn_den;
 
         $opsen = $t_trnkb->opsen;
 
         $bea_opsen_bbn_pok = $this->calculateTotal($opsen, $opsenBbnPokKeys);
         $bea_opsen_bbn_den = $this->calculateTotal($opsen, $opsenBbnDenKeys);
-        $bea_opsen_bbn = $bea_opsen_bbn_pok + $bea_opsen_bbn_den;
+        $bea_opsen_bbn     = $bea_opsen_bbn_pok + $bea_opsen_bbn_den;
 
         $bea_pkb_pok = $this->calculateTotal($t_trnkb, $pkbPokKeys);
         $bea_pkb_den = $this->calculateTotal($t_trnkb, $pkbDenKeys);
-        $bea_pkb = $bea_pkb_pok + $bea_pkb_den;
+        $bea_pkb     = $bea_pkb_pok + $bea_pkb_den;
 
         $bea_opsen_pkb_pok = $this->calculateTotal($opsen, $opsenPkbPokKeys);
         $bea_opsen_pkb_den = $this->calculateTotal($opsen, $opsenPkbDenKeys);
-        $bea_opsen_pkb = $bea_opsen_pkb_pok + $bea_opsen_pkb_den;
+        $bea_opsen_pkb     = $bea_opsen_pkb_pok + $bea_opsen_pkb_den;
 
         $bea_swdkllj_pok = $this->calculateTotal($t_trnkb, $swdklljPokKeys);
         $bea_swdkllj_den = $this->calculateTotal($t_trnkb, $swdklljDenKeys);
-        $bea_swdkllj = $bea_swdkllj_pok + $bea_swdkllj_den;
+        $bea_swdkllj     = $bea_swdkllj_pok + $bea_swdkllj_den;
 
-        $bea_adm_stnk = (float) $t_trnkb->bea_adm_stnk;
+        $bea_adm_stnk   = (float) $t_trnkb->bea_adm_stnk;
         $bea_plat_nomor = (float) $t_trnkb->bea_plat_nomor;
 
         // Final totals
-        $total_pokok = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok;
-        $total_denda = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
+        $total_pokok   = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok;
+        $total_denda   = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
         $total_seluruh = $bea_bbn + $bea_opsen_bbn + $bea_pkb + $bea_opsen_pkb + $bea_swdkllj;
 
         return [
-            'pokok_bbnkb' => $bea_bbn_pok,
-            'denda_bbnkb' => $bea_bbn_den,
-            'total_bbnkb' => $bea_bbn,
+            'pokok_bbnkb'       => $bea_bbn_pok,
+            'denda_bbnkb'       => $bea_bbn_den,
+            'total_bbnkb'       => $bea_bbn,
 
-            'pokok_bbn1' => $bea_bbn1_pok,
-            'denda_bbn1' => $bea_bbn1_den,
-            'total_bbn1' => $bea_bbn1,
+            'pokok_bbn1'        => $bea_bbn1_pok,
+            'denda_bbn1'        => $bea_bbn1_den,
+            'total_bbn1'        => $bea_bbn1,
 
-            'pokok_bbn2' => $bea_bbn2_pok,
-            'denda_bbn2' => $bea_bbn2_den,
-            'total_bbn2' => $bea_bbn2,
+            'pokok_bbn2'        => $bea_bbn2_pok,
+            'denda_bbn2'        => $bea_bbn2_den,
+            'total_bbn2'        => $bea_bbn2,
 
-            'pokok_pkb' => $bea_pkb_pok,
-            'denda_pkb' => $bea_pkb_den,
-            'total_pkb' => $bea_pkb,
+            'pokok_pkb'         => $bea_pkb_pok,
+            'denda_pkb'         => $bea_pkb_den,
+            'total_pkb'         => $bea_pkb,
 
-            'pokok_swdkllj' => $bea_swdkllj_pok,
-            'denda_swdkllj' => $bea_swdkllj_den,
-            'total_swdkllj' => $bea_swdkllj,
+            'pokok_swdkllj'     => $bea_swdkllj_pok,
+            'denda_swdkllj'     => $bea_swdkllj_den,
+            'total_swdkllj'     => $bea_swdkllj,
 
             'pokok_opsen_bbnkb' => $bea_opsen_bbn_pok,
             'denda_opsen_bbnkb' => $bea_opsen_bbn_den,
             'total_opsen_bbnkb' => $bea_opsen_bbn,
 
-            'pokok_opsen_pkb' => $bea_opsen_pkb_pok,
-            'denda_opsen_pkb' => $bea_opsen_pkb_den,
-            'total_opsen_pkb' => $bea_opsen_pkb,
+            'pokok_opsen_pkb'   => $bea_opsen_pkb_pok,
+            'denda_opsen_pkb'   => $bea_opsen_pkb_den,
+            'total_opsen_pkb'   => $bea_opsen_pkb,
 
-            'bea_adm_stnk' => $bea_adm_stnk,
-            'bea_plat_nomor' => $bea_plat_nomor,
+            'bea_adm_stnk'      => $bea_adm_stnk,
+            'bea_plat_nomor'    => $bea_plat_nomor,
 
-            'total_pokok' => $total_pokok,
-            'total_denda' => $total_denda,
-            'total_seluruh' => $total_seluruh,
+            'total_pokok'       => $total_pokok,
+            'total_denda'       => $total_denda,
+            'total_seluruh'     => $total_seluruh,
         ];
     }
 
@@ -719,76 +733,76 @@ ORDER BY
 
         $bea_bbn1_pok = $this->calculateTotal($t_trnkb, $bbn1PokKeys);
         $bea_bbn1_den = $this->calculateTotal($t_trnkb, $bbn1DenKeys);
-        $bea_bbn1 = $bea_bbn1_pok + $bea_bbn1_den;
+        $bea_bbn1     = $bea_bbn1_pok + $bea_bbn1_den;
 
         $bea_bbn2_pok = $this->calculateTotal($t_trnkb, $bbn2PokKeys);
         $bea_bbn2_den = $this->calculateTotal($t_trnkb, $bbn2DenKeys);
-        $bea_bbn2 = $bea_bbn2_pok + $bea_bbn2_den;
+        $bea_bbn2     = $bea_bbn2_pok + $bea_bbn2_den;
 
         $bea_bbn_pok = $this->calculateTotal($t_trnkb, $bbnPokKeys);
         $bea_bbn_den = $this->calculateTotal($t_trnkb, $bbnDenKeys);
-        $bea_bbn = $bea_bbn_pok + $bea_bbn_den;
+        $bea_bbn     = $bea_bbn_pok + $bea_bbn_den;
 
         $opsen = $t_trnkb->opsen;
 
         $bea_opsen_bbn_pok = $this->calculateTotal($opsen, $opsenBbnPokKeys);
         $bea_opsen_bbn_den = $this->calculateTotal($opsen, $opsenBbnDenKeys);
-        $bea_opsen_bbn = $bea_opsen_bbn_pok + $bea_opsen_bbn_den;
+        $bea_opsen_bbn     = $bea_opsen_bbn_pok + $bea_opsen_bbn_den;
 
         $bea_pkb_pok = $this->calculateTotal($t_trnkb, $pkbPokKeys);
         $bea_pkb_den = $this->calculateTotal($t_trnkb, $pkbDenKeys);
-        $bea_pkb = $bea_pkb_pok + $bea_pkb_den;
+        $bea_pkb     = $bea_pkb_pok + $bea_pkb_den;
 
         $bea_opsen_pkb_pok = $this->calculateTotal($opsen, $opsenPkbPokKeys);
         $bea_opsen_pkb_den = $this->calculateTotal($opsen, $opsenPkbDenKeys);
-        $bea_opsen_pkb = $bea_opsen_pkb_pok + $bea_opsen_pkb_den;
+        $bea_opsen_pkb     = $bea_opsen_pkb_pok + $bea_opsen_pkb_den;
 
         $bea_swdkllj_pok = $this->calculateTotal($t_trnkb, $swdklljPokKeys);
         $bea_swdkllj_den = $this->calculateTotal($t_trnkb, $swdklljDenKeys);
-        $bea_swdkllj = $bea_swdkllj_pok + $bea_swdkllj_den;
+        $bea_swdkllj     = $bea_swdkllj_pok + $bea_swdkllj_den;
 
-        $bea_adm_stnk = (float) $t_trnkb->bea_adm_stnk;
+        $bea_adm_stnk   = (float) $t_trnkb->bea_adm_stnk;
         $bea_plat_nomor = (float) $t_trnkb->bea_plat_nomor;
         // Final totals
-        $total_pokok = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok + $t_trnkb->bea_adm_stnk + $t_trnkb->bea_plat_nomor;
-        $total_denda = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
+        $total_pokok   = $bea_bbn_pok + $bea_opsen_bbn_pok + $bea_pkb_pok + $bea_opsen_pkb_pok + $bea_swdkllj_pok + $t_trnkb->bea_adm_stnk + $t_trnkb->bea_plat_nomor;
+        $total_denda   = $bea_bbn_den + $bea_opsen_bbn_den + $bea_pkb_den + $bea_opsen_pkb_den + $bea_swdkllj_den;
         $total_seluruh = $bea_bbn + $bea_opsen_bbn + $bea_pkb + $bea_opsen_pkb + $bea_swdkllj + $bea_adm_stnk + $bea_plat_nomor;
 
         return [
-            'pokok_bbnkb' => $bea_bbn_pok,
-            'denda_bbnkb' => $bea_bbn_den,
-            'total_bbnkb' => $bea_bbn,
+            'pokok_bbnkb'       => $bea_bbn_pok,
+            'denda_bbnkb'       => $bea_bbn_den,
+            'total_bbnkb'       => $bea_bbn,
 
-            'pokok_bbn1' => $bea_bbn1_pok,
-            'denda_bbn1' => $bea_bbn1_den,
-            'total_bbn1' => $bea_bbn1,
+            'pokok_bbn1'        => $bea_bbn1_pok,
+            'denda_bbn1'        => $bea_bbn1_den,
+            'total_bbn1'        => $bea_bbn1,
 
-            'pokok_bbn2' => $bea_bbn2_pok,
-            'denda_bbn2' => $bea_bbn2_den,
-            'total_bbn2' => $bea_bbn2,
+            'pokok_bbn2'        => $bea_bbn2_pok,
+            'denda_bbn2'        => $bea_bbn2_den,
+            'total_bbn2'        => $bea_bbn2,
 
-            'pokok_pkb' => $bea_pkb_pok,
-            'denda_pkb' => $bea_pkb_den,
-            'total_pkb' => $bea_pkb,
+            'pokok_pkb'         => $bea_pkb_pok,
+            'denda_pkb'         => $bea_pkb_den,
+            'total_pkb'         => $bea_pkb,
 
-            'pokok_swdkllj' => $bea_swdkllj_pok,
-            'denda_swdkllj' => $bea_swdkllj_den,
-            'total_swdkllj' => $bea_swdkllj,
+            'pokok_swdkllj'     => $bea_swdkllj_pok,
+            'denda_swdkllj'     => $bea_swdkllj_den,
+            'total_swdkllj'     => $bea_swdkllj,
 
             'pokok_opsen_bbnkb' => $bea_opsen_bbn_pok,
             'denda_opsen_bbnkb' => $bea_opsen_bbn_den,
             'total_opsen_bbnkb' => $bea_opsen_bbn,
 
-            'pokok_opsen_pkb' => $bea_opsen_pkb_pok,
-            'denda_opsen_pkb' => $bea_opsen_pkb_den,
-            'total_opsen_pkb' => $bea_opsen_pkb,
+            'pokok_opsen_pkb'   => $bea_opsen_pkb_pok,
+            'denda_opsen_pkb'   => $bea_opsen_pkb_den,
+            'total_opsen_pkb'   => $bea_opsen_pkb,
 
-            'bea_adm_stnk' => $bea_adm_stnk,
-            'bea_plat_nomor' => $bea_plat_nomor,
+            'bea_adm_stnk'      => $bea_adm_stnk,
+            'bea_plat_nomor'    => $bea_plat_nomor,
 
-            'total_pokok' => $total_pokok,
-            'total_denda' => $total_denda,
-            'total_seluruh' => $total_seluruh,
+            'total_pokok'       => $total_pokok,
+            'total_denda'       => $total_denda,
+            'total_seluruh'     => $total_seluruh,
         ];
     }
 

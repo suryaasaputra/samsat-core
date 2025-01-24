@@ -22,7 +22,7 @@ class PenerimaanHarianController extends Controller
     {
 
         $this->trnkbService = $trnkbService;
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Monitoring');
 
     }
 

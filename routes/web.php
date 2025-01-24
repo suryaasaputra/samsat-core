@@ -41,9 +41,13 @@ Route::get('/', function () {
     return redirect()->route('login'); // Redirect to the login page
 });
 
+Route::get('/check-ip', function (Request $request) {
+    return "IP address Anda: " . $request->ip();
+});
+
 // Route::get('/', [ZenixadminController::class, 'dashboard_1']);
 // Route::get('/', [ZenixadminController::class, 'dashboard_1']);
-// Route::get('/index', [ZenixadminController::class, 'dashboard_1']);
+Route::get('/index', [ZenixadminController::class, 'dashboard_1']);
 // Route::get('/index-2', [ZenixadminController::class, 'dashboard_2']);
 // Route::get('/coin-details', [ZenixadminController::class, 'coin_details']);
 // Route::get('/portofolio', [ZenixadminController::class, 'portofolio']);
@@ -125,36 +129,40 @@ Route::middleware(['guest'])->group(function () {
 
 // Authentication routes (Auth middleware will protect these)
 Route::middleware('auth')->group(function () {
+
     Route::resources([
-        'roles' => RoleController::class,
-        'users' => UserController::class,
+        'roles'       => RoleController::class,
+        'users'       => UserController::class,
         'permissions' => PermissionController::class,
     ]);
+
+    Route::middleware(['access.mode:offline'])->group(function () {
+        Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
+        Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
+        Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
+
+        Route::get('/batal-pembayaran', [PembayaranController::class, 'indexBatalBayar'])->name('batal-pembayaran');
+        Route::post('/batal-pembayaran', [PembayaranController::class, 'searchDataBatalBayar'])->name('detail-batal-pembayaran');
+        Route::post('/batal-pembayaran/submit', [PembayaranController::class, 'batalBayar'])->name('proses-batal-bayar');
+
+        Route::post('/pembayaran/generateQris', [PembayaranController::class, 'generateQris'])->name('generate-qris');
+
+        Route::get('/cetak-notice', [CetakNoticeController::class, 'index'])->name('cetak-notice');
+        Route::post('/cetak-notice', [CetakNoticeController::class, 'nopol'])->name('cetak-notice.input-nopol');
+        Route::post('/cetak-notice/detail', [CetakNoticeController::class, 'searchNopol'])->name('detail-cetak-notice');
+        Route::post('/cetak-notice/cetak', [CetakNoticeController::class, 'cetak'])->name('cetak-notice.cetak');
+
+        Route::get('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'index'])->name('ulang-cetak-notice');
+        Route::post('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'nopol'])->name('ulang-cetak-notice.input-nopol');
+        Route::post('/ulang-cetak-notice/detail', [UlangCetakNoticeController::class, 'searchNopol'])->name('ulang-detail-cetak-notice');
+        Route::post('/ulang-cetak-notice/cetak', [UlangCetakNoticeController::class, 'cetak'])->name('ulang-cetak-notice.cetak');
+    });
+
     // Protected routes (Only accessible by authenticated users)
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     // Route for showing the profile update form
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
-    Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
-    Route::post('/pembayaran/detail', [PembayaranController::class, 'searchNopol'])->name('detail-pembayaran');
-    Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayar'])->name('bayar');
-
-    Route::get('/batal-pembayaran', [PembayaranController::class, 'indexBatalBayar'])->name('batal-pembayaran');
-    Route::post('/batal-pembayaran', [PembayaranController::class, 'searchDataBatalBayar'])->name('detail-batal-pembayaran');
-    Route::post('/batal-pembayaran/submit', [PembayaranController::class, 'batalBayar'])->name('proses-batal-bayar');
-
-    Route::post('/pembayaran/generateQris', [PembayaranController::class, 'generateQris'])->name('generate-qris');
-
-    Route::get('/cetak-notice', [CetakNoticeController::class, 'index'])->name('cetak-notice');
-    Route::post('/cetak-notice', [CetakNoticeController::class, 'nopol'])->name('cetak-notice.input-nopol');
-    Route::post('/cetak-notice/detail', [CetakNoticeController::class, 'searchNopol'])->name('detail-cetak-notice');
-    Route::post('/cetak-notice/cetak', [CetakNoticeController::class, 'cetak'])->name('cetak-notice.cetak');
-
-    Route::get('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'index'])->name('ulang-cetak-notice');
-    Route::post('/ulang-cetak-notice', [UlangCetakNoticeController::class, 'nopol'])->name('ulang-cetak-notice.input-nopol');
-    Route::post('/ulang-cetak-notice/detail', [UlangCetakNoticeController::class, 'searchNopol'])->name('ulang-detail-cetak-notice');
-    Route::post('/ulang-cetak-notice/cetak', [UlangCetakNoticeController::class, 'cetak'])->name('ulang-cetak-notice.cetak');
 
     Route::get('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'showForm'])->name('penerimaan-harian.form');
     Route::post('/laporan/penerimaan-harian', [PenerimaanHarianController::class, 'handleFormSubmission'])->name('penerimaan-harian.submit');

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
@@ -32,9 +31,9 @@ class UserController extends Controller
     public function index(): View
     {
         return view('page.users.index', [
-            'users' => User::latest('id')->paginate(10),
+            'users'      => User::orderBy('created_at', 'desc')->get(),
             'page_title' => 'Users',
-            'action' => 'table_datatable_basic',
+            'action'     => 'table_datatable_basic',
         ]);
     }
 
@@ -46,10 +45,10 @@ class UserController extends Controller
 
         return view('page.users.create', [
             'page_title' => 'Create User',
-            'roles' => Role::pluck('name')->all(),
-            'wilayah' => Wilayah::all(),
-            'lokasi' => NamaLokasi::orderBy('kd_lokasi')->get(),
-            'printer' => Printer::all(),
+            'roles'      => Role::pluck('name')->all(),
+            'wilayah'    => Wilayah::all(),
+            'lokasi'     => NamaLokasi::orderBy('kd_lokasi')->get(),
+            'printer'    => Printer::all(),
 
         ]);
     }
@@ -77,7 +76,7 @@ class UserController extends Controller
     {
 
         return view('page.users.show', [
-            'user' => $user,
+            'user'       => $user,
             'page_title' => 'Detail User ' . $user->username,
         ]);
     }
@@ -95,13 +94,13 @@ class UserController extends Controller
         }
         // dd($user->kd_lokasi);
         return view('page.users.edit', [
-            'user' => $user,
-            'roles' => Role::pluck('name')->all(),
-            'userRoles' => $user->roles->pluck('name')->all(),
+            'user'       => $user,
+            'roles'      => Role::pluck('name')->all(),
+            'userRoles'  => $user->roles->pluck('name')->all(),
             'page_title' => 'Edit User ' . $user->username,
-            'wilayah' => Wilayah::all(),
-            'lokasi' => NamaLokasi::all(),
-            'printer' => Printer::all(),
+            'wilayah'    => Wilayah::all(),
+            'lokasi'     => NamaLokasi::all(),
+            'printer'    => Printer::all(),
         ]);
     }
 
@@ -112,7 +111,7 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        if (!empty($request->password)) {
+        if (! empty($request->password)) {
             $input['password'] = Hash::make($request->password);
         } else {
             $input = $request->except('password');

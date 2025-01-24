@@ -17,6 +17,7 @@ class PenerimaanOpsen extends Controller
     public function __construct(TrnkbService $trnkbService)
     {
         $this->trnkbService = $trnkbService;
+        $this->middleware('role:Admin|Monitoring');
     }
 
     public function showForm()

@@ -9,14 +9,30 @@
 
         <div class="row">
 
+            @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin', 'Monitoring']))
+                <h3 class="mb-2">Selamat Datang</h3>
+            @endif
 
-            @can('bayar')
+
+            @role('Petugas Cetak Notice')
                 <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
                     <a href="{{ route('pembayaran') }}">
                         <div class=" ">
                             <div class="d-flex align-items-center">
                                 <div class="">
                                     <h4 class=" font-w600 mb-0 text-white">Pembayaran
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
+                    <a href="{{ route('batal-pembayaran') }}">
+                        <div class=" ">
+                            <div class="d-flex align-items-center">
+                                <div class="">
+                                    <h4 class=" font-w600 mb-0 text-white">Batal Pembayaran
                                     </h4>
                                 </div>
                             </div>
@@ -92,42 +108,6 @@
             @endif
 
 
-            <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-                <a href="{{ route('penerimaan-harian.form') }}">
-                    <div class=" ">
-                        <div class="d-flex align-items-center">
-                            <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">Laporan Penerimaan Harian
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-                <a href="{{ route('rekapitulasi-penerimaan-ringkas.form') }}">
-                    <div class=" ">
-                        <div class="d-flex align-items-center">
-                            <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">Rekapitulasi Penerimaan Harian (Ringkas)
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
-                <a href="{{ route('rekapitulasi-penerimaan-detail.form') }}">
-                    <div class=" ">
-                        <div class="d-flex align-items-center">
-                            <div class="">
-                                <h4 class=" font-w600 mb-0 text-white">Rekapitulasi Penerimaan Harian (Detail)
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
 
         </div>
 

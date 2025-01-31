@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\RekapOpsenExport;
 use App\Http\Controllers\Controller;
 use App\Models\Wilayah;
 use App\Services\TrnkbService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenerimaanOpsen extends Controller
 {
@@ -65,6 +67,15 @@ class PenerimaanOpsen extends Controller
             'dataTotals'     => $data['dataTotals'],
         ]);
         return $pdf->stream($file_name . '.pdf');
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        $data = $this->prepareData($request);
+
+        $fileName = 'Rekapitulasi Penerimaan Opsen ' . $data['nm_wilayah'] . ' ' . $data['tg_awal'] . ' sd ' . $data['tg_akhir'] . '.xlsx';
+
+        return Excel::download(new RekapOpsenExport($data), $fileName);
     }
 
     private function prepareData(Request $request)

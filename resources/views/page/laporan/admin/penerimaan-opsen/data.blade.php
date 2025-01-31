@@ -24,6 +24,14 @@
                                     <button type="submit" class="btn btn-sm btn-primary w-100">PDF</button>
                                 </form>
                             </div>
+                            <div class="dropdown-item">
+                                <form action="{{ route('admin.penerimaan-opsen.excel') }}" method="post" target="_blank">
+                                    @csrf
+                                    <input type="hidden" id="tanggal" name="tanggal" value="{{ $tanggal }}">
+                                    <input type="hidden" id="kd_wilayah" name="kd_wilayah" value="{{ $kd_wilayah }}">
+                                    <button type="submit" class="btn btn-sm btn-info w-100">Excel</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,6 +47,7 @@
                                 <th><strong>DENDA OPSEN BBNKB</strong></th>
                                 <th><strong>POKOK OPSEN PKB</strong></th>
                                 <th><strong>DENDA OPSEN PKB</strong></th>
+                                <th><strong>Total</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,28 +59,20 @@
                                     <td>{{ number_format($row->opsen_bbn_denda, 0) }}</td>
                                     <td>{{ number_format($row->opsen_pkb_pokok, 0) }}</td>
                                     <td>{{ number_format($row->opsen_pkb_denda, 0) }}</td>
+                                    <td>{{ number_format($row->opsen_bbn_pokok + $row->opsen_bbn_denda + $row->opsen_pkb_pokok + $row->opsen_pkb_denda, 0) }}
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="2" rowspan="2" style="text-align: center"><strong>JUMLAH TOTAL</strong>
-                                </td>
-                                <td><strong>{{ number_format($dataTotals['total_opsen_bbn_pokok'], 0) }} </strong></td>
-                                <td><strong>{{ number_format($dataTotals['total_opsen_bbn_denda'], 0) }} </strong></td>
-                                <td><strong>{{ number_format($dataTotals['total_opsen_pkb_pokok'], 0) }} </strong></td>
-                                <td><strong>{{ number_format($dataTotals['total_opsen_pkb_denda'], 0) }} </strong></td>
+                                <th colspan="2" style="text-align: center"><strong>TOTAL</strong>
+                                </th>
+                                <th><strong>{{ number_format($dataTotals['total_opsen_bbn_pokok'], 0) }} </strong></th>
+                                <th><strong>{{ number_format($dataTotals['total_opsen_bbn_denda'], 0) }} </strong></th>
+                                <th><strong>{{ number_format($dataTotals['total_opsen_pkb_pokok'], 0) }} </strong></th>
+                                <th><strong>{{ number_format($dataTotals['total_opsen_pkb_denda'], 0) }} </strong></th>
+                                <th><strong>{{ number_format($dataTotals['total_opsen_bbn_pokok'] + $dataTotals['total_opsen_bbn_denda'] + $dataTotals['total_opsen_pkb_pokok'] + $dataTotals['total_opsen_pkb_denda'], 0) }}
+                                    </strong></th>
 
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align: center">
-                                    <strong>{{ number_format(
-                                        $dataTotals['total_opsen_bbn_pokok'] +
-                                            $dataTotals['total_opsen_bbn_denda'] +
-                                            $dataTotals['total_opsen_pkb_pokok'] +
-                                            $dataTotals['total_opsen_pkb_denda'] +
-                                            0,
-                                    ) }}
-                                    </strong>
-                                </td>
                             </tr>
                         </tbody>
                     </table>

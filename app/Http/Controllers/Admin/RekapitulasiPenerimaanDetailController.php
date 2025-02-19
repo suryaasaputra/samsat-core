@@ -25,7 +25,7 @@ class RekapitulasiPenerimaanDetailController extends Controller
     {
         $page_title = 'Rekapitulasi Penerimaan (Mendetail)';
 
-        $wilayah = Wilayah::all();
+        $wilayah = Wilayah::where('kd_wilayah', '!=', '011')->get();
 
         // Fetch all wilayah for the dropdown
 

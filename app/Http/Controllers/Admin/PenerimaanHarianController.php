@@ -30,7 +30,7 @@ class PenerimaanHarianController extends Controller
     {
         $page_title = 'Penerimaan Harian';
 
-        $wilayah = Wilayah::all();
+        $wilayah = Wilayah::where('kd_wilayah', '!=', '011')->get();
 
         // Fetch all wilayah for the dropdown
 

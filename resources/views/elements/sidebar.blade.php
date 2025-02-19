@@ -26,6 +26,11 @@
                         <span class="nav-text">Batal Pembayaran</span>
                     </a>
                 </li>
+                {{-- <li><a href="{{ route('rekon-opsen.form') }}" class="ai-icon" aria-expanded="false">
+                        <i class="flaticon-144-layout"></i>
+                        <span class="nav-text">Rekonsiliasi Opsen</span>
+                    </a>
+                </li> --}}
             @endrole
             @role('Petugas Cetak Notice')
                 <li><a href="{{ route('cetak-notice') }}" class="ai-icon" aria-expanded="false">

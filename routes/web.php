@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapitulasiPenerimaanDetailController;
 use App\Http\Controllers\RekapitulasiPenerimaanPerUserController;
 use App\Http\Controllers\RekapitulasiPenerimaanRingkasController;
+use App\Http\Controllers\RekonsiliasiOpsenController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UlangCetakNoticeController;
 use App\Http\Controllers\UserController;
@@ -183,6 +184,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/laporan/penerimaan-opsen', [PenerimaanOpsen::class, 'handleFormSubmission'])->name('admin.penerimaan-opsen.submit');
         Route::post('/laporan/penerimaan-opsen/pdf', [PenerimaanOpsen::class, 'exportToPdf'])->name('admin.penerimaan-opsen.pdf');
         Route::post('/laporan/penerimaan-opsen/excel', [PenerimaanOpsen::class, 'exportToExcel'])->name('admin.penerimaan-opsen.excel');
+        Route::get('/laporan/penerimaan-opsen/rincian', [PenerimaanOpsen::class, 'unduhRincian'])->name('admin.penerimaan-opsen.rincian');
     });
 
     Route::get('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'showForm'])->name('penerimaan-harian-opsen.form');
@@ -202,6 +204,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'showForm'])->name('rekapitulasi-penerimaan-detail.form');
     Route::post('/laporan/rekapitulasi-penerimaan-detail', [RekapitulasiPenerimaanDetailController::class, 'handleFormSubmission'])->name('rekapitulasi-penerimaan-detail.submit');
     Route::post('/laporan/rekapitulasi-penerimaan-detail/pdf', [RekapitulasiPenerimaanDetailController::class, 'exportToPdf'])->name('rekapitulasi-penerimaan-detail.pdf');
+
+    Route::get('/rekon-opsen', [RekonsiliasiOpsenController::class, 'showForm'])->name('rekon-opsen.form');
+    Route::post('/rekon-opsen', [RekonsiliasiOpsenController::class, 'showDataRekon'])->name('rekon-opsen.submit');
 
     Route::get('/fetch-lokasi', function (Request $request) {
         $kd_wilayah = $request->get('kd_wilayah');

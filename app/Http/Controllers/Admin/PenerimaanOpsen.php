@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\RekapOpsenExport;
+use App\Exports\RincianPenerimaanOpsen;
 use App\Http\Controllers\Controller;
 use App\Models\Wilayah;
 use App\Services\TrnkbService;
@@ -76,6 +77,56 @@ class PenerimaanOpsen extends Controller
         $fileName = 'Rekapitulasi Penerimaan Opsen ' . $data['nm_wilayah'] . ' ' . $data['tg_awal'] . ' sd ' . $data['tg_akhir'] . '.xlsx';
 
         return Excel::download(new RekapOpsenExport($data), $fileName);
+    }
+
+    public function unduhRincian(Request $request)
+    {
+        $validated = $request->validate([
+            'tanggal'    => 'required|string',
+            'kd_wilayah' => 'nullable|string',
+        ]);
+
+        $tanggal = $validated['tanggal'];
+
+        list($tg_awal, $tg_akhir) = explode(' - ', $validated['tanggal']);
+
+        // Convert the dates to Y-m-d format using Carbon
+        $tg_awal  = Carbon::createFromFormat('m/d/Y', trim($tg_awal))->format('Y-m-d');
+        $tg_akhir = Carbon::createFromFormat('m/d/Y', trim($tg_akhir))->format('Y-m-d');
+
+        $page_title = 'Daftar Penerimaan Harian PKB dan BBNKB';
+        $kd_wilayah = $validated['kd_wilayah'];
+        $nm_wilayah = Wilayah::find($kd_wilayah)->nm_wilayah;
+
+                                       // Define an array of wilayah codes from '001' to '010'
+        $allDB         = range(1, 10); // Generates [1, 2, 3, ..., 10]
+        $dataTransaksi = [];
+
+        $dataTransaksiInduk = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayahOnInduk($tg_awal, $tg_akhir, $kd_wilayah)->toArray();
+        // foreach ($allDB as $db) {
+        //     // Convert to three-digit string (e.g., '001', '002')
+        //     $kd_db = str_pad($db, 3, '0', STR_PAD_LEFT);
+
+        //     // Get transaksi data for this wilayah
+        //     $result = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayah($tg_awal, $tg_akhir, $kd_db, $kd_wilayah);
+
+        //     // Merge the result into the combined dataTransaksi array
+        //     $dataTransaksi = array_merge($dataTransaksi, $result->toArray());
+        // }
+
+        $sumJumlah = $this->calculateSumJumlah($dataTransaksiInduk);
+
+        $fileName = 'Rincian_Penerimaan_' . $nm_wilayah . '_Tanggal_' . $tg_awal . '_sd_' . $tg_akhir . '.xlsx';
+
+        return Excel::download(new RincianPenerimaanOpsen([
+            'dataTransaksi' => $dataTransaksiInduk,
+            'tanggal'       => $tanggal,
+            'tg_awal'       => $tg_awal,
+            'tg_akhir'      => $tg_akhir,
+            'kd_wilayah'    => $kd_wilayah,
+            'nm_wilayah'    => $nm_wilayah,
+            'sumJumlah'     => $sumJumlah,
+        ]), $fileName);
     }
 
     private function prepareData(Request $request)
@@ -161,6 +212,30 @@ class PenerimaanOpsen extends Controller
             'total_opsen_bbnkb' => $total_opsen_bbnkb,
             'total_seluruh'     => $total_seluruh,
         ];
+    }
+
+    private function calculateSumJumlah($dataTransaksi)
+    {
+        $sumJumlah = [
+            "bbn_pokok"       => 0,
+            "bbn_denda"       => 0,
+            "pkb_pokok"       => 0,
+            "pkb_denda"       => 0,
+            "swd_pokok"       => 0,
+            "swd_denda"       => 0,
+            "opsen_bbn_pokok" => 0,
+            "opsen_bbn_denda" => 0,
+            "opsen_pkb_pokok" => 0,
+            "opsen_pkb_denda" => 0,
+        ];
+
+        foreach ($dataTransaksi as $item) {
+            foreach ($sumJumlah as $key => &$value) {
+                $value += $item->$key;
+            }
+        }
+
+        return $sumJumlah;
     }
 
 }

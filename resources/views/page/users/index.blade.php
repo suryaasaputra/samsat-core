@@ -58,7 +58,7 @@
 
                                             @can('delete-user')
                                                 @if (Auth::user()->id != $user->id)
-                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                    <button type="button" class="btn btn-danger btn-sm"
                                                         onclick="confirmDelete(this)"><i class="bi bi-trash"></i>
                                                         Delete</button>
                                                 @endif
@@ -96,7 +96,7 @@
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.value) {
                     // Submit the form
                     document.getElementById('deleteForm').submit();
                 }

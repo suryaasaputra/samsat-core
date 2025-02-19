@@ -78,6 +78,15 @@
                     </table>
                 </div>
             </div>
+
+            <div class="card-footer">
+                <div class="col-6 text-center mx-auto">
+                    <div class="row justify-content-center">
+                        <a href="{{ route('admin.penerimaan-opsen.rincian', ['tanggal' => $tanggal, 'kd_wilayah' => $kd_wilayah]) }}"
+                            class="btn btn-success" target="_blank">Unduh Rincian</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

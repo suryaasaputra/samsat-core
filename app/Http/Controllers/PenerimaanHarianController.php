@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\PenerimaanExport;
@@ -49,12 +48,12 @@ class PenerimaanHarianController extends Controller
         $data = $this->prepareData($request);
 
         return view('page.laporan.penerimaan-harian.data', [
-            'page_title' => $data['page_title'],
+            'page_title'    => $data['page_title'],
             'dataTransaksi' => $data['dataTransaksi'],
-            'tanggal' => $data['tanggal'],
-            'lokasi' => $data['lokasi'],
-            'kd_lokasi' => $data['kd_lokasi'],
-            'sumJumlah' => $data['sumJumlah'],
+            'tanggal'       => $data['tanggal'],
+            'lokasi'        => $data['lokasi'],
+            'kd_lokasi'     => $data['kd_lokasi'],
+            'sumJumlah'     => $data['sumJumlah'],
         ]);
     }
 
@@ -63,13 +62,13 @@ class PenerimaanHarianController extends Controller
         $data = $this->prepareData($request);
 
         $file_name = 'Laporan Penerimaan Tanggal ' . $data['tanggal'] . ' di ' . $data['lokasi']->nm_lokasi;
-        $pdf = Pdf::loadView('page.laporan.penerimaan-harian.export-pdf', [
-            'page_title' => $data['page_title'],
+        $pdf       = Pdf::loadView('page.laporan.penerimaan-harian.export-pdf', [
+            'page_title'    => $data['page_title'],
             'dataTransaksi' => $data['dataTransaksi'],
-            'tanggal' => $data['tanggal'],
-            'lokasi' => $data['lokasi'],
-            'kd_lokasi' => $data['kd_lokasi'],
-            'sumJumlah' => $data['sumJumlah'],
+            'tanggal'       => $data['tanggal'],
+            'lokasi'        => $data['lokasi'],
+            'kd_lokasi'     => $data['kd_lokasi'],
+            'sumJumlah'     => $data['sumJumlah'],
         ])->setPaper('A4', 'landscape');
 
         return $pdf->stream($file_name . '.pdf');
@@ -88,12 +87,12 @@ class PenerimaanHarianController extends Controller
     {
         $validated = $this->validateFormRequest($request);
 
-        $page_title = 'Daftar Penerimaan Harian PKB dan BBNKB';
-        $tanggal = Carbon::parse($validated['tanggal'])->format('Y-m-d');
-        $kd_lokasi = $validated['kd_lokasi'];
-        $lokasi = $this->getLokasi($kd_lokasi);
+        $page_title    = 'Daftar Penerimaan Harian PKB dan BBNKB';
+        $tanggal       = Carbon::parse($validated['tanggal'])->format('Y-m-d');
+        $kd_lokasi     = $validated['kd_lokasi'];
+        $lokasi        = $this->getLokasi($kd_lokasi);
         $dataTransaksi = $this->trnkbService->getLaporanTransaksiHarian($tanggal, $kd_lokasi);
-        $sumJumlah = $this->calculateSumJumlah($dataTransaksi);
+        $sumJumlah     = $this->calculateSumJumlah($dataTransaksi);
 
         return compact('page_title', 'tanggal', 'kd_lokasi', 'lokasi', 'dataTransaksi', 'sumJumlah');
     }
@@ -101,7 +100,7 @@ class PenerimaanHarianController extends Controller
     private function validateFormRequest(Request $request)
     {
         return $request->validate([
-            'tanggal' => 'required|date',
+            'tanggal'   => 'required|date',
             'kd_lokasi' => 'required|string',
         ]);
     }
@@ -110,7 +109,7 @@ class PenerimaanHarianController extends Controller
     {
         $lokasi = Lokasi::on(\Auth::user()->kd_wilayah)->find($kd_lokasi);
 
-        if (!$lokasi) {
+        if (! $lokasi) {
             $lokasiDefaults = [
                 '01' => 'UPTD PPD SAMSAT KOTA JAMBI',
                 '02' => 'UPTD PPD SAMSAT KAB. BATANGHAR',
@@ -125,12 +124,12 @@ class PenerimaanHarianController extends Controller
             ];
 
             $nm_lokasi = $lokasiDefaults[$kd_lokasi] ?? 'SAMSAT PROVINSI JAMBI';
-            $lokasi = (object) [
+            $lokasi    = (object) [
                 'kd_lokasi' => $kd_lokasi,
                 'nm_lokasi' => $nm_lokasi,
-                'rpthdr1' => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
-                'rpthdr2' => $nm_lokasi,
-                'rpthdr3' => '',
+                'rpthdr1'   => 'BADAN PENGELOLAAN KEUANGAN DAN PENDAPATAN DAERAH',
+                'rpthdr2'   => $nm_lokasi,
+                'rpthdr3'   => '',
             ];
         }
 
@@ -140,12 +139,12 @@ class PenerimaanHarianController extends Controller
     private function calculateSumJumlah($dataTransaksi)
     {
         $sumJumlah = [
-            "bbn_pokok" => 0,
-            "bbn_denda" => 0,
-            "pkb_pokok" => 0,
-            "pkb_denda" => 0,
-            "swd_pokok" => 0,
-            "swd_denda" => 0,
+            "bbn_pokok"       => 0,
+            "bbn_denda"       => 0,
+            "pkb_pokok"       => 0,
+            "pkb_denda"       => 0,
+            "swd_pokok"       => 0,
+            "swd_denda"       => 0,
             "opsen_bbn_pokok" => 0,
             "opsen_bbn_denda" => 0,
             "opsen_pkb_pokok" => 0,

@@ -102,24 +102,25 @@ class PenerimaanOpsen extends Controller
         $allDB         = range(1, 10); // Generates [1, 2, 3, ..., 10]
         $dataTransaksi = [];
 
-        $dataTransaksiInduk = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayahOnInduk($tg_awal, $tg_akhir, $kd_wilayah)->toArray();
-        // foreach ($allDB as $db) {
-        //     // Convert to three-digit string (e.g., '001', '002')
-        //     $kd_db = str_pad($db, 3, '0', STR_PAD_LEFT);
+        // $dataTransaksiInduk = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayahOnInduk($tg_awal, $tg_akhir, $kd_wilayah)->toArray();
 
-        //     // Get transaksi data for this wilayah
-        //     $result = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayah($tg_awal, $tg_akhir, $kd_db, $kd_wilayah);
+        foreach ($allDB as $db) {
+            // Convert to three-digit string (e.g., '001', '002')
+            $kd_db = str_pad($db, 3, '0', STR_PAD_LEFT);
 
-        //     // Merge the result into the combined dataTransaksi array
-        //     $dataTransaksi = array_merge($dataTransaksi, $result->toArray());
-        // }
+            // Get transaksi data for this wilayah
+            $result = $this->trnkbService->getLaporanTransaksiRentangWaktuByKdWilayah($tg_awal, $tg_akhir, $kd_db, $kd_wilayah);
 
-        $sumJumlah = $this->calculateSumJumlah($dataTransaksiInduk);
+            // Merge the result into the combined dataTransaksi array
+            $dataTransaksi = array_merge($dataTransaksi, $result->toArray());
+        }
+
+        $sumJumlah = $this->calculateSumJumlah($dataTransaksi);
 
         $fileName = 'Rincian_Penerimaan_' . $nm_wilayah . '_Tanggal_' . $tg_awal . '_sd_' . $tg_akhir . '.xlsx';
 
         return Excel::download(new RincianPenerimaanOpsen([
-            'dataTransaksi' => $dataTransaksiInduk,
+            'dataTransaksi' => $dataTransaksi,
             'tanggal'       => $tanggal,
             'tg_awal'       => $tg_awal,
             'tg_akhir'      => $tg_akhir,

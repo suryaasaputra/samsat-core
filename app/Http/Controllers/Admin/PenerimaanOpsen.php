@@ -20,14 +20,21 @@ class PenerimaanOpsen extends Controller
     public function __construct(TrnkbService $trnkbService)
     {
         $this->trnkbService = $trnkbService;
-        $this->middleware('role:Admin|Monitoring');
+        $this->middleware('role:Admin|Monitoring|PIC Opsen Pajak Pemda Kab/Kota');
     }
 
     public function showForm()
     {
         $page_title = 'Penerimaan Opsen Kab/Kota';
 
-        $wilayah = Wilayah::all();
+        if (auth()->user()->hasRole('PIC Opsen Pajak Pemda Kab/Kota')) {
+            $kd_wilayah_user = auth()->user()->kd_wilayah;
+            $wilayah         = Wilayah::where('kd_wilayah', $kd_wilayah_user)->get();
+        } else if (auth()->user()->hasRole('Admin|Monitoring')) {
+            $wilayah = Wilayah::all();
+        } else {
+            $wilayah = collect([]); // Jika bukan role yang diizinkan, kosongkan opsi
+        }
 
         // Fetch all wilayah for the dropdown
 
@@ -81,6 +88,7 @@ class PenerimaanOpsen extends Controller
 
     public function unduhRincian(Request $request)
     {
+        $this->middleware('role:Admin|Monitoring');
         $validated = $request->validate([
             'tanggal'    => 'required|string',
             'kd_wilayah' => 'nullable|string',

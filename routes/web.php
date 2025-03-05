@@ -184,7 +184,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/laporan/penerimaan-opsen', [PenerimaanOpsen::class, 'handleFormSubmission'])->name('admin.penerimaan-opsen.submit');
         Route::post('/laporan/penerimaan-opsen/pdf', [PenerimaanOpsen::class, 'exportToPdf'])->name('admin.penerimaan-opsen.pdf');
         Route::post('/laporan/penerimaan-opsen/excel', [PenerimaanOpsen::class, 'exportToExcel'])->name('admin.penerimaan-opsen.excel');
-        Route::get('/laporan/penerimaan-opsen/rincian', [PenerimaanOpsen::class, 'unduhRincian'])->name('admin.penerimaan-opsen.rincian');
+        Route::get('/laporan/penerimaan-opsen/rincian', [PenerimaanOpsen::class, 'unduhRincian'])
+            ->middleware('role:Admin|Monitoring')
+            ->name('admin.penerimaan-opsen.rincian');
+
     });
 
     Route::get('/laporan/penerimaan-harian-opsen', [PenerimaanHarianOpsenController::class, 'showForm'])->name('penerimaan-harian-opsen.form');

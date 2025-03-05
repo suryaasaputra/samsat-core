@@ -9,7 +9,7 @@
 
         <div class="row">
 
-            @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin', 'Monitoring']))
+            @if (\Auth::user()->hasAnyRole(['Admin', 'Super Admin', 'Monitoring', 'PIC Opsen Pajak Pemda Kab/Kota']))
                 <h3 class="mb-2">Selamat Datang</h3>
             @endif
 

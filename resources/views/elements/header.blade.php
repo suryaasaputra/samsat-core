@@ -42,8 +42,9 @@
 
                             <div class="header-info">
                                 <span>{{ Auth::user()->username }}</span>
-                                <small>{{ Auth::user()->namalokasi->kd_lokasi }} -
-                                    {{ Auth::user()->namalokasi->nm_lokasi }}</small> <!-- First role -->
+                                <small>{{ Auth::user()->namalokasi->kd_lokasi ?? Auth::user()->wilayah->kd_wilayah }} -
+                                    {{ Auth::user()->namalokasi->nm_lokasi ?? Auth::user()->wilayah->nm_wilayah }}</small>
+                                <!-- First role -->
                                 <!-- Assuming you have a role attribute in your user -->
                             </div>
                         </a>

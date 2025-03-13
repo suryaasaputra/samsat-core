@@ -368,6 +368,12 @@ class CetakNoticeController extends Controller
                     'kd_proses' => '5 ',
                 ], $dataLogTrnkb);
 
+            Notice::on($kdWilayah)
+                ->updateOrCreate([
+                    'no_trn'    => $noTrn,
+                    'no_notice' => $noNotice,
+
+                ], $dataNotice);
             Notice::on('induk')
                 ->updateOrCreate([
                     'no_trn'    => $noTrn,

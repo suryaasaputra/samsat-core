@@ -215,7 +215,7 @@ class CetakNoticeController extends Controller
             'jml_tetap'   => $jumlahPembayaran,
             'user_id'     => \Auth::user()->username,
             'flag_notice' => 'B',
-            'catatan'     => ' ',
+            'catatan'     => null,
 
         ];
 

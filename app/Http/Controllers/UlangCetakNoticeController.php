@@ -196,7 +196,6 @@ class UlangCetakNoticeController extends Controller
         ];
 
         $dataNotice = [
-
             'kd_lokasi'   => $kdLokasi,
             'no_notice'   => $noNotice,
             'no_polisi'   => $noPolisi,
@@ -207,9 +206,8 @@ class UlangCetakNoticeController extends Controller
             'kd_notice'   => 'PP',
             'jml_tetap'   => $jumlahPembayaran,
             'user_id'     => \Auth::user()->username,
-            'flag_notice' => 'B',
-            'catatan'     => ' ',
-
+            'flag_notice' => 'U',
+            'catatan'     => 'Cetak Ulang',
         ];
 
         $dataMonitor = [
@@ -360,6 +358,12 @@ class UlangCetakNoticeController extends Controller
                     'kd_proses' => '5 ',
                 ], $dataLogTrnkb);
 
+            Notice::on($kdWilayah)
+                ->updateOrCreate([
+                    'no_trn'    => $noTrn,
+                    'no_notice' => $noNotice,
+
+                ], $dataNotice);
             Notice::on('induk')
                 ->updateOrCreate([
                     'no_trn'    => $noTrn,

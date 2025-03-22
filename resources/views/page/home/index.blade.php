@@ -14,7 +14,7 @@
             @endif
 
 
-            @role('Petugas Cetak Notice')
+            @can('bayar')
                 <div class="bg-primary p-2 rounded flex-wrap mt-2 ">
                     <a href="{{ route('pembayaran') }}">
                         <div class=" ">

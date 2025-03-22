@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Models;
 
+use App\Models\RekonOpsen;
 use Illuminate\Database\Eloquent\Model;
 
 class Wilayah extends Model
@@ -11,7 +11,7 @@ class Wilayah extends Model
      *
      * @var string
      */
-    protected $table = 't_wilayah';
+    protected $table      = 't_wilayah';
     protected $connection = 'induk';
     /**
      * The primary key associated with the table.
@@ -50,5 +50,10 @@ class Wilayah extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'kd_wilayah', 'kd_wilayah');
+    }
+
+    public function rekonOpsen()
+    {
+        return $this->hasMany(RekonOpsen::class, 'kd_wilayah', 'kd_wilayah');
     }
 }

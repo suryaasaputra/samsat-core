@@ -237,18 +237,26 @@
                     </div>
 
                     <div class="col-12 mt-4">
-                        <form method="post" action="{{ route('cetak-notice.cetak') }}" id="form-bayar">
+                        <form method="post" action="{{ route('ulang-cetak-notice.cetak') }}" id="form-cetak-ulang"
+                            enctype="multipart/form-data">
                             @csrf
+                            <label class="form-label"><b>Alasan Cetak Ulang <span class="text-danger">*</span></b></label>
+                            <textarea class="form-control" rows="2" name="keterangan" id="keterangan" style="height: 100px;" required></textarea>
+                            <label class="form-label"><b>Lampiran <span class="text-danger">*</span></b></label>
+                            <input type="file" class="form-file-input form-control " name="lampiran" id="lampiran"
+                                accept="image/*" required>
                             <input type="hidden" name="no_polisi" id="no_polisi"
                                 value="{{ $data_kendaraan->no_polisi }}" />
                             <input type="hidden" name="no_trn" id="no_trn"
                                 value="{{ $data_kendaraan->no_trn }}" />
                             <input type="hidden" name="no_notice" id="no_notice" value="{{ $no_notice }}" />
-                            <button class="btn btn-sm btn-success w-100 " type="submit" id='btn-cetak'>Cetak
+                            <button class="btn btn-sm btn-success w-100 mt-2 " type="submit" id='btn-cetak'>Cetak
                                 Notice</button>
                         </form>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>

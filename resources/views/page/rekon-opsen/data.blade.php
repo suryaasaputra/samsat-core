@@ -14,13 +14,13 @@
                 <div class="row">
                     <div class="mb-3 col-md-12">
                         <label class="form-label">Nominal</label>
-                        <input type="text" class="form-control" placeholder="1234 Main St">
+                        <input type="text" class="form-control">
                     </div>
                 </div>
                 <div class="row">
                     <div class="mb-3 col-md-12">
                         <label class="form-label">Kode Referensi</label>
-                        <input type="text" class="form-control" placeholder="1234 Main St">
+                        <input type="text" class="form-control">
                     </div>
                 </div>
                 <div class="row">

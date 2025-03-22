@@ -9,9 +9,9 @@
     </a>
 </li>
 {{-- <li><a href="{{ route('rekon-opsen.form') }}" class="ai-icon" aria-expanded="false">
-    <i class="flaticon-144-layout"></i>
-    <span class="nav-text">Rekonsiliasi Opsen</span>
-</a>
+        <i class="flaticon-144-layout"></i>
+        <span class="nav-text">Rekonsiliasi Opsen</span>
+    </a>
 </li> --}}
 <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
         <i class="flaticon-049-copy"></i>

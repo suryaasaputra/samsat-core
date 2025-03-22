@@ -111,14 +111,25 @@ class UlangCetakNoticeController extends Controller
 
     public function cetak(Request $request)
     {
+
         $validated = $request->validate([
-            'no_polisi' => 'required|string',
-            'no_trn'    => 'required|string',
-            'no_notice' => 'required|string',
+            'no_polisi'  => 'required|string',
+            'no_trn'     => 'required|string',
+            'no_notice'  => 'required|string',
+            'keterangan' => 'required|string',                           // Optional, but must be a string
+            'lampiran'   => 'required|file|mimes:jpg,jpeg,png|max:2048', // Optional, only JPG/JPEG files, max 2MB
         ]);
+
         $noPolisi = $validated['no_polisi'];
         $noTrn    = $validated['no_trn'];
         $noNotice = $validated['no_notice'];
+
+        $file     = $request->file('lampiran');
+        $fileName = 'lampiran_batal_notice_no_' . str_replace(' ', '_', $noNotice) . '.' . $file->getClientOriginalExtension(); // Buat nama unik
+        $filePath = $file->storeAs('lampiran', $fileName, 'public');                                                            // Simpan di storage/app/public/lampiran
+
+        // Tambahkan ke data yang akan disimpan
+        $validated['lampiran'] = $filePath;
 
         $kdLokasi  = \Auth::user()->kd_lokasi;
         $kdWilayah = \Auth::user()->kd_wilayah;
@@ -207,7 +218,7 @@ class UlangCetakNoticeController extends Controller
             'jml_tetap'   => $jumlahPembayaran,
             'user_id'     => \Auth::user()->username,
             'flag_notice' => 'U',
-            'catatan'     => 'Cetak Ulang',
+            'catatan'     => $validated['keterangan'] . '-' . $filePath,
         ];
 
         $dataMonitor = [
@@ -385,7 +396,7 @@ class UlangCetakNoticeController extends Controller
             DB::connection($kdWilayah)->commit(); // Commit the transaction
             DB::connection('induk')->commit();    // Commit the transaction
 
-            return redirect()->route('ulang-cetak-notice')->with('success', 'Berhasil Cetak Notice No Polisi ' . $noPolisi);
+            return redirect()->route('ulang-cetak-notice')->with('success', 'Berhasil Cetak Ulang Notice No Polisi ' . $noPolisi);
         } catch (\Exception $e) {
             DB::connection($kdWilayah)->rollBack(); // Rollback the transaction on error
             DB::connection('induk')->rollBack();    // Rollback the transaction on error

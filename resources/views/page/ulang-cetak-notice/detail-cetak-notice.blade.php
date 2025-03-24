@@ -242,9 +242,9 @@
                             @csrf
                             <label class="form-label"><b>Alasan Cetak Ulang <span class="text-danger">*</span></b></label>
                             <textarea class="form-control" rows="2" name="keterangan" id="keterangan" style="height: 100px;" required></textarea>
-                            <label class="form-label"><b>Lampiran <span class="text-danger">*</span></b></label>
+                            <label class="form-label"><b>Lampiran </b></label>
                             <input type="file" class="form-file-input form-control " name="lampiran" id="lampiran"
-                                accept="image/*" required>
+                                accept="image/*">
                             <input type="hidden" name="no_polisi" id="no_polisi"
                                 value="{{ $data_kendaraan->no_polisi }}" />
                             <input type="hidden" name="no_trn" id="no_trn"

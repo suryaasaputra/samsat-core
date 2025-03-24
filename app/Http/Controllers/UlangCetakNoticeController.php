@@ -116,8 +116,8 @@ class UlangCetakNoticeController extends Controller
             'no_polisi'  => 'required|string',
             'no_trn'     => 'required|string',
             'no_notice'  => 'required|string',
-            'keterangan' => 'required|string',                           // Optional, but must be a string
-            'lampiran'   => 'required|file|mimes:jpg,jpeg,png|max:2048', // Optional, only JPG/JPEG files, max 2MB
+            'keterangan' => 'required|string',                  // Optional, but must be a string
+            'lampiran'   => 'nullable|file|mimes:jpg,jpeg,png', // Optional, only JPG/JPEG files, max 2MB
         ]);
 
         $noPolisi = $validated['no_polisi'];

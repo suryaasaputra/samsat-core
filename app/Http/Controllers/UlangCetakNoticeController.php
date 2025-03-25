@@ -124,12 +124,14 @@ class UlangCetakNoticeController extends Controller
         $noTrn    = $validated['no_trn'];
         $noNotice = $validated['no_notice'];
 
-        $file     = $request->file('lampiran');
-        $fileName = 'lampiran_batal_notice_no_' . str_replace(' ', '_', $noNotice) . '.' . $file->getClientOriginalExtension(); // Buat nama unik
-        $filePath = $file->storeAs('lampiran', $fileName, 'public');                                                            // Simpan di storage/app/public/lampiran
+        if ($request->hasFile('lampiran')) {
+            $file     = $request->file('lampiran');
+            $fileName = 'lampiran_batal_notice_no_' . str_replace(' ', '_', $noNotice) . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('lampiran', $fileName, 'public');
 
-        // Tambahkan ke data yang akan disimpan
-        $validated['lampiran'] = $filePath;
+            // Tambahkan ke data yang akan disimpan
+            $validated['lampiran'] = $filePath;
+        }
 
         $kdLokasi  = \Auth::user()->kd_lokasi;
         $kdWilayah = \Auth::user()->kd_wilayah;
@@ -206,6 +208,7 @@ class UlangCetakNoticeController extends Controller
             "swd_den"      => $bea['denda_swdkllj'],
         ];
 
+        $catatan    = $validated['keterangan'] . (isset($filePath) ? '-' . $filePath : '');
         $dataNotice = [
             'kd_lokasi'   => $kdLokasi,
             'no_notice'   => $noNotice,
@@ -218,7 +221,7 @@ class UlangCetakNoticeController extends Controller
             'jml_tetap'   => $jumlahPembayaran,
             'user_id'     => \Auth::user()->username,
             'flag_notice' => 'U',
-            'catatan'     => $validated['keterangan'] . '-' . $filePath,
+            'catatan'     => $catatan,
         ];
 
         $dataMonitor = [

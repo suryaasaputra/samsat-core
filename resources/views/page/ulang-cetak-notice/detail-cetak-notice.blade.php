@@ -267,6 +267,10 @@
     <script>
         $(document).ready(function() {
             $('#btn-cetak').focus();
+
+            $('#form-cetak-ulang').on('submit', function() {
+                $('#btn-cetak').prop('disabled', true).text('Processing...');
+            });
         });
     </script>
 @endsection

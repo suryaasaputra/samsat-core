@@ -259,6 +259,11 @@
     <script>
         $(document).ready(function() {
             $('#btn-cetak').focus();
+
+            $('#form-bayar').on('submit', function() {
+                $('#loadingDiv').show();
+                $('#btn-cetak').prop('disabled', true).text('Processing...');
+            });
         });
     </script>
 @endsection

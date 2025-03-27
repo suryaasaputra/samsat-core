@@ -116,7 +116,7 @@ class UlangCetakNoticeController extends Controller
             'no_polisi'  => 'required|string',
             'no_trn'     => 'required|string',
             'no_notice'  => 'required|string',
-            'keterangan' => 'required|string',                  // Optional, but must be a string
+            'keterangan' => 'required|string',                  // required, but must be a string
             'lampiran'   => 'nullable|file|mimes:jpg,jpeg,png', // Optional, only JPG/JPEG files, max 2MB
         ]);
 
@@ -126,7 +126,7 @@ class UlangCetakNoticeController extends Controller
 
         if ($request->hasFile('lampiran')) {
             $file     = $request->file('lampiran');
-            $fileName = 'lampiran_batal_notice_no_' . str_replace(' ', '_', $noNotice) . '.' . $file->getClientOriginalExtension();
+            $fileName = 'cetak_ulang_notice_no_' . str_replace(' ', '_', $noNotice) . '.' . $file->getClientOriginalExtension();
             $filePath = $file->storeAs('lampiran', $fileName, 'public');
 
             // Tambahkan ke data yang akan disimpan

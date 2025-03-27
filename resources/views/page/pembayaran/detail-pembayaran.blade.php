@@ -330,7 +330,7 @@
             $('#form-bayar').submit(function(e) {
                 e.preventDefault();
                 $('#loadingDiv').show();
-                $('#btn-bayar').prop('disabled', true);
+                $('#btn-bayar').prop('disabled', true).text('Processing...');;
 
                 // var postData = {
                 // no_polisi: $('#no_polisi').val(),
